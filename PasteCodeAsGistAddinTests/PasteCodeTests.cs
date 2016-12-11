@@ -18,7 +18,7 @@ namespace PasteCodeAsGistAddinTests
 
             var gist = new GistItem
             {
-                code = "int x = 11101;",
+                code = "int x = 11102;",
                 description = "Test addin code",
                 filename = "test.cs",
                 isPublic = true
@@ -83,7 +83,7 @@ namespace PasteCodeAsGistAddinTests
 
             var result = HttpUtils.HttpRequestString(settings);
 
-            Console.WriteLine(result);
+            
 
             dynamic jsn = JValue.Parse(result);
 

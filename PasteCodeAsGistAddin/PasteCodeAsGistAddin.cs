@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using FontAwesome.WPF;
 using MarkdownMonster.AddIns;
 using Newtonsoft.Json.Linq;
@@ -44,14 +45,14 @@ namespace PasteCodeAsGistAddin
             var editor = GetMarkdownEditor();
             if (editor == null)
                 return;
-
             
             var gist = new GistItem()
             {
-                code = editor.AceEditor.getselection(false)                
+                code = editor.AceEditor.getselection(false),
+                language = "cs"
             };
 
-            var form = new PasteCodeAsGitWindow();            
+            var form = new PasteCodeAsGitWindow(this);            
             form.Owner = Model.Window;
             form.Gist = gist;
             form.ShowDialog();
@@ -59,11 +60,12 @@ namespace PasteCodeAsGistAddin
             if (form.Cancelled)
                 return;
 
-            
+            if (!string.IsNullOrEmpty(gist.embedUrl))
+                editor.SetSelectionAndFocus($"<script src=\"{gist.embedUrl}\"></script>\r\n");
 
+            Model.Window.ShowStatus("Gist embedded", 5000);
+            Model.Window.SetStatusIcon(FontAwesomeIcon.GithubAlt, Colors.Green);
 
-            MessageBox.Show("Hello from your sample Addin", "Markdown Addin Sample",
-                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public override void OnExecuteConfiguration(object sender)
@@ -79,7 +81,6 @@ namespace PasteCodeAsGistAddin
 
         public JObject CreateGistPostJson(GistItem gist)
         {
-
             dynamic obj = new JObject();
 
             obj.Add("description", new JValue(gist.description));
@@ -96,7 +97,6 @@ namespace PasteCodeAsGistAddin
 
         public GistItem PostGist(GistItem gist)
         {
-
             var json = CreateGistPostJson(gist);
             if (json == null)
                 return null;
@@ -106,14 +106,25 @@ namespace PasteCodeAsGistAddin
                 Url = "https://api.github.com/gists",
                 HttpVerb = "POST",
                 Content = json.ToString(),
-                ContentType = "application/json; charset=utf-8;",
-            };
+                ContentType = "application/json; charset=utf-8;"                
+            };                       
             settings.Headers.Add("User-agent", "Markdown Monster Markdown Editor Gist Add-in");
             settings.Headers.Add("Accept", "application/json");
+            
+            if (!string.IsNullOrEmpty(PasteCodeAsGitConfiguration.Current.GithubUserToken))
+                settings.Headers.Add("Authorization", "token " +PasteCodeAsGitConfiguration.Current.GithubUserToken);
 
-            var result = HttpUtils.HttpRequestString(settings);
-
-            Console.WriteLine(result);
+            string result = null;
+            try
+            {
+                result = HttpUtils.HttpRequestString(settings);
+            }
+            catch (Exception ex)
+            {
+                gist.hasError = true;
+                gist.errorMessage = "Gist upload failed: " + ex.Message;
+                return gist;
+            }
 
             dynamic jsn = JValue.Parse(result);
             gist.htmlUrl = jsn.html_url;
@@ -127,15 +138,12 @@ namespace PasteCodeAsGistAddin
             gist.rawUrl = fileObj.raw_url;
             gist.filename = fileObj.filename;
 
-            dynamic user = jsn.user;
+            dynamic user = jsn.owner;
             if (user != null)
                 gist.username = user.login;
 
-            if(!string.IsNullOrEmpty(gist.username))
-                gist.embedUrl = $"https://gist.github.com/{gist.username}/{gist.id}.js";
-            else
-                gist.embedUrl = $"https://gist.github.com/anonymous/{gist.id}.js";
-
+            gist.embedUrl = gist.htmlUrl + ".js";
+            
             return gist;
         }
     }
@@ -143,9 +151,8 @@ namespace PasteCodeAsGistAddin
 
     public class GistItem
     {
-        
         public string code { get; set; }
-        public string description  { get; set; }
+        public string description { get; set; } = string.Empty;
         public string filename { get; set; }
         public bool isPublic  { get; set; }
         
@@ -156,5 +163,9 @@ namespace PasteCodeAsGistAddin
         public string embedUrl { get; set; }
 
         public string username { get; set; }
+        public string language { get; set; } = "cs";
+        public bool hasError { get; set; }
+        public string errorMessage { get; set; }
     }
+
 }

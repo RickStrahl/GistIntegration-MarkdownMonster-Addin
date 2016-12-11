@@ -14,7 +14,8 @@ namespace PasteCodeAsGistAddin
             Current.Initialize();
         }
 
-        public string GitUserToken { get; set; }
+        public string GithubUserToken { get; set; }
+        public string Username { get; set; }
 
 
         public PasteCodeAsGitConfiguration()

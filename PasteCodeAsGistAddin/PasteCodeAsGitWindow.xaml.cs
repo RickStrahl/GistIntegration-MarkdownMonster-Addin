@@ -14,6 +14,7 @@ using MahApps.Metro.Controls;
 using MarkdownMonster;
 using PasteCodeAsGistAddin;
 
+
 namespace PasteCodeAsGitAddin
 {
     /// <summary>
@@ -22,16 +23,18 @@ namespace PasteCodeAsGitAddin
     public partial class PasteCodeAsGitWindow 
     {
 
-        public string Code { get; set; }        
-        public string CodeLanguage { get; set; }
         public Dictionary<string,string> LanguageNames { get; set; }
+        
+        private PasteCodeAsGistAddin.PasteCodeAsGistAddin Addin { get; set; }
 
         public GistItem Gist { get; set;  }
 
         public bool Cancelled { get; set; }
         
-        public PasteCodeAsGitWindow()
+        public PasteCodeAsGitWindow(PasteCodeAsGistAddin.PasteCodeAsGistAddin addin)
         {
+            Addin = addin;
+
             Cancelled = true;
 
             LanguageNames = new Dictionary<string, string>()
@@ -39,7 +42,7 @@ namespace PasteCodeAsGitAddin
                 {"cs", "Csharp"},
                 {"vb", "Vb.Net"},
                 {"cpp", "C++"},
-                {"foxpro", "FoxPro"},
+                {"prg", "FoxPro"},
                 {"fsharp", "Fsharp"},
               
                 {"html", "Html"},
@@ -60,7 +63,8 @@ namespace PasteCodeAsGitAddin
                 
                 {"ps", "PowerShell"}                                
             };
-            CodeLanguage = "cs";
+            
+            Gist = new GistItem();
 
             InitializeComponent();
 
@@ -70,13 +74,13 @@ namespace PasteCodeAsGitAddin
             Loaded += PasteCode_Loaded;
         }
 
-        private void PasteCode_Loaded(object sender, RoutedEventArgs e)
-        {
-            DataContext = this;
 
+private void PasteCode_Loaded(object sender, RoutedEventArgs e)
+{
+Gist.filename = "file." + Gist.language;
 
-            this.TextCodeLanguage.Focus();
-        }
+DataContext = this;                        
+}
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -84,11 +88,14 @@ namespace PasteCodeAsGitAddin
                 DialogResult = false;                
             else
             {
+                Gist = Addin.PostGist(Gist);
+
                 Cancelled = false;
                 DialogResult = true;                
             }
 
             Close();
         }
+        
     }
 }

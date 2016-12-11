@@ -13,24 +13,25 @@
         WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
         WindowStartupLocation="CenterOwner"         
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="603.57" Height="549.3">
+        Width="640" Height="691.367" MinHeight="635">
     <StackPanel Margin="30">
-        <Label Content="Code Language:"/>
-        <ComboBox x:Name="TextCodeLanguage"  ToolTip="Weblog selection"
-                          SelectedValuePath="Key"
-                          DisplayMemberPath="Value"
-                          SelectedValue="{Binding CodeLanguage}"
-                           IsSynchronizedWithCurrentItem="True" 
-                           ItemsSource="{Binding LanguageNames}"
-                           />
 
         <Label Margin="0,10,0,0" Content="Edit or paste Code:"/>
-        <TextBox  x:Name="TextCode"  Text="{Binding Code}"  FontSize="15"                   
+        <TextBox  x:Name="TextCode"  Text="{Binding Path=Gist.code}"  FontSize="15"                   
                   TextWrapping="Wrap" AcceptsReturn="True"
                   Height="300" FontFamily="Consolas"
                   />
 
-        
+        <Label Margin="0,10,0,0" Content="File name: (extension determines language)"/>
+        <TextBox  x:Name="TextFilename"  Text="{Binding Path=Gist.filename}"  FontSize="15" />
+
+        <Label Margin="0,10,0,0" Content="Description: (optional)"/>
+        <TextBox  x:Name="TextDescription"  Text="{Binding Path=Gist.description}"  FontSize="15"                   
+                  TextWrapping="Wrap" AcceptsReturn="True"
+                  Height="70" FontFamily="Consolas"
+                  />
+
+
         <StackPanel Orientation="Horizontal">
             <Button Name="ButtonOk" Margin="0,30" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left"   IsDefault="True" Click="Button_Click"  >
                 <StackPanel Orientation="Horizontal">
