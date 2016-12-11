@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 using MarkdownMonster;
+using PasteCodeAsGistAddin;
 
 namespace PasteCodeAsGitAddin
 {
@@ -24,52 +25,46 @@ namespace PasteCodeAsGitAddin
         public string Code { get; set; }        
         public string CodeLanguage { get; set; }
         public Dictionary<string,string> LanguageNames { get; set; }
+
+        public GistItem Gist { get; set;  }
+
+        public bool Cancelled { get; set; }
         
         public PasteCodeAsGitWindow()
         {
+            Cancelled = true;
 
             LanguageNames = new Dictionary<string, string>()
             {
                 {"cs", "Csharp"},
-                {"vbnet", "Vb.Net"},
+                {"vb", "Vb.Net"},
                 {"cpp", "C++"},
                 {"foxpro", "FoxPro"},
                 {"fsharp", "Fsharp"},
               
                 {"html", "Html"},
+                {"xml", "Xml"},
                 {"css", "Css"},
-                {"javascript", "JavaScript"},
-                {"typescript", "TypeScript"},
+                {"js", "JavaScript"},
+                {"ts", "TypeScript"},
                 {"json", "Json"},
 
+                { "md","Markdown" },
                 {"sql","SQL" },                
 
                 {"ruby", "Ruby"},
-                {"python", "Python"},
+                {"py", "Python"},
                 {"php", "PHP"},
                 {"java", "Java"},
                 {"swift", "Swift"},
-                {"objectivec", "Objective C"},                                
-                {"vbscript", "VB Script"},
-
-                {"dockerfile", "Docker file"},
-                {"makefile", "Make file"},
-                {"nginx", "NgInx"},
-
-                { "markdown","Markdown" },
-
-                {"powershell", "PowerShell"},
-                {"dos", "DOS"},
-                {"dns", "DNS"},
-                {"perl", "Perl"},
-                {"diff", "Diff file"},
                 
+                {"ps", "PowerShell"}                                
             };
             CodeLanguage = "cs";
 
             InitializeComponent();
 
-            DataContext = this;
+            
             mmApp.SetThemeWindowOverride(this);
 
             Loaded += PasteCode_Loaded;
@@ -77,15 +72,19 @@ namespace PasteCodeAsGitAddin
 
         private void PasteCode_Loaded(object sender, RoutedEventArgs e)
         {
+            DataContext = this;
+
+
             this.TextCodeLanguage.Focus();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (sender == ButtonCancel)
-                DialogResult = false;
+                DialogResult = false;                
             else
             {
+                Cancelled = false;
                 DialogResult = true;                
             }
 

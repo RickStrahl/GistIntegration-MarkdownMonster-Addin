@@ -1,5 +1,5 @@
 {
-	"id": "Paste-Code-As-Gist-Addin",
+	"id": "PasteCodeAsGist",
 	"name": "Paste Code as Gist",
 	"summary": "Create a code snippet as a Gist that gets embedded into Markdown as a script link from Github",
 	"releaseNotes": null,	

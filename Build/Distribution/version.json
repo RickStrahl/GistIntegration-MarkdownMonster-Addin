@@ -1,10 +1,9 @@
 {
-	"name": "Save Image to Azure Blob",
-	"summary": "Allows uploading of images from disk or the clipboard to Azure Blob Storage, and embedding the resulting URL as an image link into the current document.",
-	"description": null,
-	"releaseNotes": null,
-	"icon": "icon.png",
-	"version": "0.06",
+	"id": "PasteCodeAsGist",
+	"name": "Paste Code as Gist",
+	"summary": "Create a code snippet as a Gist that gets embedded into Markdown as a script link from Github",
+	"releaseNotes": null,	
+	"version": "0.01",
 	"author": "Rick Strahl - West Wind Technologies",	
-	"updated": "2016-12-09T12:12:40Z"
+	"updated": "2016-12-10T12:00:00Z"
 }

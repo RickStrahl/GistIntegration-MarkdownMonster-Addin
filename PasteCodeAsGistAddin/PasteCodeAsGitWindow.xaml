@@ -8,7 +8,7 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
                             
-        Title="Embed Syntax Colored Code"
+        Title="Paste Code as Gist"
         TitleCharacterCasing="Normal"
         WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
         WindowStartupLocation="CenterOwner"         
@@ -35,7 +35,7 @@
             <Button Name="ButtonOk" Margin="0,30" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left"   IsDefault="True" Click="Button_Click"  >
                 <StackPanel Orientation="Horizontal">
                     <fa:FontAwesome Icon="Upload" FontFamily="FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
-                    <TextBlock Margin="10,0,0,0" FontSize="14">Paste Code</TextBlock>
+                    <TextBlock Margin="10,0,0,0" FontSize="14" >Paste Code</TextBlock>
                 </StackPanel>
             </Button>
 
