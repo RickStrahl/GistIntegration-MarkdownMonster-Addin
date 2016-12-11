@@ -57,20 +57,23 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GistItem.cs" />
     <Compile Include="PasteCodeAsGistAddin.cs" />
-    <Compile Include="PasteCodeAsGitWindow.xaml.cs" />
     <Compile Include="PasteCodeAsGitConfiguration.cs" />
+    <Compile Include="PasteCodeAsGitWindow.xaml.cs">
+      <DependentUpon>PasteCodeAsGitWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="PasteCodeAsGitWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="GistApiResponse.json" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="PasteCodeAsGitWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

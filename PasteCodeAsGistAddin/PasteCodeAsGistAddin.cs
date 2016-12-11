@@ -15,6 +15,8 @@ namespace PasteCodeAsGistAddin
 {
     public class PasteCodeAsGistAddin : MarkdownMonsterAddin
     {
+
+        #region Addin Overrides
         public override void OnApplicationStart()
         {
             base.OnApplicationStart();
@@ -74,11 +76,25 @@ namespace PasteCodeAsGistAddin
                 MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
+
+
         public override bool OnCanExecute(object sender)
         {
             return true;
         }
 
+        public override void OnApplicationShutdown()
+        {
+            base.OnApplicationShutdown();
+
+            // ensure config file is updated with current settings
+            PasteCodeAsGitConfiguration.Current.Write();
+        }
+
+        #endregion
+
+
+        #region Post Gist
         public JObject CreateGistPostJson(GistItem gist)
         {
             dynamic obj = new JObject();
@@ -111,7 +127,7 @@ namespace PasteCodeAsGistAddin
             settings.Headers.Add("User-agent", "Markdown Monster Markdown Editor Gist Add-in");
             settings.Headers.Add("Accept", "application/json");
             
-            if (!string.IsNullOrEmpty(PasteCodeAsGitConfiguration.Current.GithubUserToken))
+            if (!gist.isAnonymous && !string.IsNullOrEmpty(PasteCodeAsGitConfiguration.Current.GithubUserToken))
                 settings.Headers.Add("Authorization", "token " +PasteCodeAsGitConfiguration.Current.GithubUserToken);
 
             string result = null;
@@ -142,30 +158,9 @@ namespace PasteCodeAsGistAddin
             if (user != null)
                 gist.username = user.login;
 
-            gist.embedUrl = gist.htmlUrl + ".js";
-            
+            gist.embedUrl = gist.htmlUrl + ".js";            
             return gist;
         }
+        #endregion
     }
-
-
-    public class GistItem
-    {
-        public string code { get; set; }
-        public string description { get; set; } = string.Empty;
-        public string filename { get; set; }
-        public bool isPublic  { get; set; }
-        
-        
-        public string id { get; set; }
-        public string htmlUrl { get; set; }
-        public string rawUrl { get; set; }
-        public string embedUrl { get; set; }
-
-        public string username { get; set; }
-        public string language { get; set; } = "cs";
-        public bool hasError { get; set; }
-        public string errorMessage { get; set; }
-    }
-
 }

@@ -13,10 +13,10 @@
         WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
         WindowStartupLocation="CenterOwner"         
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="640" Height="691.367" MinHeight="635">
-    <StackPanel Margin="30">
+        Width="640" Height="673.683" MinHeight="635">
+    <StackPanel Margin="30,30,30,30">
 
-        <Label Margin="0,10,0,0" Content="Edit or paste Code:"/>
+        <Label Content="Edit or paste Code:"/>
         <TextBox  x:Name="TextCode"  Text="{Binding Path=Gist.code}"  FontSize="15"                   
                   TextWrapping="Wrap" AcceptsReturn="True"
                   Height="300" FontFamily="Consolas"
@@ -46,6 +46,9 @@
                     <TextBlock Margin="10,0,0,0" FontSize="14">Cancel</TextBlock>
                 </StackPanel>
             </Button>
+
+            <CheckBox Name="CheckAnonymous" HorizontalAlignment="Right" 
+                      Margin="45,30" IsChecked="{Binding Path=Gist.isAnonymous}">make Gist anonymous</CheckBox>
         </StackPanel>
     </StackPanel>
 </controls:MetroWindow>

@@ -20,17 +20,17 @@ namespace PasteCodeAsGitAddin
     /// <summary>
     /// Interaction logic for PasteHref.xaml
     /// </summary>
-    public partial class PasteCodeAsGitWindow 
+    public partial class PasteCodeAsGitWindow
     {
 
-        public Dictionary<string,string> LanguageNames { get; set; }
-        
+        public Dictionary<string, string> LanguageNames { get; set; }
+
         private PasteCodeAsGistAddin.PasteCodeAsGistAddin Addin { get; set; }
 
-        public GistItem Gist { get; set;  }
+        public GistItem Gist { get; set; }
 
         public bool Cancelled { get; set; }
-        
+
         public PasteCodeAsGitWindow(PasteCodeAsGistAddin.PasteCodeAsGistAddin addin)
         {
             Addin = addin;
@@ -44,7 +44,7 @@ namespace PasteCodeAsGitAddin
                 {"cpp", "C++"},
                 {"prg", "FoxPro"},
                 {"fsharp", "Fsharp"},
-              
+
                 {"html", "Html"},
                 {"xml", "Xml"},
                 {"css", "Css"},
@@ -52,50 +52,56 @@ namespace PasteCodeAsGitAddin
                 {"ts", "TypeScript"},
                 {"json", "Json"},
 
-                { "md","Markdown" },
-                {"sql","SQL" },                
+                {"md", "Markdown"},
+                {"sql", "SQL"},
 
                 {"ruby", "Ruby"},
                 {"py", "Python"},
                 {"php", "PHP"},
                 {"java", "Java"},
                 {"swift", "Swift"},
-                
-                {"ps", "PowerShell"}                                
+
+                {"ps", "PowerShell"}
             };
-            
+
             Gist = new GistItem();
 
             InitializeComponent();
 
-            
+
             mmApp.SetThemeWindowOverride(this);
 
             Loaded += PasteCode_Loaded;
         }
 
 
-private void PasteCode_Loaded(object sender, RoutedEventArgs e)
-{
-Gist.filename = "file." + Gist.language;
+        private void PasteCode_Loaded(object sender, RoutedEventArgs e)
+        {
+            Gist.filename = "file." + Gist.language;
 
-DataContext = this;                        
-}
+            if (string.IsNullOrEmpty(PasteCodeAsGitConfiguration.Current.GithubUsername))
+            {
+                CheckAnonymous.Visibility = Visibility.Collapsed;
+                Gist.isAnonymous = true;
+            }
+         
+            DataContext = this;
+        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (sender == ButtonCancel)
-                DialogResult = false;                
+                DialogResult = false;
             else
             {
                 Gist = Addin.PostGist(Gist);
 
                 Cancelled = false;
-                DialogResult = true;                
+                DialogResult = true;
             }
 
             Close();
         }
-        
+
     }
 }
