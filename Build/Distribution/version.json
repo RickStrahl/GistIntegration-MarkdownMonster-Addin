@@ -3,7 +3,7 @@
 	"name": "Paste Code as Gist",
 	"summary": "Create a code snippet as a Gist that gets embedded into Markdown as a script link from Github",
 	"releaseNotes": null,	
-	"version": "0.01",
+	"version": "0.02",
 	"author": "Rick Strahl - West Wind Technologies",	
-	"updated": "2016-12-10T12:00:00Z"
+	"updated": "2016-12-11T12:00:00Z"
 }
