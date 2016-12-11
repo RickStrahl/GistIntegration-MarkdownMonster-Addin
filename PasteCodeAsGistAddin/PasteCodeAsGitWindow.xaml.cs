@@ -22,9 +22,6 @@ namespace PasteCodeAsGitAddin
     /// </summary>
     public partial class PasteCodeAsGitWindow
     {
-
-        public Dictionary<string, string> LanguageNames { get; set; }
-
         private PasteCodeAsGistAddin.PasteCodeAsGistAddin Addin { get; set; }
 
         public GistItem Gist { get; set; }
@@ -36,34 +33,7 @@ namespace PasteCodeAsGitAddin
             Addin = addin;
 
             Cancelled = true;
-
-            LanguageNames = new Dictionary<string, string>()
-            {
-                {"cs", "Csharp"},
-                {"vb", "Vb.Net"},
-                {"cpp", "C++"},
-                {"prg", "FoxPro"},
-                {"fsharp", "Fsharp"},
-
-                {"html", "Html"},
-                {"xml", "Xml"},
-                {"css", "Css"},
-                {"js", "JavaScript"},
-                {"ts", "TypeScript"},
-                {"json", "Json"},
-
-                {"md", "Markdown"},
-                {"sql", "SQL"},
-
-                {"ruby", "Ruby"},
-                {"py", "Python"},
-                {"php", "PHP"},
-                {"java", "Java"},
-                {"swift", "Swift"},
-
-                {"ps", "PowerShell"}
-            };
-
+           
             Gist = new GistItem();
 
             InitializeComponent();

@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:PasteCodeAsGistAddin"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
-        mc:Ignorable="d"
-                            
-        Title="Paste Code as Gist"
+        mc:Ignorable="d"                            
+        Title="Paste Code as Gist (Experimental)"
         TitleCharacterCasing="Normal"
+        Icon="icon.png"
         WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
         WindowStartupLocation="CenterOwner"         
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
