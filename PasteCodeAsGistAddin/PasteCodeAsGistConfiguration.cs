@@ -4,13 +4,13 @@ using Westwind.Utilities.Configuration;
 
 namespace PasteCodeAsGistAddin
 {
-    public class PasteCodeAsGitConfiguration : AppConfiguration
+    public class PasteCodeAsGistConfiguration : AppConfiguration
     {
-        public static PasteCodeAsGitConfiguration Current;
+        public static PasteCodeAsGistConfiguration Current;
 
-        static PasteCodeAsGitConfiguration()
+        static PasteCodeAsGistConfiguration()
         {
-            Current = new PasteCodeAsGitConfiguration();
+            Current = new PasteCodeAsGistConfiguration();
             Current.Initialize();
         }
 
@@ -18,7 +18,7 @@ namespace PasteCodeAsGistAddin
         public string GithubUsername { get; set; }
 
 
-        public PasteCodeAsGitConfiguration()
+        public PasteCodeAsGistConfiguration()
         {
                 
         }
@@ -26,9 +26,9 @@ namespace PasteCodeAsGistAddin
         #region AppConfiguration
         protected override IConfigurationProvider OnCreateDefaultProvider(string sectionName, object configData)
         {
-            var provider = new JsonFileConfigurationProvider<PasteCodeAsGitConfiguration>()
+            var provider = new JsonFileConfigurationProvider<PasteCodeAsGistConfiguration>()
             {
-                JsonConfigurationFile = Path.Combine(mmApp.Configuration.CommonFolder, "PasteCodeAsGitAddin.json")
+                JsonConfigurationFile = Path.Combine(mmApp.Configuration.CommonFolder, "PasteCodeAsGistAddin.json")
             };
 
             if (!File.Exists(provider.JsonConfigurationFile))

@@ -88,7 +88,7 @@ namespace PasteCodeAsGistAddin
             base.OnApplicationShutdown();
 
             // ensure config file is updated with current settings
-            PasteCodeAsGitConfiguration.Current.Write();
+            PasteCodeAsGistConfiguration.Current.Write();
         }
 
         #endregion
@@ -127,8 +127,8 @@ namespace PasteCodeAsGistAddin
             settings.Headers.Add("User-agent", "Markdown Monster Markdown Editor Gist Add-in");
             settings.Headers.Add("Accept", "application/json");
             
-            if (!gist.isAnonymous && !string.IsNullOrEmpty(PasteCodeAsGitConfiguration.Current.GithubUserToken))
-                settings.Headers.Add("Authorization", "token " +PasteCodeAsGitConfiguration.Current.GithubUserToken);
+            if (!gist.isAnonymous && !string.IsNullOrEmpty(PasteCodeAsGistConfiguration.Current.GithubUserToken))
+                settings.Headers.Add("Authorization", "token " +PasteCodeAsGistConfiguration.Current.GithubUserToken);
 
             string result = null;
             try

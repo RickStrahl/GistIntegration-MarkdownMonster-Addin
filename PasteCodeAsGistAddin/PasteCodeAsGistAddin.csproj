@@ -59,7 +59,7 @@
   <ItemGroup>
     <Compile Include="GistItem.cs" />
     <Compile Include="PasteCodeAsGistAddin.cs" />
-    <Compile Include="PasteCodeAsGitConfiguration.cs" />
+    <Compile Include="PasteCodeAsGistConfiguration.cs" />
     <Compile Include="PasteCodeAsGitWindow.xaml.cs">
       <DependentUpon>PasteCodeAsGitWindow.xaml</DependentUpon>
     </Compile>

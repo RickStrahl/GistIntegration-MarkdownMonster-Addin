@@ -49,7 +49,7 @@ namespace PasteCodeAsGitAddin
         {
             Gist.filename = "file." + Gist.language;
 
-            if (string.IsNullOrEmpty(PasteCodeAsGitConfiguration.Current.GithubUsername))
+            if (string.IsNullOrEmpty(PasteCodeAsGistConfiguration.Current.GithubUsername))
             {
                 CheckAnonymous.Visibility = Visibility.Collapsed;
                 Gist.isAnonymous = true;
