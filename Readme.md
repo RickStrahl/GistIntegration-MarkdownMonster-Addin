@@ -2,14 +2,36 @@
 
 <img src="Build\icon.png" width="128" />
 
-This project provides a [Markdown Monster](https://markdownmonster.west-wind.com) Add-in for pasting code into a Markdown document based on a Gist that you create and post to Github, and then embed a link to - via `<script>` tag into the Markdown document.
+A [Markdown Monster](https://markdownmonster.west-wind.com) Add-in that takes the current Clipboard or Editor text selection and pastes it as a Gist on Github. The resulting Gist is then embedded - via `<script>` tag - into the current Markdown document replacing the current selection.
 
 ![](SaveCodeAsGist.png)
 
-> #### @icon-info-circle EditorAllowRenderScriptTags
-> In order for this addin to work you need to enable the **EditorAllowRenderScriptTags** flag in the Markdown Monster settings.
+### Usage
+Here's the full set of steps to create and embed a Gist:
 
-This addin is still a bit rough in its early release and there's no configuration UI. In order to configure the addin credentials if you want to post non-anonymous Gists you can edit the `PasteCodeAsGistAddin.json` file.
+* Create some code in the editor
+* Align code the way you want it (typically all the way to left)
+* Select the code
+* Alternately copy any external code to your Clipboard
+* Click the Gist icon in toolbar
+* Your code shows up in the editor
+* Assign a filename with the extension that matches your code (ie. C# == MyFile.cs)
+* Add an optional description
+* Click Paste Code
+
+The addin uses the Gist REST API to post the code to Github. The Gist API creates the Gist and returns a URL to the Gist so you can embed it into the page as an embedded Gist code block.
+
+The embedded code in the markdown creates a `<script>` tag like this:
+
+```html
+<script src="https://gist.github.com/35c288114e2cd98e1ca4fd875e7749fe.js"></script>
+```
+
+> #### Enable Scripts in your Markdown Content
+> Markdown Monster by default doesn't allow `<script>` tags to be rendered. Embedded Gists use `<script>` tags and so you have to enable script embedding by setting the **EditorAllowRenderScriptTags** flag in the Markdown Monster settings. Goto **Tools -> Settings** and find the **EditorAllowRenderScriptTags** key and set it to **true**.
+
+### Configuration
+This addin is still a bit rough in its early release and there's no configuration UI. In order to configure the addin credentials if you want to post non-anonymous Gists you can edit the `PasteCodeAsGistAddin.json` file. To find the file go to **Tools -> Open Configuration Folder** and find **PasteCodeAsGistAddin.json**. Inside of this file you can set your Github username and user token to allow posting Gists under your account name:
 
 ```json
 {
@@ -18,13 +40,4 @@ This addin is still a bit rough in its early release and there's no configuratio
 }
 ```
 
-### Known Issue: Preview Refresh not showing Gist
-Due to the way Markdown Monster refreshes page content efficiently by replacing document content rather than the refreshing the entire page, the Gist script code often doesn't render in the live Preview. The script is there it's just not rendering the partial page reload.
-
-To see the rendered Gist in your content you can:
-
-* Hide then Show the Preview Window (click on the @icon-globe icon in the title bar)
-* View in Browser (Alt-v-b)
-
-We'll add an optional flag that will let you run MM in such a way that pages refresh fully each time and all script code in pages executes (which requires a full page refresh).
-
+Alternately you can skip this step and simply post anonymous Gists.
