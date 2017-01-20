@@ -13,14 +13,14 @@ using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 using MarkdownMonster;
 using PasteCodeAsGistAddin;
-
+using System.ComponentModel;
 
 namespace PasteCodeAsGitAddin
 {
     /// <summary>
     /// Interaction logic for PasteHref.xaml
     /// </summary>
-    public partial class PasteCodeAsGitWindow
+    public partial class PasteCodeAsGitWindow 
     {
         private PasteCodeAsGistAddin.PasteCodeAsGistAddin Addin { get; set; }
 
@@ -44,6 +44,7 @@ namespace PasteCodeAsGitAddin
             Loaded += PasteCode_Loaded;
         }
 
+        private MarkdownEditorSimple editor;
 
         private void PasteCode_Loaded(object sender, RoutedEventArgs e)
         {
@@ -56,6 +57,17 @@ namespace PasteCodeAsGitAddin
             }
          
             DataContext = this;
+
+            
+            editor = new MarkdownEditorSimple(WebBrowserCode, Gist.code,"csharp");
+            
+            editor.IsDirtyAction = () =>
+            {
+                string val = editor.GetMarkdown();
+                Gist.code = val;
+                return true;
+            };
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -73,5 +85,21 @@ namespace PasteCodeAsGitAddin
             Close();
         }
 
+        private void TextFilename_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string filename = TextFilename.Text;
+
+            if (string.IsNullOrEmpty(filename))
+                return;
+
+            var ext = System.IO.Path.GetExtension(filename.ToLower());
+            
+            string syntax = editor.FindSyntaxFromFileType(filename);
+
+            if (string.IsNullOrEmpty(syntax))
+                return;
+
+            editor.SetEditorSyntax(syntax);            
+        }
     }
 }
