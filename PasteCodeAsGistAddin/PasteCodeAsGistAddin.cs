@@ -21,7 +21,7 @@ namespace PasteCodeAsGistAddin
         {
             base.OnApplicationStart();
 
-            Id = "PasteCodeAsGistAddin";
+            Id = "PasteCodeAsGist";
 
             // by passing in the add in you automatically
             // hook up OnExecute/OnExecuteConfiguration/OnCanExecute
@@ -80,7 +80,7 @@ namespace PasteCodeAsGistAddin
 
         public override bool OnCanExecute(object sender)
         {
-            return true;
+            return Model.IsEditorActive;
         }
 
         public override void OnApplicationShutdown()
