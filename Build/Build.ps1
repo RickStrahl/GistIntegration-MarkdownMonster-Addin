@@ -1,6 +1,6 @@
 cd "$PSScriptRoot" 
 
-$src = "$env:appdata\Markdown Monster\Addins\PasteCodeAsGistAddin"
+$src = "$env:appdata\Markdown Monster\Addins\PasteCodeAsGist"
 "Copying from: $src"
 
 "Cleaning up build files..."

@@ -67,7 +67,6 @@ namespace PasteCodeAsGistAddin
 
             Model.Window.ShowStatus("Gist embedded", 5000);
             Model.Window.SetStatusIcon(FontAwesomeIcon.GithubAlt, Colors.Green);
-
         }
 
         public override void OnExecuteConfiguration(object sender)

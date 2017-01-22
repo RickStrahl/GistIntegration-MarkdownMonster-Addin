@@ -13,16 +13,16 @@
         WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
         WindowStartupLocation="CenterOwner"         
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="850" Height="830" MinHeight="830">
+        Width="850" Height="830" MinHeight="830" WindowTransitionsEnabled="False" >
     <StackPanel Margin="20,20,20,20">
 
         <Label Content="Edit or paste Code:"/>
-        <WebBrowser  x:Name="WebBrowserCode"  Height="440"  />
+        <WebBrowser  x:Name="WebBrowserCode"  Height="440" Margin="0,0,0,0" />
         
         <Label Margin="0,10,0,0" Content="File name: (extension determines language)"/>
         <TextBox  x:Name="TextFilename"  Text="{Binding Path=Gist.filename}"  FontSize="15" TextChanged="TextFilename_TextChanged"   />
 
-        <Label Margin="-1,10,0,0" Content="Description: (optional)"/>
+        <Label Margin="0,10,0,0" Content="Description: (optional)"/>
         <TextBox  x:Name="TextDescription"  Text="{Binding Path=Gist.description}"  FontSize="15"                   
                   TextWrapping="Wrap" AcceptsReturn="True"
                   Height="70" />

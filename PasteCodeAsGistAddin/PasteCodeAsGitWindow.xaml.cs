@@ -37,17 +37,20 @@ namespace PasteCodeAsGitAddin
             Gist = new GistItem();
 
             InitializeComponent();
-
+            
 
             mmApp.SetThemeWindowOverride(this);
 
             Loaded += PasteCode_Loaded;
+
+            WebBrowserCode.Visibility = Visibility.Hidden;            
+
         }
 
         private MarkdownEditorSimple editor;
 
         private void PasteCode_Loaded(object sender, RoutedEventArgs e)
-        {
+        {            
             Gist.filename = "file." + Gist.language;
 
             if (string.IsNullOrEmpty(PasteCodeAsGistConfiguration.Current.GithubUsername))
@@ -57,17 +60,23 @@ namespace PasteCodeAsGitAddin
             }
          
             DataContext = this;
-
             
             editor = new MarkdownEditorSimple(WebBrowserCode, Gist.code,"csharp");
             
             editor.IsDirtyAction = () =>
             {
-                string val = editor.GetMarkdown();
-                Gist.code = val;
+                Gist.code = editor.GetMarkdown();                
                 return true;
             };
 
+            if (!string.IsNullOrEmpty(Gist.code))
+            {
+                Dispatcher.InvokeAsync(() =>
+               {
+                   TextFilename.SelectAll();
+                   TextFilename.Focus();                   
+               },System.Windows.Threading.DispatcherPriority.ApplicationIdle);                
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

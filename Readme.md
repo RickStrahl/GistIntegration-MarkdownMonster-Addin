@@ -4,7 +4,7 @@
 
 A [Markdown Monster](https://markdownmonster.west-wind.com) Add-in that takes the current Clipboard or Editor text selection and pastes it as a Gist on Github. The resulting Gist is then embedded - via `<script>` tag - into the current Markdown document replacing the current selection.
 
-![](SaveCodeAsGist.png)
+![Screenshot of the Addin UI](screenshot.png)
 
 ### Usage
 Here's the full set of steps to create and embed a Gist:
@@ -12,7 +12,7 @@ Here's the full set of steps to create and embed a Gist:
 * Create some code in the editor
 * Align code the way you want it (typically all the way to left)
 * Select the code
-* Alternately copy any external code to your Clipboard
+* *Alternately* copy any external code to your Clipboard
 * Click the Gist icon in toolbar
 * Your code shows up in the editor
 * Assign a filename with the extension that matches your code (ie. C# == MyFile.cs)
@@ -27,8 +27,8 @@ The embedded code in the markdown creates a `<script>` tag like this:
 <script src="https://gist.github.com/35c288114e2cd98e1ca4fd875e7749fe.js"></script>
 ```
 
-> #### Enable Scripts in your Markdown Content
-> Markdown Monster by default doesn't allow `<script>` tags to be rendered. Embedded Gists use `<script>` tags and so you have to enable script embedding by setting the **EditorAllowRenderScriptTags** flag in the Markdown Monster settings. Goto **Tools -> Settings** and find the **EditorAllowRenderScriptTags** key and set it to **true**.
+> #### Set *EditorAllowRenderScriptTags: true*
+> Markdown Monster by default doesn't allow `<script>` tags to be rendered. Embedded Gists use `<script>` tags and so you **have to** enable script embedding by setting the `EditorAllowRenderScriptTags: true` in the Markdown Monster settings. Goto **Tools -> Settings** and find the **EditorAllowRenderScriptTags** key to set.
 
 ### Configuration
 This addin is still a bit rough in its early release and there's no configuration UI. In order to configure the addin credentials if you want to post non-anonymous Gists you can edit the `PasteCodeAsGistAddin.json` file. To find the file go to **Tools -> Open Configuration Folder** and find **PasteCodeAsGistAddin.json**. Inside of this file you can set your Github username and user token to allow posting Gists under your account name:
