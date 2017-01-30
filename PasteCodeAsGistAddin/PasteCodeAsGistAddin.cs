@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using FontAwesome.WPF;
+using MarkdownMonster;
 using MarkdownMonster.AddIns;
 using Newtonsoft.Json.Linq;
 using PasteCodeAsGitAddin;
@@ -71,12 +73,10 @@ namespace PasteCodeAsGistAddin
 
         public override void OnExecuteConfiguration(object sender)
         {
-            MessageBox.Show("Configuration for our sample Addin", "Markdown Addin Sample",
-                MessageBoxButton.OK, MessageBoxImage.Information);
+            // show the config file
+            Model.Window.OpenTab(Path.Combine(mmApp.Configuration.CommonFolder, "PasteCodeAsGistAddin.json"));                
         }
-
-
-
+        
         public override bool OnCanExecute(object sender)
         {
             return Model.IsEditorActive;

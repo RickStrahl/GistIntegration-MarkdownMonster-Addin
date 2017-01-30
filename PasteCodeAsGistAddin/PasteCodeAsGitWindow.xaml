@@ -7,14 +7,14 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"                            
-        Title="Paste Code as Gist (Experimental)"
+        Title="Paste Code as Gist"
         TitleCharacterCasing="Normal"
         Icon="icon.png" FontSize="15"
         WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
         WindowStartupLocation="CenterOwner"         
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
         Width="850" Height="830" MinHeight="830" WindowTransitionsEnabled="False" >
-    <StackPanel Margin="20,20,20,20">
+    <StackPanel Margin="20">
 
         <Label Content="Edit or paste Code:"/>
         <WebBrowser  x:Name="WebBrowserCode"  Height="440" Margin="0,0,0,0" />

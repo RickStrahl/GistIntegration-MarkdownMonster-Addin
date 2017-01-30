@@ -4,8 +4,8 @@
   "summary": "Create Github Gists from selected code blocks in the editor or from the clipboard, and embed them as script links into the active document.",
   "description": "This addin allows you to take selected code in the editor, or code pasted from the clipboard and publish it as a Github Gist.\r\n\r\nThe Gist is then embedded as a script link into the active editor window. Gists can be posted anonymously or under your user account when you provide a Github access token.\r\n\r\n*** Important: In order to use this plug in and get the <script> link to render, you have to set the `EditorAllowRenderScriptTags: true` in the Markdown Monster settings. Without this setting the script tag won't render as script and Gists are not properly embedded.",
   "releaseNotes": null,
-  "version": "0.6",
+  "version": "0.6.5",
   "minVersion":  "1.1.18",
-  "author": "© Rick Strahl - West Wind Technologies",
-  "updated": "2017-1-21T12:00:00Z"
+  "author": "© Rick Strahl, West Wind Technologies",
+  "updated": "2017-1-30T12:00:00Z"
 }
