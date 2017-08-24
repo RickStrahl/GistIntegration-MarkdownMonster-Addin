@@ -1,10 +1,24 @@
-﻿# Paste Code as Gist Markdown Monster Add-in
+﻿# Gist Markdown Monster Add-in
 
 <img src="Build\icon.png" width="128" />
 
-A [Markdown Monster](https://markdownmonster.west-wind.com) Add-in that takes the current Clipboard or Editor text selection and pastes it as a Gist on Github. The resulting Gist is then embedded - via `<script>` tag - into the current Markdown document replacing the current selection.
 
-![Screenshot of the Addin UI](screenshot.png)
+A [Markdown Monster](https://markdownmonster.west-wind.com) Add-in integrates with a couple of Gist features:
+
+* Paste Code as Gists and Embed them into the Document
+* Open Documents (markdown or otherwise) from Gist
+* Save Documents (markdown or otherwise) to Gist
+
+that takes the current Clipboard or Editor text selection and pastes it as a Gist on Github. The resulting Gist is then embedded - via `<script>` tag - into the current Markdown document replacing the current selection.
+
+Paste Code as Gist UI:
+
+![Paste Code as Gist Addin UI](screenshot.png)
+
+Open from and Save to Gist UI:
+
+![Open from and Save to Gist UI](Screenshot2.png)
+
 
 ### Usage
 Here's the full set of steps to create and embed a Gist:
@@ -31,7 +45,9 @@ The embedded code in the markdown creates a `<script>` tag like this:
 > Markdown Monster by default doesn't allow `<script>` tags to be rendered. Embedded Gists use `<script>` tags and so you **have to** enable script embedding by setting the `AllowRenderScriptTags: true` in the Markdown Monster settings. Goto **Tools -> Settings** and find the **AllowRenderScriptTags** key to set.
 
 ### Configuration
-This addin is still a bit rough in its early release and there's no configuration UI. In order to configure the addin credentials if you want to post non-anonymous Gists you can edit the `PasteCodeAsGistAddin.json` file. To find the file go to **Tools -> Open Configuration Folder** and find **PasteCodeAsGistAddin.json**. Inside of this file you can set your Github username and user token to allow posting Gists under your account name:
+In order to create new Gists you need to have a **GithubUserToken** and set it in the add-in's configuration. To configure the addin click on the down arrow next to the Gist icon on the toolbar can click **Gist Configuration**. This edits **%AppData%\Markdown Monster\PasteCodeAsGistAddin.json**.
+
+In the file add edit these values:
 
 ```json
 {
@@ -40,4 +56,4 @@ This addin is still a bit rough in its early release and there's no configuratio
 }
 ```
 
-Alternately you can skip this step and simply post anonymous Gists.
+If the user token isn't set, all gists are posted anonymously without association to your account.

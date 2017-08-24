@@ -30,7 +30,7 @@ namespace PasteCodeAsGistAddin
             // hook up OnExecute/OnExecuteConfiguration/OnCanExecute
             var menuItem = new AddInMenuItem(this)
             {
-                Caption = "Paste Code as Gist",
+                Caption = "Gist",
 
                 // if an icon is specified it shows on the toolbar
                 // if not the add-in only shows in the add-ins menu
