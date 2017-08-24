@@ -67,7 +67,7 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
             
-                    <TextBox Name="TextGistId" Text="{Binding GistId}" />
+                    <TextBox Name="TextGistId" Text="{Binding ActiveItem.id}" />
                 
                     <Button Name="ButtonOpen" Margin="5,0,0,0" Grid.Column="1"
                             Click="ButtonOpen_Click" ToolTip="Open Gist in editor">
@@ -86,8 +86,8 @@
             <ListBox Name="ListGists" IsSynchronizedWithCurrentItem="True" Margin="0,15,0,20" Grid.Row="1"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"                     
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"   
-                     SelectedValue="{Binding GistId, Mode=TwoWay}"                     
-                     SelectedValuePath="id" MouseDoubleClick="ListGists_MouseDoubleClick"
+                     SelectedItem="{Binding ActiveItem, Mode=TwoWay}"                         
+                     MouseDoubleClick="ListGists_MouseDoubleClick"
                      ItemsSource="{Binding GistList}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -132,9 +132,9 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBox Name="TextSaveGistId" Text="{Binding GistId}" />
+                    <TextBox Name="TextSaveGistId" Text="{Binding ActiveItem.id}" />
                     <Button Name="ButtonSaveGist" Margin="5,0,0,0" Grid.Column="1"
-                            Click="ButtonSaveGist_Click" ToolTip="Open Gist in editor">
+                            Click="ButtonSaveGist_Click" ToolTip="Save Gist to Github">
                         <StackPanel Orientation="Horizontal">
                             <fa:FontAwesome Margin="2,2,2,0" Icon="CheckCircle" FontSize="14"                                            
                                             FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
@@ -152,7 +152,8 @@
                     </Grid.ColumnDefinitions>
 
                     <CheckBox Name="CheckSaveNewGist" IsChecked="{Binding SaveAsNewGist}">Save as new Gist</CheckBox>
-                    <TextBox Name="TextFilename" Text="{Binding ActiveItem.filename}" Margin="15,0,0,0" Grid.Column="1" IsEnabled="{Binding SaveAsNewGist}"/>
+                    <TextBox Name="TextFilename" Text="{Binding ActiveItem.filename}" Margin="15,0,0,0" Grid.Column="1" 
+                             IsEnabled="{Binding SaveAsNewGist}"/>
                 </Grid>
                 
                 
@@ -164,7 +165,7 @@
             <ListBox Name="ListSaveGists" IsSynchronizedWithCurrentItem="True" Margin="0,15,0,20" Grid.Row="1"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"                     
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"   
-                     SelectedValue="{Binding GistId, Mode=TwoWay}"                     
+                     SelectedItem="{Binding ActiveItem}"              
                      SelectedValuePath="id"
                      ItemsSource="{Binding GistList}">
                 <ListBox.ItemTemplate>

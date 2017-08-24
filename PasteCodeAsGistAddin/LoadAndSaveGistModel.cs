@@ -48,20 +48,6 @@ namespace PasteCodeAsGistAddin
         private GistItem _activeItem = null;
 
 
-        public string GistId
-        {
-            get { return _gistId; }
-            set
-            {
-                if (value == _gistId) return;
-                _gistId = value;
-                OnPropertyChanged();
-            }
-        }
-        private string _gistId = "";
-
-        
-
         public bool SaveAsNewGist
         {
             get { return _saveAsNewGist; }

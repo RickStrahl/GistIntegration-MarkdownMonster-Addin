@@ -99,11 +99,6 @@ namespace PasteCodeAsGistAddin
             Model.Window.OpenTab(Path.Combine(mmApp.Configuration.CommonFolder, "PasteCodeAsGistAddin.json"));                
         }
         
-        public override bool OnCanExecute(object sender)
-        {
-            return Model.IsEditorActive;
-        }
-
         public override void OnApplicationShutdown()
         {
             base.OnApplicationShutdown();

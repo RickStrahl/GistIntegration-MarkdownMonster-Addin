@@ -105,10 +105,11 @@ namespace PasteCodeAsGistAddin
 
         private void ButtonOpen_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(Model.GistId))
+            if (string.IsNullOrEmpty(Model.ActiveItem.id))
                 return;
+
             ShowStatus("Retrieving Gist from Github...");
-            var gist = GistClient.GetGistFromServer(Model.GistId, Model.Configuration.GithubUserToken);
+            var gist = GistClient.GetGistFromServer(Model.ActiveItem.id, Model.Configuration.GithubUserToken);
             if (gist == null || gist.hasError)
             {
                 SetStatusIcon(FontAwesomeIcon.Warning, Colors.Orange);
