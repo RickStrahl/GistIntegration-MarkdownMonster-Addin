@@ -1,13 +1,25 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Media;
+using FontAwesome.WPF;
+using MarkdownMonster;
 using PasteCodeAsGistAddin.Annotations;
 
 namespace PasteCodeAsGistAddin
 {
     public class LoadAndSaveGistModel : INotifyPropertyChanged
     {
-                
+        public LoadAndSaveGistModel(PasteCodeAsGistAddin addin)
+        {
+            Addin = addin;
+            
+        }
+
+
+        public PasteCodeAsGistAddin Addin { get; set; }
+        
 
         public PasteCodeAsGistConfiguration Configuration
         {
@@ -71,6 +83,43 @@ namespace PasteCodeAsGistAddin
             }
         }
         private string _gistUsername;
+
+
+        /// <summary>
+        /// Loads gists with progress info
+        /// </summary>
+        /// <param name="loadOrSaveWindow"></param>
+        public void LoadGists(dynamic loadOrSaveWindow)
+        {
+            List<GistItem> gists;
+
+            if (string.IsNullOrEmpty(GistUsername))
+            {
+                GistList = new List<GistItem>();
+                return;
+            }
+
+            dynamic window = loadOrSaveWindow;
+
+            window.ShowStatus("Retrieving Gists from Github...");
+            gists = GistClient.ListGistsForUser(GistUsername, Configuration.GithubUserToken);
+            if (gists == null || gists.Count < 1 || gists[0].hasError)
+            {
+                window.SetStatusIcon(FontAwesomeIcon.Warning, Colors.Orange);
+                window.ShowStatus("Failed to retrieve Gists from Github...", 7000);
+                return;
+            }
+            window.ShowStatus("Retrieved Gists from Github.", 5000);
+
+            foreach (var gist in gists)
+            {
+                if (string.IsNullOrEmpty(gist.description))
+                    gist.description = System.IO.Path.GetFileNameWithoutExtension(gist.filename);
+            }
+
+            GistList = gists;
+            ActiveItem = gists[0];
+        }
 
 
         #region INotifyPropertyChanged

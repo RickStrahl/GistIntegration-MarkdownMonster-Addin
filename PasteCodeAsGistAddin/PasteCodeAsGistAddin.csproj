@@ -64,8 +64,11 @@
     <Compile Include="GistClient.cs" />
     <Compile Include="GistItem.cs" />
     <Compile Include="GistItemStructure.cs" />
-    <Compile Include="LoadAndSaveGist.xaml.cs">
-      <DependentUpon>LoadAndSaveGist.xaml</DependentUpon>
+    <Compile Include="LoadGistWindow.xaml.cs">
+      <DependentUpon>LoadGistWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SaveGistWindow.xaml.cs">
+      <DependentUpon>SaveGistWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="LoadAndSaveGistModel.cs" />
     <Compile Include="PasteCodeAsGistAddin.cs" />
@@ -83,7 +86,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="LoadAndSaveGist.xaml">
+    <Page Include="LoadGistWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SaveGistWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

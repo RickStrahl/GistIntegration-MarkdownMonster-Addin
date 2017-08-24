@@ -1,0 +1,117 @@
+﻿<controls:MetroWindow  x:Class="PasteCodeAsGistAddin.LoadGistWindow"
+                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                       xmlns:local="clr-namespace:PasteCodeAsGistAddin"
+                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                       xmlns:fa="http://schemas.fontawesome.io/icons/"
+                       mc:Ignorable="d"                            
+                       Title="Load Document from Gist"
+                       TitleCharacterCasing="Normal"
+                       Icon="icon.png" 
+                       WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
+                       WindowStartupLocation="CenterOwner"         
+                       IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"               
+                       Background="#222"
+                       FontSize="16"
+                       Width="850" Height="830" MinHeight="830" WindowTransitionsEnabled="False" >
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+
+
+        <Grid Name="PanelOpenFromGist" Grid.Row="0" Margin="30,15,30,0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <StackPanel>
+                <Label>Gist Id</Label>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Name="TextGistId" Text="{Binding ActiveItem.id}" FontSize="15" />
+                    <Button Name="ButtonOpen" Margin="5,0,0,0" Grid.Column="1" FontSize="14" FontWeight="SemiBold"
+                            Padding="10,4,15,4"
+                            Click="ButtonOpen_Click" ToolTip="Open Gist in editor">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Margin="2,2,2,0" Icon="FolderOpen" FontSize="17"                                            
+                                        FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                        Foreground="Cornsilk" />
+                            <TextBlock>Open Gist</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+
+                <Label Margin="0,5,0,0" Grid.Row="2">Git Username</Label> 
+                <TextBox Name="TextGistUsername" Text="{Binding GistUsername}"  FontSize="15"/>
+            </StackPanel>
+
+            <ListBox Name="ListGists" IsSynchronizedWithCurrentItem="True" Margin="0,12,0,20" Grid.Row="1"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"                     
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"   
+                     SelectedItem="{Binding ActiveItem}"           BorderBrush="#999" BorderThickness="1" 
+                     MouseDoubleClick="ListGists_MouseDoubleClick"
+                     ItemsSource="{Binding GistList}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="5,3,15,7">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="{Binding description}" FontWeight="DemiBold" Grid.Row="0"/>
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+
+                            
+                                <TextBlock Text="{Binding filename}" FontStyle="Italic" Grid.Column="0" FontSize="11"/>
+                                <TextBlock Text="{Binding updated}" FontStyle="Italic" Grid.Column="1" FontSize="11"/>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+
+        
+        <StatusBar  Grid.Row="1" Height="30"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" FontSize="12">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+
+                            <ColumnDefinition Width="Auto"  />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem Grid.Column="0" Margin="2,1,0,0">
+                <fa:FontAwesome Name="StatusIcon" Icon="Circle" Foreground="Green"/>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="1">
+                <TextBlock Name="StatusText" x:FieldModifier="public" HorizontalAlignment="Left">Ready</TextBlock>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="2">
+                <TextBlock Name="StatusImageSize" x:FieldModifier="public" HorizontalAlignment="Left"></TextBlock>
+            </StatusBarItem>
+
+        </StatusBar>
+    </Grid>
+</controls:MetroWindow>

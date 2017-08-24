@@ -25,19 +25,19 @@ namespace PasteCodeAsGistAddin
     /// <summary>
     /// Interaction logic for LoadAndSaveGist.xaml
     /// </summary>
-    public partial class LoadAndSaveGistWindow
+    public partial class SaveGistWindow
     {
 
         public LoadAndSaveGistModel Model { get; set; }
         private PasteCodeAsGistAddin Addin { get; }
 
-        public LoadAndSaveGistWindow(PasteCodeAsGistAddin addin)
+        public SaveGistWindow(PasteCodeAsGistAddin addin)
         {
             Addin = addin;
 
             InitializeComponent();
 
-            Model = new LoadAndSaveGistModel()
+            Model = new LoadAndSaveGistModel(addin)
             {
                 Configuration = PasteCodeAsGistConfiguration.Current,
                 GistUsername = PasteCodeAsGistConfiguration.Current.GithubUsername
@@ -46,90 +46,24 @@ namespace PasteCodeAsGistAddin
             {
                 if (args.PropertyName == "GistUsername")
                 {                    
-                    LoadGists();
+                    Model.LoadGists(this);
                 }                    
             };
             DataContext = Model;
 
+            Loaded += SaveGistWindow_Loaded;
+        }
 
-
-            
+        private async void SaveGistWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            await Dispatcher.InvokeAsync(() =>
+            {
+                Model.LoadGists(this);
+            }, System.Windows.Threading.DispatcherPriority.Background);
         }
         
 
-        private void Button_LoadClick(object sender, RoutedEventArgs e)
-        {
-            PanelOpenFromGist.Visibility = Visibility.Visible;
-            PanelSaveToGist.Visibility = Visibility.Collapsed;
-
-            LoadGists();
-        }
-
-        void LoadGists()
-        {
-            List<GistItem> gists;
-
-            if (string.IsNullOrEmpty(Model.GistUsername))
-            { 
-                gists = new List<GistItem>();
-                return;
-            }
-
-            ShowStatus("Retrieving Gists from Github...");
-            gists = GistClient.ListGistsForUser(Model.GistUsername, Model.Configuration.GithubUserToken);
-            if (gists == null || gists.Count < 1 || gists[0].hasError)
-            {
-                SetStatusIcon(FontAwesomeIcon.Warning, Colors.Orange);
-                ShowStatus("Failed to retrieve Gists from Github...",7000);
-                return;
-            }
-            ShowStatus("Retrieved Gists from Github.",5000);
-
-            foreach (var gist in gists)
-            {
-                if (string.IsNullOrEmpty(gist.description))
-                    gist.description = System.IO.Path.GetFileNameWithoutExtension(gist.filename);
-            }
-
-            Model.GistList = gists;
-            Model.ActiveItem = gists[0];
-        }
-
-        private void Button_SaveClick(object sender, RoutedEventArgs e)
-        {
-            PanelOpenFromGist.Visibility = Visibility.Collapsed;
-            PanelSaveToGist.Visibility = Visibility.Visible;
-
-            LoadGists();
-        }
-
-        private void ButtonOpen_Click(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrEmpty(Model.ActiveItem.id))
-                return;
-
-            ShowStatus("Retrieving Gist from Github...");
-            var gist = GistClient.GetGistFromServer(Model.ActiveItem.id, Model.Configuration.GithubUserToken);
-            if (gist == null || gist.hasError)
-            {
-                SetStatusIcon(FontAwesomeIcon.Warning, Colors.Orange);
-                ShowStatus("Failed to retrieve Gists from Github...",7000);
-                return;                
-            }
-            ShowStatus("Gists retrieved.",5000);
-
-
-            var filename = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Gist_" + gist.id + "_" + gist.filename);
-            File.WriteAllText(filename, gist.code,Encoding.UTF8);
-            Addin.OpenTab(filename);            
-            Close();
-        }
-
-        private void ListGists_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            ButtonOpen_Click(sender, null);
-        }
-
+        
         private void ButtonSaveGist_Click(object sender, RoutedEventArgs e)
         {
             Model.ActiveItem.code = Addin.GetMarkdown();

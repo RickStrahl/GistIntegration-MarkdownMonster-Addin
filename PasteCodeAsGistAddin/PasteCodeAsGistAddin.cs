@@ -44,18 +44,42 @@ namespace PasteCodeAsGistAddin
             MenuItems.Add(menuItem);
 
 
-            var menuItem2 = new AddInMenuItem(this)
-            {
-                Caption = "Save and Load from Gist",
+            //var menuItem2 = new AddInMenuItem(this)
+            //{
+            //    Caption = "Save and Load from Gist",
 
-                // if an icon is specified it shows on the toolbar
-                // if not the add-in only shows in the add-ins menu
-                FontawesomeIcon = FontAwesomeIcon.GithubSquare,
-                Execute = OnExecuteSaveAndLoadGist
-            };
+            //    // if an icon is specified it shows on the toolbar
+            //    // if not the add-in only shows in the add-ins menu
+            //    FontawesomeIcon = FontAwesomeIcon.GithubSquare,
+            //    Execute = OnExecuteSaveAndLoadGist
+            //};            
+            //MenuItems.Add(menuItem2);
             
-            MenuItems.Add(menuItem2);
+        }
 
+        public override void OnWindowLoaded()
+        {
+            base.OnWindowLoaded();
+            
+
+            // create and add custom menu item
+            var mitemOpen = new MenuItem()
+            {
+                Header = "Open from Gist",
+                Name = "ButtonOpenFromGist"
+            };
+            mitemOpen.Click += (s, a) => OnExecuteLoadGist();
+            if (!AddMenuItem(mitemOpen, menuItemName: "ButtonOpenFromHtml", mode: 0))
+                mmApp.Log("Unable to add custom menu item in Paste Code As Gist Addin: " + mitemOpen.Name);
+
+            var mitemSave = new MenuItem()
+            {
+                Header = "Save to Gist",
+                Name = "ButtonSaveToGist"
+            };
+            mitemSave.Click += (s, a) => OnExecuteSaveGist();
+            if (!AddMenuItem(mitemSave, menuItemName: "ButtonGeneratePdf", mode: 0))
+                mmApp.Log("Unable to add custom menu item in Paste Code As Gist Addin: " + mitemSave.Name);
         }
 
 
@@ -86,9 +110,18 @@ namespace PasteCodeAsGistAddin
             Model.Window.SetStatusIcon(FontAwesomeIcon.GithubAlt, Colors.Green);
         }
 
-        void OnExecuteSaveAndLoadGist(object sender)
+        void OnExecuteLoadGist()
         {
-            var form = new LoadAndSaveGistWindow(this);
+            var form = new LoadGistWindow(this)
+            {
+                Owner = Model.Window
+            };
+            form.Show();
+        }
+
+        void OnExecuteSaveGist()
+        {
+            var form = new SaveGistWindow(this);
             form.Owner = Model.Window;            
             form.Show();
         }
