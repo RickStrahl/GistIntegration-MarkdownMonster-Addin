@@ -23,7 +23,7 @@ namespace PasteCodeAsGistAddinTests
                 filename = "test.cs",
                 isPublic = true
             };
-            var result = addin.PostGist(gist);
+            var result = GistClient.PostGist(gist,PasteCodeAsGistConfiguration.Current.GithubUserToken);
 
             Assert.IsNotNull(result,"Gist is null");
 
@@ -34,8 +34,43 @@ namespace PasteCodeAsGistAddinTests
             ShellUtils.GoUrl(result.htmlUrl);
         }
 
+        [TestMethod]
+        public void GetGistTest()
+        {
+            var gistId = "ef851ce1597b97ee0c2dba06a858db07";
 
-      [TestMethod]
+            var gist = GistClient.GetGistFromServer(gistId);
+
+            Assert.IsFalse(gist.hasError);
+
+            Console.WriteLine(JsonSerializationUtils.Serialize(gist, formatJsonOutput: true));
+        }
+
+        [TestMethod]
+        public void GetMissingGistTest()
+        {
+            var gistId = "bogus";
+
+            var gist = GistClient.GetGistFromServer(gistId);
+
+            Assert.IsTrue(gist.hasError);
+
+            Console.WriteLine(JsonSerializationUtils.Serialize(gist, formatJsonOutput: true));
+        }
+
+        [TestMethod]
+        public void GetGistListForUserTest()
+        {
+            
+            var gistList = GistClient.ListGistsForUser("rickstrahl");
+
+            Assert.IsNotNull(gistList);
+            Assert.IsTrue(gistList.Count > 0);
+
+            Console.WriteLine(JsonSerializationUtils.Serialize(gistList, formatJsonOutput: true));
+        }
+
+        [TestMethod]
         public void CreateJson()
         {
             string code = "int x = 10002;";

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using PasteCodeAsGistAddin.Annotations;
 
@@ -48,7 +49,6 @@ namespace PasteCodeAsGistAddin
             }
         }
         private string _filename;
-
         
 
         public bool isPublic
@@ -80,7 +80,30 @@ namespace PasteCodeAsGistAddin
         public string id { get; set; }
         public string htmlUrl { get; set; }
         public string rawUrl { get; set; }
-        public string embedUrl { get; set; }
+
+        public string embedUrl
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(htmlUrl))
+                    return null;
+
+                return htmlUrl + ".js";
+            }
+        }
+
+        public string mmFilename
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(htmlUrl))
+                    return null;
+
+                return htmlUrl + ".md";
+            }
+        }
+
+        public DateTime updated { get; set; }
 
         public string username { get; set; }
 
@@ -88,6 +111,7 @@ namespace PasteCodeAsGistAddin
 
         public bool hasError { get; set; }
         public string errorMessage { get; set; }
+        
 
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -85,7 +85,7 @@ namespace PasteCodeAsGitAddin
                 DialogResult = false;
             else
             {
-                Gist = Addin.PostGist(Gist);
+                Gist = GistClient.PostGist(Gist);
 
                 Cancelled = false;
                 DialogResult = true;
@@ -103,7 +103,7 @@ namespace PasteCodeAsGitAddin
 
             var ext = System.IO.Path.GetExtension(filename.ToLower());
             
-            string syntax = editor.FindSyntaxFromFileType(filename);
+            string syntax = editor.EditorSyntax;
 
             if (string.IsNullOrEmpty(syntax))
                 return;

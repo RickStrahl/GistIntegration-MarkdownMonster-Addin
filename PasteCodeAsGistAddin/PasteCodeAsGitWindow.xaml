@@ -27,7 +27,6 @@
                   TextWrapping="Wrap" AcceptsReturn="True"
                   Height="70" />
 
-
         <StackPanel Orientation="Horizontal">
             <Button Name="ButtonOk" Margin="0,30" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left"   Click="Button_Click"  >
                 <StackPanel Orientation="Horizontal">
