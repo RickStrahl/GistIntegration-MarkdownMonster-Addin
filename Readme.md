@@ -11,16 +11,11 @@ A [Markdown Monster](https://markdownmonster.west-wind.com) Add-in integrates wi
 
 that takes the current Clipboard or Editor text selection and pastes it as a Gist on Github. The resulting Gist is then embedded - via `<script>` tag - into the current Markdown document replacing the current selection.
 
+### Usage for Paste Code as Gist
 Paste Code as Gist UI:
 
 ![Paste Code as Gist Addin UI](screenshot.png)
 
-Open from and Save to Gist UI:
-
-![Open from and Save to Gist UI](Screenshot2.png)
-
-
-### Usage
 Here's the full set of steps to create and embed a Gist:
 
 * Create some code in the editor
@@ -43,6 +38,24 @@ The embedded code in the markdown creates a `<script>` tag like this:
 
 > #### Set *AllowRenderScriptTags: true*
 > Markdown Monster by default doesn't allow `<script>` tags to be rendered. Embedded Gists use `<script>` tags and so you **have to** enable script embedding by setting the `AllowRenderScriptTags: true` in the Markdown Monster settings. Goto **Tools -> Settings** and find the **AllowRenderScriptTags** key to set.
+
+### Usage for Open 
+Open from and Save to Gist UI:
+
+![Open from and Save to Gist UI](Screenshot2.png)
+
+The addin adds two new Menu Options on the File menu:
+
+* Open from Gist
+* Save to Gist
+
+To open a document from a Gist simply use **Open from Gist**. Use the selection list to pick any Gist you want to load. Alternately you can explicitly type in a Gist Id. The username can be any user name, but it'll default the configuration value for `GithubUsername` in the Addin configuration. You can open Markdown documents or any other kind of code document for editing.
+
+To Save a Document to a Gist use **Save to Gist** while a document is open. You can use the list to select a Gist from the list to update an existing Gist, or check **Save as New Gist** checkbox to create a new Gist with a filename.
+
+> You should always create a filename with an appropriate extension for the file you're saving so the Gist can display with the proper syntax highlighting.
+
+Click the **Save** button to upload your Gist.
 
 ### Configuration
 In order to create new Gists you need to have a **GithubUserToken** and set it in the add-in's configuration. To configure the addin click on the down arrow next to the Gist icon on the toolbar can click **Gist Configuration**. This edits **%AppData%\Markdown Monster\PasteCodeAsGistAddin.json**.
