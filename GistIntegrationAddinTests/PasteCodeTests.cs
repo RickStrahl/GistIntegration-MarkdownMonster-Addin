@@ -2,7 +2,7 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
-using PasteCodeAsGistAddin;
+using GistIntegration;
 using Westwind.Utilities;
 
 namespace PasteCodeAsGistAddinTests
@@ -14,7 +14,7 @@ namespace PasteCodeAsGistAddinTests
         [TestMethod]
         public void PostJsonTest()
         {
-            var addin = new PasteCodeAsGistAddin.PasteCodeAsGistAddin();
+            var addin = new GistIntegration.PasteCodeAsGistAddin();
 
             var gist = new GistItem
             {

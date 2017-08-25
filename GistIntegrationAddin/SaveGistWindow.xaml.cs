@@ -20,7 +20,7 @@ using MarkdownMonster;
 using MarkdownMonster.Windows;
 using Westwind.Utilities;
 
-namespace PasteCodeAsGistAddin
+namespace GistIntegration
 {
     /// <summary>
     /// Interaction logic for LoadAndSaveGist.xaml

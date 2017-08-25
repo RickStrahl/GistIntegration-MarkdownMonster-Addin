@@ -4,10 +4,10 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Media;
 using FontAwesome.WPF;
+using GistIntegration.Annotations;
 using MarkdownMonster;
-using PasteCodeAsGistAddin.Annotations;
 
-namespace PasteCodeAsGistAddin
+namespace GistIntegration
 {
     public class LoadAndSaveGistModel : INotifyPropertyChanged
     {

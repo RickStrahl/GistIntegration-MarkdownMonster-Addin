@@ -14,7 +14,7 @@ using Newtonsoft.Json.Linq;
 using PasteCodeAsGitAddin;
 using Westwind.Utilities;
 
-namespace PasteCodeAsGistAddin
+namespace GistIntegration
 {
     public class PasteCodeAsGistAddin : MarkdownMonsterAddin
     {

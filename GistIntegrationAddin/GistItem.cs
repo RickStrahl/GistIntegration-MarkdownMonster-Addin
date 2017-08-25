@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using PasteCodeAsGistAddin.Annotations;
+using GistIntegration.Annotations;
 
-namespace PasteCodeAsGistAddin
+namespace GistIntegration
 {
     public class GistItem : INotifyPropertyChanged
     {

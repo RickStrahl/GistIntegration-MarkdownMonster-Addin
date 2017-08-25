@@ -72,9 +72,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PasteCodeAsGistAddin\PasteCodeAsGistAddin.csproj">
+    <ProjectReference Include="..\GistIntegrationAddin\GistIntegrationAddin.csproj">
       <Project>{5cfa7840-b313-48d4-bbf0-30ebdaffa6cf}</Project>
-      <Name>PasteCodeAsGistAddin</Name>
+      <Name>GistIntegrationAddin</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

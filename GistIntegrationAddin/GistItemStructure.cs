@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PasteCodeAsGistAddin
+namespace GistIntegration
 { 
         public class GistStructure
         {

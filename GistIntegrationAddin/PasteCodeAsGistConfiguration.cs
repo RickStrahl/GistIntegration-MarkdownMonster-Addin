@@ -2,7 +2,7 @@
 using MarkdownMonster;
 using Westwind.Utilities.Configuration;
 
-namespace PasteCodeAsGistAddin
+namespace GistIntegration
 {
     public class PasteCodeAsGistConfiguration : AppConfiguration
     {

@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 using MarkdownMonster;
-using PasteCodeAsGistAddin;
+using GistIntegration;
 using System.ComponentModel;
 
 namespace PasteCodeAsGitAddin
@@ -22,13 +22,13 @@ namespace PasteCodeAsGitAddin
     /// </summary>
     public partial class PasteCodeAsGitWindow 
     {
-        private PasteCodeAsGistAddin.PasteCodeAsGistAddin Addin { get; set; }
+        private GistIntegration.PasteCodeAsGistAddin Addin { get; set; }
 
         public GistItem Gist { get; set; }
 
         public bool Cancelled { get; set; }
 
-        public PasteCodeAsGitWindow(PasteCodeAsGistAddin.PasteCodeAsGistAddin addin)
+        public PasteCodeAsGitWindow(GistIntegration.PasteCodeAsGistAddin addin)
         {
             Addin = addin;
 

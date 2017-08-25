@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Westwind.Utilities;
 
-namespace PasteCodeAsGistAddin
+namespace GistIntegration
 {
 
     public class GistClient

@@ -1,6 +1,6 @@
 cd "$PSScriptRoot" 
 
-$src = "$env:appdata\Markdown Monster\Addins\PasteCodeAsGist"
+$src = "$env:appdata\Markdown Monster\Addins\GistIntegration"
 "Copying from: $src"
 
 "Cleaning up build files..."
@@ -10,7 +10,7 @@ remove-item -recurse -force .\Distribution
 md Distribution
 
 "Copying files..."
-copy "$src\PasteCodeAsGistAddin.dll" .\Distribution
+copy "$src\GistIntegrationAddin.dll" .\Distribution
 copy "$src\version.json" .\Distribution
 copy "$src\version.json" .\
 
