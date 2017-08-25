@@ -52,14 +52,15 @@ To open a document from a Gist simply use **Open from Gist**. Use the selection 
 
 To Save a Document to a Gist use **Save to Gist** while a document is open. You can use the list to select a Gist from the list to update an existing Gist, or check **Save as New Gist** checkbox to create a new Gist with a filename.
 
-> You should always create a filename with an appropriate extension for the file you're saving so the Gist can display with the proper syntax highlighting.
+> #### File Name Extensions determine Syntax Coloring for Gist
+> For new Gists, you should **always** create a filename with an appropriate extension for the file you're saving so the Gist can display with the proper syntax highlighting.
 
 Click the **Save** button to upload your Gist.
 
 ### Configuration
 In order to create new Gists you need to have a **GithubUserToken** and set it in the add-in's configuration. To configure the addin click on the down arrow next to the Gist icon on the toolbar can click **Gist Configuration**. This edits **%AppData%\Markdown Monster\PasteCodeAsGistAddin.json**.
 
-In the file add edit these values:
+In the file add or edit these values:
 
 ```json
 {
