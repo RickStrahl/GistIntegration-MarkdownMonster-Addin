@@ -38,7 +38,7 @@ The embedded code in the markdown creates a `<script>` tag like this:
 > #### Set *AllowRenderScriptTags: true*
 > Markdown Monster by default doesn't allow `<script>` tags to be rendered. Embedded Gists use `<script>` tags and so you **have to** enable script embedding by setting the `AllowRenderScriptTags: true` in the Markdown Monster settings. Goto **Tools -> Settings** and find the **AllowRenderScriptTags** key to set.
 
-### Usage for Open 
+### Usage for Open and Saving Documents from Gists
 Open from and Save to Gist UI:
 
 ![Open from and Save to Gist UI](Screenshot2.png)
