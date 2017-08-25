@@ -1,9 +1,8 @@
-﻿# Gist Markdown Monster Add-in
+﻿# Gist Integration Markdown Monster Add-in
 
 <img src="Build\icon.png" width="128" />
 
-
-A [Markdown Monster](https://markdownmonster.west-wind.com) Add-in integrates with a couple of Gist features:
+A [Markdown Monster](https://markdownmonster.west-wind.com) addin that integrates with a couple of Gist features:
 
 * Paste Code as Gists and Embed them into the Document
 * Open Documents (markdown or otherwise) from Gist
