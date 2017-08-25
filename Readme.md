@@ -10,6 +10,8 @@ A [Markdown Monster](https://markdownmonster.west-wind.com) addin that integrate
 
 that takes the current Clipboard or Editor text selection and pastes it as a Gist on Github. The resulting Gist is then embedded - via `<script>` tag - into the current Markdown document replacing the current selection.
 
+> Make sure you edit the Addin Configuration (use the down arrow next to the Github Icon on the toolbar) to configure your Github User name and Authentication token.
+
 ### Usage for Paste Code as Gist
 Paste Code as Gist UI:
 
@@ -70,3 +72,6 @@ In the file add or edit these values:
 ```
 
 If the user token isn't set, all gists are posted anonymously without association to your account.
+
+> #### Get a Gihub User Token
+> A Github user token can be created and assigned to this application. To create one, go to Github, click on your Profile and select Settings. Scroll down to the Developer Settings box and select **Personal Access Tokens**.
