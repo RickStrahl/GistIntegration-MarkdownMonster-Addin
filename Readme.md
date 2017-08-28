@@ -8,12 +8,14 @@ A [Markdown Monster](https://markdownmonster.west-wind.com) addin that integrate
 * Open Documents (markdown or otherwise) from Gist
 * Save Documents (markdown or otherwise) to Gist
 
-that takes the current Clipboard or Editor text selection and pastes it as a Gist on Github. The resulting Gist is then embedded - via `<script>` tag - into the current Markdown document replacing the current selection.
-
 > Make sure you edit the Addin Configuration (use the down arrow next to the Github Icon on the toolbar) to configure your Github User name and Authentication token.
 
 ### Usage for Paste Code as Gist
-Paste Code as Gist UI:
+This features takes the current Clipboard or Editor text selection and pastes it as a Gist on Github. A separate editor screen pops up that lets you optionally format the code before posting it to a Gist. You can post anonymous or account based Gists, and use public or private visibility.
+
+The resulting Gist is then embedded - via `<script>` tag - into the current Markdown document replacing the current selection.
+
+Here's the Paste Code as Gist form that tells the story:
 
 ![Paste Code as Gist Addin UI](screenshot.png)
 
