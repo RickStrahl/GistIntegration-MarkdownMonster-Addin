@@ -14,36 +14,79 @@
         WindowStartupLocation="CenterOwner"         
         IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
         Width="850" Height="830" MinHeight="830" WindowTransitionsEnabled="False" >
-    <StackPanel Margin="20">
+    <StackPanel>
+        <ToolBarPanel>
+            <StackPanel Orientation="Horizontal" >
+                <ToolBar FontWeight="Normal" Padding="0,10,0,10"  >
+                    <Button Name="ButtonOk" Click="Button_Click"  >
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="CloudUpload" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="19"/>
+                            <TextBlock Margin="5,0,5,0">Upload Code as Gist</TextBlock>
+                        </StackPanel>
+                    </Button>
 
-        <Label Content="Edit or paste Code:"/>
-        <WebBrowser  x:Name="WebBrowserCode"  Height="440" Margin="0,0,0,0" />
-        
-        <Label Margin="0,10,0,0" Content="File name: (extension determines language)"/>
-        <TextBox  x:Name="TextFilename"  Text="{Binding Path=Gist.filename}"  FontSize="15" TextChanged="TextFilename_TextChanged"   />
+                    <Button Name="ButtonCancel" IsCancel="True" Click="Button_Click"  >
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="Firebrick" FontSize="19"/>
+                            <TextBlock Margin="5,0,5,0" >Cancel</TextBlock>
+                        </StackPanel>
+                    </Button>
 
-        <Label Margin="0,10,0,0" Content="Description: (optional)"/>
-        <TextBox  x:Name="TextDescription"  Text="{Binding Path=Gist.description}"  FontSize="15"                   
+                    <Separator/>
+                    
+                    <Button Name="ButtonOpenFromGist" IsCancel="True" Click="ButtonOpenFromGist_Click" 
+                            ToolTip="Open a document from an online GitHub Gist" >
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="FolderOpen" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="Khaki" FontSize="19"/>
+                            <TextBlock Margin="5,0,0,0" >Open from Gist</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Name="ButtonSaveToGist" IsCancel="True" Click="ButtonSaveToGist_Click"  
+                            ToolTip="Save active Markdown Monster document to a Github Gist">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="CheckCircle" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  Foreground="#AFF3B7" FontSize="19"/>
+                            <TextBlock Margin="5,0,5,0" >Save as Gist</TextBlock>
+                        </StackPanel>
+                    </Button>
+
+                    <Separator/>
+                    
+                    <Button Name="ButtonConfiguration" Click="ButtonConfiguration_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="Gear" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" FontSize="19" Foreground="SlateGray"/>
+                            <TextBlock Margin="5,0,5,0" >Configuration</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </ToolBar>
+            </StackPanel>
+        </ToolBarPanel>
+
+        <StackPanel Margin="20">
+            <Grid>
+                <Grid.ColumnDefinitions>
+
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="22" />
+                </Grid.ColumnDefinitions>
+
+                <Label Content="Edit or paste Code:"/>
+
+            </Grid>
+
+            <WebBrowser  x:Name="WebBrowserCode"  Height="440" Margin="0,0,0,0" />
+
+            <Label Margin="0,10,0,0" Content="File name: (extension determines language)"/>
+            <TextBox  x:Name="TextFilename"  Text="{Binding Path=Gist.filename}"  FontSize="15" TextChanged="TextFilename_TextChanged"   />
+
+            <Label Margin="0,10,0,0" Content="Description: (optional)"/>
+            <TextBox  x:Name="TextDescription"  Text="{Binding Path=Gist.description}"  FontSize="15"                   
                   TextWrapping="Wrap" AcceptsReturn="True"
                   Height="70" />
 
-        <StackPanel Orientation="Horizontal">
-            <Button Name="ButtonOk" Margin="0,30" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left"   Click="Button_Click"  >
-                <StackPanel Orientation="Horizontal">
-                    <fa:FontAwesome Icon="Upload" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="20" />
-                    <TextBlock Margin="10,0,0,0" FontSize="14" >Paste Code</TextBlock>
-                </StackPanel>
-            </Button>
+            <CheckBox Name="CheckAnonymous"
+                  Margin="0,30"  FontSize="15"
+                  IsChecked="{Binding Path=Gist.isAnonymous}">make Gist anonymous</CheckBox>
 
-            <Button Name="ButtonCancel" Margin="10,30" Height="40" FontSize="15" Width="175" HorizontalAlignment="Left" IsCancel="True" Click="Button_Click" >
-                <StackPanel Orientation="Horizontal">
-                    <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  FontSize="20"/>
-                    <TextBlock Margin="10,0,0,0" FontSize="14">Cancel</TextBlock>
-                </StackPanel>
-            </Button>
-
-            <CheckBox Name="CheckAnonymous" HorizontalAlignment="Right" 
-                      Margin="45,30" IsChecked="{Binding Path=Gist.isAnonymous}">make Gist anonymous</CheckBox>
         </StackPanel>
     </StackPanel>
 </controls:MetroWindow>

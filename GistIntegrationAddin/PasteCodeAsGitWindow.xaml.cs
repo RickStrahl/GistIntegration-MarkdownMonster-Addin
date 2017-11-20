@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 using MarkdownMonster;
+using MarkdownMonster.Windows;
 using GistIntegration;
 using System.ComponentModel;
 
@@ -76,7 +77,7 @@ namespace PasteCodeAsGitAddin
                    TextFilename.SelectAll();
                    TextFilename.Focus();                   
                },System.Windows.Threading.DispatcherPriority.ApplicationIdle);                
-            }
+            }            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -109,6 +110,37 @@ namespace PasteCodeAsGitAddin
                 return;
 
             editor.SetEditorSyntax(syntax);            
+        }
+
+        private void ButtonConfiguration_Click(object sender, RoutedEventArgs e)
+        {
+            Cancelled = true;
+            Close();
+            Addin.OpenGistConfigurationTab();
+        }
+
+        private void ButtonOpenFromGist_Click(object sender, RoutedEventArgs e)
+        {
+            Cancelled = true;
+            Close();
+
+            Dispatcher.Delay(500, o =>
+            {
+                var form = new LoadGistWindow(Addin);
+                form.Show();
+            });
+        }
+
+        private void ButtonSaveToGist_Click(object sender, RoutedEventArgs e)
+        {
+            Cancelled = true;
+            Close();
+
+            Dispatcher.Delay(500, o =>
+            {
+                var form = new SaveGistWindow(Addin);
+                form.Show();
+            });
         }
     }
 }

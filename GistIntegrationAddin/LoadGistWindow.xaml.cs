@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FontAwesome.WPF;
+using GistIntegration.Annotations;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using MarkdownMonster;
@@ -35,6 +38,8 @@ namespace GistIntegration
             Addin = addin;
 
             InitializeComponent();
+
+            mmApp.SetThemeWindowOverride(this);
 
             Model = new LoadAndSaveGistModel(addin)
             {
@@ -66,7 +71,7 @@ namespace GistIntegration
             if (string.IsNullOrEmpty(Model.ActiveItem.id))
                 return;
 
-            ShowStatus("Retrieving Gist from Github...");
+            ShowStatus("Retrieving Gist from Github...");            
             var gist = GistClient.GetGistFromServer(Model.ActiveItem.id, Model.Configuration.GithubUserToken);
             if (gist == null || gist.hasError)
             {
@@ -74,7 +79,7 @@ namespace GistIntegration
                 ShowStatus("Failed to retrieve Gists from Github...",7000);
                 return;                
             }
-            ShowStatus("Gists retrieved.",5000);
+            ShowStatus("Gists retrieved.",7000);
 
 
             var filename = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Gist_" + gist.id + "_" + gist.filename);
@@ -87,6 +92,44 @@ namespace GistIntegration
         {
             ButtonOpen_Click(sender, null);
         }
+
+
+        private void ButtonConfiguration_Click(object sender, RoutedEventArgs e)
+        {
+            Addin.OpenGistConfigurationTab();
+        }
+
+        
+        private void ButtonDeleteGist_Click(object sender, RoutedEventArgs e)
+        {
+            var gist = ((Button)sender).DataContext as GistItem;
+            if (gist == null)
+                return;
+
+            var msg =
+                $@"Filename: {gist.filename}
+Description: {gist.description}
+
+Are you sure you want to delete this Gist?";
+
+            var res = MessageBox.Show(msg, "Delete Gist", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (res == MessageBoxResult.No)
+                return;
+
+            if (!GistClient.DeleteGist(gist.id))
+            {
+                ShowStatus("Failed to delete Gist.", 7000);
+                SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red);
+            }
+            else
+            {
+                Model.GistList.Remove(gist);
+                ShowStatus("Gist Deleted.", 7000);
+            }
+        }
+
+
+
 
 
         #region StatusBar Display
@@ -140,20 +183,6 @@ namespace GistIntegration
             StatusIcon.StopSpin();
         }
 
-        /// <summary>
-        /// Helper routine to show a Metro Dialog. Note this dialog popup is fully async!
-        /// </summary>
-        /// <param name="title"></param>
-        /// <param name="message"></param>
-        /// <param name="style"></param>
-        /// <param name="settings"></param>
-        /// <returns></returns>
-        public async Task<MessageDialogResult> ShowMessageOverlayAsync(string title, string message,
-            MessageDialogStyle style = MessageDialogStyle.Affirmative,
-            MetroDialogSettings settings = null)
-        {
-            return await this.ShowMessageAsync(title, message, style, settings);
-        }
 
         #endregion
     }

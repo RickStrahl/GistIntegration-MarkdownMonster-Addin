@@ -37,6 +37,8 @@ namespace GistIntegration
 
             InitializeComponent();
 
+            mmApp.SetThemeWindowOverride(this);
+            
             Model = new LoadAndSaveGistModel(addin)
             {
                 Configuration = PasteCodeAsGistConfiguration.Current,
@@ -72,7 +74,9 @@ namespace GistIntegration
 
             ShowStatus("Saving Gist...");
             if (!Model.SaveAsNewGist)
+            {                
                 gist = GistClient.UpdateGist(Model.ActiveItem, Model.Configuration.GithubUserToken);
+            }
             else
                 gist = GistClient.PostGist(Model.ActiveItem, Model.Configuration.GithubUserToken);
 
@@ -80,13 +84,43 @@ namespace GistIntegration
             {
                 ShowStatus("Gist has been saved...", 5000);                
                 mmFileUtils.ShowExternalBrowser(gist.htmlUrl);
+                Close();
             }
             else
             {
                 SetStatusIcon(FontAwesomeIcon.Warning, Colors.Orange);
-                ShowStatus("Gist failed to save.", 7000);
+                ShowStatus("Gist was not saved - failed to save as Gist.", 7000);
             }
 
+        }
+
+
+        private void ButtonDeleteGist_Click(object sender, RoutedEventArgs e)
+        {
+            var gist = ((Button)sender).DataContext as GistItem;
+            if (gist == null)
+                return;
+
+            var msg =
+                $@"Filename: {gist.filename}
+Description: {gist.description}
+
+Are you sure you want to delete this Gist?";
+
+            var res = MessageBox.Show(msg, "Delete Gist", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (res == MessageBoxResult.No)
+                return;
+
+            if (!GistClient.DeleteGist(gist.id))
+            {
+                ShowStatus("Failed to delete Gist.", 7000);
+                SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red);
+            }
+            else
+            {
+                Model.GistList.Remove(gist);
+                ShowStatus("Gist Deleted.", 7000);
+            }
         }
 
         #region StatusBar Display
@@ -156,6 +190,7 @@ namespace GistIntegration
         }
 
         #endregion
+
     }
 }
 

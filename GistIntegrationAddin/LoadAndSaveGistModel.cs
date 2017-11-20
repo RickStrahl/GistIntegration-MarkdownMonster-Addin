@@ -1,11 +1,18 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
 using FontAwesome.WPF;
 using GistIntegration.Annotations;
+using MahApps.Metro.Controls.Dialogs;
 using MarkdownMonster;
+using MarkdownMonster.Windows;
 
 namespace GistIntegration
 {
@@ -14,12 +21,12 @@ namespace GistIntegration
         public LoadAndSaveGistModel(PasteCodeAsGistAddin addin)
         {
             Addin = addin;
-            
+
         }
 
 
         public PasteCodeAsGistAddin Addin { get; set; }
-        
+
 
         public PasteCodeAsGistConfiguration Configuration
         {
@@ -31,10 +38,11 @@ namespace GistIntegration
                 OnPropertyChanged();
             }
         }
+
         private PasteCodeAsGistConfiguration _configuration;
 
 
-        public List<GistItem> GistList
+        public ObservableCollection<GistItem> GistList
         {
             get { return _gistList; }
             set
@@ -44,7 +52,8 @@ namespace GistIntegration
                 OnPropertyChanged();
             }
         }
-        private List<GistItem> _gistList = new List<GistItem>();
+
+        private ObservableCollection<GistItem> _gistList = new ObservableCollection<GistItem>();
 
 
         public GistItem ActiveItem
@@ -57,6 +66,7 @@ namespace GistIntegration
                 OnPropertyChanged();
             }
         }
+
         private GistItem _activeItem = null;
 
 
@@ -67,10 +77,17 @@ namespace GistIntegration
             {
                 if (value == _saveAsNewGist) return;
                 _saveAsNewGist = value;
+                ActiveItem = new GistItem();
+                var file = Addin.Model?.ActiveDocument?.Filename;
+                if (!string.IsNullOrEmpty(file))
+                    ActiveItem.filename = Path.GetFileName(file);
                 OnPropertyChanged();
             }
         }
+
         private bool _saveAsNewGist;
+
+
 
         public string GistUsername
         {
@@ -78,10 +95,12 @@ namespace GistIntegration
             set
             {
                 if (value == _gistUsername) return;
+                if (value == _gistUsername) return;
                 _gistUsername = value;
                 OnPropertyChanged();
             }
         }
+
         private string _gistUsername;
 
 
@@ -91,18 +110,20 @@ namespace GistIntegration
         /// <param name="loadOrSaveWindow"></param>
         public void LoadGists(dynamic loadOrSaveWindow)
         {
-            List<GistItem> gists;
+            ObservableCollection<GistItem> gists;
 
             if (string.IsNullOrEmpty(GistUsername))
             {
-                GistList = new List<GistItem>();
+                GistList = new ObservableCollection<GistItem>();
                 return;
             }
 
             dynamic window = loadOrSaveWindow;
 
             window.ShowStatus("Retrieving Gists from Github...");
-            gists = GistClient.ListGistsForUser(GistUsername, Configuration.GithubUserToken);
+
+            gists = new ObservableCollection<GistItem>(GistClient.ListGistsForUser(GistUsername,
+                Configuration.GithubUserToken));
             if (gists == null || gists.Count < 1 || gists[0].hasError)
             {
                 window.SetStatusIcon(FontAwesomeIcon.Warning, Colors.Orange);
@@ -126,10 +147,11 @@ namespace GistIntegration
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
         #endregion
     }
 }

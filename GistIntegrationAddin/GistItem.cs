@@ -61,7 +61,7 @@ namespace GistIntegration
                 OnPropertyChanged();
             }
         }
-        private bool _isPublic;
+        private bool _isPublic = true;
 
         
 

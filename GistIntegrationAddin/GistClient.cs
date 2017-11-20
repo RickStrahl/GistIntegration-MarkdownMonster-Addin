@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
@@ -139,7 +140,7 @@ namespace GistIntegration
             dynamic obj = new JObject();
 
             obj.Add("description", new JValue(gist.description));
-            obj.Add("public", new JValue(true));
+            obj.Add("public", gist.isPublic);
             obj.Add("files", new JObject());
 
             obj.files.Add(gist.filename, new JObject());
@@ -211,13 +212,46 @@ namespace GistIntegration
         /// <param name="id"></param>
         /// <param name="githubUserToken"></param>
         /// <returns></returns>
-        public bool DoesGistExist(string id, string githubUserToken = null)
+        public static bool DoesGistExist(string id, string githubUserToken = null)
         {
             var gist = GetGistFromServer(id, githubUserToken);
             if (gist.hasError)            
                 return false;
 
             return true;
+        }
+
+        public static bool DeleteGist(string id, string githubUserToken = null)
+        {
+            if (string.IsNullOrEmpty(githubUserToken))
+                githubUserToken = PasteCodeAsGistConfiguration.Current.GithubUserToken;
+
+
+            
+            var settings = new HttpRequestSettings
+            {
+                Url = GistUrl + "/gists/" + id,
+                HttpVerb = "DELETE"                                
+            };
+            settings.Headers.Add("User-agent", "Markdown Monster Markdown Editor Gist Add-in");
+            settings.Headers.Add("Authorization", "token " + githubUserToken);
+
+            string result = null;
+            try
+            {
+                HttpUtils.HttpRequestString(settings);
+                if (settings.ResponseStatusCode != HttpStatusCode.NoContent && settings.ResponseStatusCode != HttpStatusCode.OK)
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            
+
+            return true;
+
         }
 
         /// <summary>
@@ -275,6 +309,8 @@ namespace GistIntegration
 
             return gists;
         }
+
+
         #endregion
     }
 

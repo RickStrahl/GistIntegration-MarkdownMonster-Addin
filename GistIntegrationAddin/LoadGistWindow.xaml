@@ -71,7 +71,20 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
 
-                            <TextBlock Text="{Binding description}" FontWeight="DemiBold" Grid.Row="0"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="{Binding description}" FontWeight="DemiBold" Grid.Row="0"/>
+                                <Button fa:Awesome.Content="Remove" Foreground="DarkRed" BorderThickness="0"  FontSize="15"
+                                        Grid.Column="1" Height="15" MinHeight="20" Width="20" 
+                                        Background="Transparent"
+                                        Padding="0" Margin="5,-1,0,0" 
+                                        Click="ButtonDeleteGist_Click"/>
+                            </Grid>
+
                             <Grid Grid.Row="1">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
@@ -88,7 +101,7 @@
             </ListBox>
         </Grid>
 
-        
+
         <StatusBar  Grid.Row="1" Height="30"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" FontSize="12">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>

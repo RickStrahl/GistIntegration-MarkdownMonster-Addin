@@ -37,12 +37,13 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Border  BorderThickness="1" CornerRadius="3" Grid.Row="0" Background="#333" BorderBrush="#aaa"
-                     Padding="20,10,20,15"  Margin="0,5,0,5">
+            <Border BorderThickness="1" CornerRadius="3" Grid.Row="0" Background="#333" BorderBrush="#aaa"
+                     Padding="20,10,20,15"  Margin="0,5,0,5"  IsEnabled="{Binding SaveAsNewGist, Converter={StaticResource InvertedBooleanConverter}}">
                 <Grid>
-
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
@@ -56,8 +57,7 @@
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"   
                              SelectedItem="{Binding ActiveItem}"              
                              SelectedValuePath="id"                      
-                             ItemsSource="{Binding GistList}"
-                             IsEnabled="{Binding SaveAsNewGist, Converter={StaticResource InvertedBooleanConverter}}"
+                             ItemsSource="{Binding GistList}"                            
                     >
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -67,8 +67,21 @@
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
 
-                                    <TextBlock Text="{Binding description}" FontWeight="DemiBold" Grid.Row="0"/>
-                                    <Grid Grid.Row="1">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Text="{Binding description}" FontWeight="DemiBold" Grid.Row="0"/>
+                                        <Button fa:Awesome.Content="Remove" Foreground="DarkRed" BorderThickness="0"  FontSize="15"
+                                            Grid.Column="1" Height="15" MinHeight="20" Width="20" 
+                                            Background="Transparent"
+                                            Padding="0" Margin="5,-1,0,0" 
+                                            Click="ButtonDeleteGist_Click"/>
+                                    </Grid>
+
+                                <Grid Grid.Row="1">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="auto" />
@@ -77,38 +90,44 @@
 
                                         <TextBlock Text="{Binding filename}" FontStyle="Italic" Grid.Column="0" FontSize="11"/>
                                         <TextBlock Text="{Binding updated}" FontStyle="Italic" Grid.Column="1" FontSize="11"/>
+                                        
+                                        
                                     </Grid>
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </Grid>
-
             </Border>
 
-            <StackPanel Grid.Row="1">
+            <CheckBox Name="CheckSaveNewGist" IsChecked="{Binding SaveAsNewGist}" Margin="0,15,0,15" FontSize="15" Grid.Row="1">Save as new Gist</CheckBox>
+
+            <StackPanel Grid.Row="2" controls:VisibilityHelper.IsCollapsed="{Binding SaveAsNewGist,Converter={StaticResource InvertedBooleanConverter}}">
                 <Border  BorderThickness="1" CornerRadius="3" Padding="20" Background="#333" BorderBrush="#999" Margin="0,5">
                     <StackPanel>
-                        <CheckBox Name="CheckSaveNewGist" IsChecked="{Binding SaveAsNewGist}" FontSize="15">Save as new Gist</CheckBox>
-
-                        <Label Margin="0,5,0,0">New Filename:</Label>
-                        <TextBox Name="TextFilename" Text="{Binding ActiveItem.filename}"
-                                 IsEnabled="{Binding SaveAsNewGist}"/>
+                        <CheckBox Name="CheckPrivateGist"  IsChecked="{Binding ActiveItem.isPublic,Converter={StaticResource InvertedBooleanConverter}}" FontSize="15">Save as Secret Gist</CheckBox>
+                        
+                        <Label Margin="0,7,0,0">Description: (optional)</Label>
+                        <TextBox Name="TextDescription" Text="{Binding ActiveItem.description}" />
+                        
+                        <Label Margin="0,5,0,0">Gist Filename: (extension determines syntax)</Label>
+                        <TextBox Name="TextFilename" Text="{Binding ActiveItem.filename}" />
                     </StackPanel>
                 </Border>
 
-                <Button Name="ButtonSaveGist"  Height="40" FontSize="17" Width="260" 
-                        HorizontalAlignment="Left" Margin="0,15,0,20"
-                        Click="ButtonSaveGist_Click" ToolTip="Save Document to Gist">
-                    <StackPanel Orientation="Horizontal">
-                        <fa:FontAwesome Margin="2,2,15,0" Icon="CheckCircle" FontSize="20"                                            
-                                        FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                                        Foreground="ForestGreen" />
-                        <TextBlock>Save Document to Gist</TextBlock>
-                    </StackPanel>
-                </Button>
+                
             </StackPanel>
 
+            <Button Name="ButtonSaveGist"  Height="45" FontSize="17" Width="260"  Grid.Row="3"
+                    HorizontalAlignment="Left" Margin="0,15,0,20"
+                    Click="ButtonSaveGist_Click" ToolTip="Save Document to Gist">
+                <StackPanel Orientation="Horizontal">
+                    <fa:FontAwesome Margin="2,2,15,0" Icon="CheckCircle" FontSize="20"                                            
+                                    FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                    Foreground="ForestGreen" />
+                    <TextBlock>Save Document as Gist</TextBlock>
+                </StackPanel>
+            </Button>
 
         </Grid>
 
