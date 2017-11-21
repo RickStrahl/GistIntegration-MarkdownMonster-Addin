@@ -1,6 +1,6 @@
 ﻿# Gist Integration Markdown Monster Add-in
 
-<img src="Build\icon.png" width="128" />
+<img src="Build\icon.png" width="120" align="left" style="float: left; margin-right: 5px;margin-bottom: 5px" />
 
 A [Markdown Monster](https://markdownmonster.west-wind.com) addin that integrates with a couple of Gist features:
 
