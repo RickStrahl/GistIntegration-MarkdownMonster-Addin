@@ -4,7 +4,7 @@
 
 A [Markdown Monster](https://markdownmonster.west-wind.com) addin that integrates with a few Gist features:
 
-* Paste Code as Gists and Embed them into the Document
+* Paste Code as Gists and embed the script link into the  Document
 * Open Documents (markdown or otherwise) from Gist
 * Save Documents (markdown or otherwise) to Gist
 * Delete Gists from Open and Save Lists
