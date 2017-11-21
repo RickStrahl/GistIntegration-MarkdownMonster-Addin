@@ -2,11 +2,12 @@
 
 <img src="Build\icon.png" width="120" align="left" style="float: left; margin-right: 5px;margin-bottom: 5px" />
 
-A [Markdown Monster](https://markdownmonster.west-wind.com) addin that integrates with a couple of Gist features:
+A [Markdown Monster](https://markdownmonster.west-wind.com) addin that integrates with a few Gist features:
 
 * Paste Code as Gists and Embed them into the Document
 * Open Documents (markdown or otherwise) from Gist
 * Save Documents (markdown or otherwise) to Gist
+* Delete Gists from Open and Save Lists
 
 > Make sure you edit the Addin Configuration (use the down arrow next to the Github Icon on the toolbar) to configure your Github User name and Authentication token.
 
