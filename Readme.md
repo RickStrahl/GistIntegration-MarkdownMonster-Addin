@@ -1,5 +1,7 @@
 ﻿# Gist Integration Markdown Monster Add-in
 
+#### Markdown Monster addin to create embeddable Gists and open and save documents from Gists
+
 <img src="Build\icon.png" width="110" />
 
 A [Markdown Monster](https://markdownmonster.west-wind.com) addin that integrates with a few Gist features:
@@ -9,7 +11,16 @@ A [Markdown Monster](https://markdownmonster.west-wind.com) addin that integrate
 * Save Documents (markdown or otherwise) to Gist
 * Delete Gists from Open and Save Lists
 
-> Make sure you edit the Addin Configuration (use the down arrow next to the Github Icon on the toolbar) to configure your Github User name and Authentication token.
+> #### Get a GitHub Personal Access Token
+> For authentication purposes you need a **Github Personal Access Token**. To create one, go to GitHub, click on your Profile and select Settings. Scroll down to the Developer Settings box and select **Personal Access Tokens**.
+> 
+> Save the retrieved value in the Gist Integration Addin configuration - click the downarrow next to the addin-icon and select Configuration.
+> ```json
+> {
+>   "GithubUserToken": "12345e0deb0c66041719d4cc7dec6cd45e",
+>   "GithubUsername": "JamesUser"
+> }
+> ```
 
 ### Usage for Paste Code as Gist
 This features takes the current Clipboard or Editor text selection and pastes it as a Gist on Github. A separate editor screen pops up that lets you optionally format the code before posting it to a Gist. You can post anonymous or account based Gists, and use public or private visibility.
@@ -61,20 +72,3 @@ To Save a Document to a Gist use **Save to Gist** while a document is open. You 
 > For new Gists, you should **always** create a filename with an appropriate extension for the file you're saving so the Gist can display with the proper syntax highlighting.
 
 Click the **Save** button to upload your Gist.
-
-### Configuration
-In order to create new Gists you need to have a **GithubUserToken** and set it in the add-in's configuration. To configure the addin click on the down arrow next to the Gist icon on the toolbar can click **Gist Configuration**. This edits **%AppData%\Markdown Monster\PasteCodeAsGistAddin.json**.
-
-In the file add or edit these values:
-
-```json
-{
-  "GithubUserToken": "12345e0deb0c66041719d4cc7dec6cd45e",
-  "GithubUsername": "RickStrahl"
-}
-```
-
-If the user token isn't set, all gists are posted anonymously without association to your account.
-
-> #### Get a Gihub User Token
-> A Github user token can be created and assigned to this application. To create one, go to Github, click on your Profile and select Settings. Scroll down to the Developer Settings box and select **Personal Access Tokens**.
