@@ -1,7 +1,5 @@
 ﻿# Gist Integration Markdown Monster Add-in
 
-#### Markdown Monster addin to create embeddable Gists and open and save documents from Gists
-
 <img src="Build\icon.png" width="110" />
 
 A [Markdown Monster](https://markdownmonster.west-wind.com) addin that integrates with a few Gist features:
@@ -59,7 +57,7 @@ Open from and Save to Gist UI:
 
 ![Open from and Save to Gist UI](Screenshot2.png)
 
-The addin adds two new Menu Options on the File menu:
+The addin adds two new Menu Options on the **File** menu:
 
 * Open from Gist
 * Save to Gist
