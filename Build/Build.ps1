@@ -15,4 +15,6 @@ copy "$src\version.json" .\Distribution
 copy "$src\version.json" .\
 
 "Zipping up setup file..."
-7z a -tzip  addin.zip .\Distribution\*.*
+.\7z a -tzip  addin.zip .\Distribution\*.*
+
+remove-item Distribution -recurse
