@@ -235,15 +235,14 @@ namespace GistIntegration
             };
             settings.Headers.Add("User-agent", "Markdown Monster Markdown Editor Gist Add-in");
             settings.Headers.Add("Authorization", "token " + githubUserToken);
-
-            string result = null;
+            
             try
             {
                 HttpUtils.HttpRequestString(settings);
                 if (settings.ResponseStatusCode != HttpStatusCode.NoContent && settings.ResponseStatusCode != HttpStatusCode.OK)
                     return false;
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }

@@ -76,9 +76,7 @@ namespace PasteCodeAsGistAddinTests
             string code = "int x = 10002;";
             string description = "test snippet description";
             string fname = "test.cs";
-            bool isPublic = true;
-
-
+            
             dynamic obj = new JObject();
 
             obj.Add("description", new JValue(description));
