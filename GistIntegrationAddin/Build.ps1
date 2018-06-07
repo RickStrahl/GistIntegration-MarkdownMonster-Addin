@@ -1,13 +1,10 @@
-cd "$PSScriptRoot" 
+cd "$PSScriptRoot\..\Build"
 
 $src = "$env:appdata\Markdown Monster\Addins\GistIntegration"
 "Copying from: $src"
 
 "Cleaning up build files..."
 del addin.zip
-
-remove-item -recurse -force .\Distribution
-md Distribution
 
 "Copying files..."
 copy "$src\GistIntegrationAddin.dll" .\Distribution
