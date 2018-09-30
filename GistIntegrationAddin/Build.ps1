@@ -12,6 +12,7 @@ del $tgt\addin.zip
 mkdir $tgt\Distribution
 Copy-Item "$src\GistIntegrationAddin.dll" $tgt\Distribution
 Copy-Item "$src\version.json" $tgt\Distribution
+Copy-Item "$src\version.json" $tgt
 
 "Zipping up setup file..."
 .\7z.exe a -tzip  $tgt\addin.zip $tgt\Distribution\*.*
