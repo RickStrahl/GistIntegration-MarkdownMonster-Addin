@@ -90,7 +90,7 @@ namespace GistIntegration
             
             var gist = new GistItem()
             {
-                code = editor.AceEditor.getselection(false),
+                code = editor.GetSelection(),
                 language = "cs"
             };
 
