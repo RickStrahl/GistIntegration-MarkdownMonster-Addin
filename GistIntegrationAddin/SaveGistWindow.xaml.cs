@@ -48,7 +48,7 @@ namespace GistIntegration
             {
                 if (args.PropertyName == "GistUsername")
                 {                    
-                    Model.LoadGists(this);
+                    Task t = Model.LoadGists(this);
                 }                    
             };
             DataContext = Model;
@@ -58,9 +58,9 @@ namespace GistIntegration
 
         private async void SaveGistWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            await Dispatcher.InvokeAsync(() =>
+            await Dispatcher.InvokeAsync( async () =>
             {
-                Model.LoadGists(this);
+                await Model.LoadGists(this);
             }, System.Windows.Threading.DispatcherPriority.Background);
         }
         

@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PasteCodeAsGistAddinTests")]
+[assembly: AssemblyTitle("Markdown Monster Gist Integration")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("PasteCodeAsGistAddinTests")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCompany("Rick Strahl, West Wind Technologies")]
+[assembly: AssemblyProduct("Markdown Monster")]
+[assembly: AssemblyCopyright("Copyright © West Wind Tehcnologies  2016-2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

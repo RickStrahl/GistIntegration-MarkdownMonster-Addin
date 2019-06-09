@@ -70,3 +70,19 @@ To Save a Document to a Gist use **Save to Gist** while a document is open. You 
 > For new Gists, you should **always** create a filename with an appropriate extension for the file you're saving so the Gist can display with the proper syntax highlighting.
 
 Click the **Save** button to upload your Gist.
+
+### Change Log
+
+#### 0.8.9
+
+* **Add Search Filter to Gist Selection Form**  
+Once Gists have loaded you can now filter the list with a search string to find all matching Gists.
+
+* **Retrieve up to the 100 Last Gists**  
+Changed the defaults to retrieve up to 100 of the last Gists from Github. 100 is the max for a single list grab and in order to keep the time to load reasonable this is - for now - the max list of Gists that can be loaded. (open to change in the future - it's possible to load up 3000 via paging).
+
+* **Show Gist Count on the Status Bar**  
+The number of Gists loaded now show on the status bar.
+
+* **Add Navigation Link to the HTML Gist**  
+You can now click on the URL icon in the list to navigate to the HTML Gist Page in your browser to check out the Gist before opening it.

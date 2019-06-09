@@ -257,11 +257,11 @@ namespace GistIntegration
         /// Retrieves a list of recent gists from a given user
         /// </summary>
         /// <param name="userId"></param>
-        public static List<GistItem> ListGistsForUser(string userId, string githubToken = null)
+        public static async Task<List<GistItem>> ListGistsForUserAsync(string userId, string githubToken = null)
         {            
             var settings = new HttpRequestSettings
             {
-                Url = GistUrl + $"/users/{userId}/gists",
+                Url = GistUrl + $"/users/{userId}/gists?per_page=100",
                 HttpVerb = "GET"
             };
             settings.Headers.Add("User-agent", "Markdown Monster Markdown Editor Gist Add-in");
@@ -273,7 +273,7 @@ namespace GistIntegration
             List<GistItem> gists = new List<GistItem>();
             try
             {
-                var giststructs = HttpUtils.JsonRequest<List<GistStructure>>(settings);
+                var giststructs = await HttpUtils.JsonRequestAsync<List<GistStructure>>(settings);
 
                 foreach (var giststruct in giststructs)
                 {

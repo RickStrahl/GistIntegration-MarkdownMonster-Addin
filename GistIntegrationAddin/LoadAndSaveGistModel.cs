@@ -1,18 +1,16 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Threading;
 using FontAwesome.WPF;
 using GistIntegration.Annotations;
-using MahApps.Metro.Controls.Dialogs;
-using MarkdownMonster;
 using MarkdownMonster.Windows;
+using Westwind.Utilities;
 
 namespace GistIntegration
 {
@@ -42,6 +40,65 @@ namespace GistIntegration
         private PasteCodeAsGistConfiguration _configuration;
 
 
+
+        /// <summary>
+        /// The search term on the form that filters the list
+        /// </summary>
+        public string SearchTerm
+        {
+            get { return _SearchTerm; }
+            set
+            {
+                if (value == _SearchTerm) return;
+                _SearchTerm = value;
+
+                OnPropertyChanged(nameof(SearchTerm));
+                OnPropertyChanged(nameof(GistList));
+                OnPropertyChanged(nameof(FilteredGistList));
+            }
+        }
+        private string _SearchTerm;
+
+
+
+        public string ListCount
+        {
+            get
+            {
+                if (_gistList == null || _gistList.Count < 1)
+                    return "No Gists";
+
+                if (_gistList.Count == 1)
+                    return "1 Gist";
+
+                return $"{_gistList.Count} Gists";
+            }
+        }
+
+
+        public ObservableCollection<GistItem> FilteredGistList
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(SearchTerm))
+                {
+                    OnPropertyChanged(nameof(ListCount));
+                    return _gistList;
+                }
+
+                var lst = _gistList.Where(g =>
+                        StringUtils.Contains(g.filename, SearchTerm, StringComparison.InvariantCultureIgnoreCase) ||
+                        StringUtils.Contains(g.description, SearchTerm,
+                            StringComparison.InvariantCultureIgnoreCase));
+
+                
+                var col = new ObservableCollection<GistItem>(lst);
+
+                OnPropertyChanged(nameof(ListCount));
+                return col;
+            }
+        }
+
         public ObservableCollection<GistItem> GistList
         {
             get { return _gistList; }
@@ -50,10 +107,13 @@ namespace GistIntegration
                 if (Equals(value, _gistList)) return;
                 _gistList = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(FilteredGistList));
+                OnPropertyChanged(nameof(ListCount));
             }
         }
-
         private ObservableCollection<GistItem> _gistList = new ObservableCollection<GistItem>();
+
+
 
 
         public GistItem ActiveItem
@@ -108,7 +168,7 @@ namespace GistIntegration
         /// Loads gists with progress info
         /// </summary>
         /// <param name="loadOrSaveWindow"></param>
-        public void LoadGists(dynamic loadOrSaveWindow)
+        public async Task LoadGists(dynamic loadOrSaveWindow)
         {
             ObservableCollection<GistItem> gists;
 
@@ -120,17 +180,18 @@ namespace GistIntegration
 
             dynamic window = loadOrSaveWindow;
 
-            window.ShowStatus("Retrieving Gists from Github...");
-
-            gists = new ObservableCollection<GistItem>(GistClient.ListGistsForUser(GistUsername,
+            window.Status.ShowStatusProgress("Retrieving Gists from Github...");
+            
+            gists = new ObservableCollection<GistItem>(await GistClient.ListGistsForUserAsync(GistUsername,
                 Configuration.GithubUserToken));
+
             if (gists == null || gists.Count < 1 || gists[0].hasError)
             {
-                window.SetStatusIcon(FontAwesomeIcon.Warning, Colors.Orange);
-                window.ShowStatus("Failed to retrieve Gists from Github...", 7000);
+                
+                window.Status.ShowStatusError("Failed to retrieve Gists from Github...");
                 return;
             }
-            window.ShowStatus("Retrieved Gists from Github.", 5000);
+            window.Status.ShowStatusSuccess($"Retrieved {gists.Count} Gists from Github for {GistUsername}.");
 
             foreach (var gist in gists)
             {

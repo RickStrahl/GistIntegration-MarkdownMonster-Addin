@@ -1,24 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
+﻿using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using FontAwesome.WPF;
-using GistIntegration.Annotations;
-using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
 using MarkdownMonster;
 using MarkdownMonster.Windows;
 using Westwind.Utilities;
@@ -32,6 +17,8 @@ namespace GistIntegration
     {
         public LoadAndSaveGistModel Model { get; set; }
         private PasteCodeAsGistAddin Addin { get; }
+
+        public StatusBarHelper Status { get; set; }
 
         public LoadGistWindow(PasteCodeAsGistAddin addin)
         {
@@ -49,18 +36,23 @@ namespace GistIntegration
             Model.PropertyChanged += (o, args) =>
             {
                 if (args.PropertyName == "GistUsername")
-                    Model.LoadGists(this);
+                {
+                    Task t = Model.LoadGists(this);
+                }
             };
             DataContext = Model;
 
             Loaded += LoadGistWindow_Loaded;
+
+            Status = new StatusBarHelper(StatusText, StatusIcon);
         }
 
         private async void LoadGistWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            
             await Dispatcher.InvokeAsync(() =>
             {
-                Model.LoadGists(this);
+                Task t = Model.LoadGists(this);
             }, System.Windows.Threading.DispatcherPriority.Background);
         }
         
@@ -71,15 +63,15 @@ namespace GistIntegration
             if (string.IsNullOrEmpty(Model.ActiveItem.id))
                 return;
 
-            ShowStatus("Retrieving Gist from Github...");            
+            Status.ShowStatusProgress("Retrieving Gist from Github...");            
             var gist = GistClient.GetGistFromServer(Model.ActiveItem.id, Model.Configuration.GithubUserToken);
             if (gist == null || gist.hasError)
             {
-                SetStatusIcon(FontAwesomeIcon.Warning, Colors.Orange);
-                ShowStatus("Failed to retrieve Gists from Github...",7000);
+                
+                Status.ShowStatusError("Failed to retrieve Gists from Github...");
                 return;                
             }
-            ShowStatus("Gists retrieved.",7000);
+            Status.ShowStatusSuccess("Gists retrieved.");
 
 
             var filename = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Gist_" + gist.id + "_" + gist.filename);
@@ -118,73 +110,23 @@ Are you sure you want to delete this Gist?";
 
             if (!GistClient.DeleteGist(gist.id))
             {
-                ShowStatus("Failed to delete Gist.", 7000);
-                SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red);
+                Status.ShowStatusError("Failed to delete Gist.");
             }
             else
             {
                 Model.GistList.Remove(gist);
-                ShowStatus("Gist Deleted.", 7000);
+                Status.ShowStatusSuccess("Gist Deleted.");
             }
         }
 
-
-
-
-
-        #region StatusBar Display
-
-        public void ShowStatus(string message = null, int milliSeconds = 0)
+        private void ButtonBrowseToGist_Click(object sender, RoutedEventArgs e)
         {
-            if (message == null)
-            {
-                message = "Ready";
-                SetStatusIcon();
-            }
+            var gist = ((Button)sender).DataContext as GistItem;
+            if (gist == null)
+                return;
 
-            StatusText.Text = message;
-
-            if (milliSeconds > 0)
-            {
-                Dispatcher.DelayWithPriority(milliSeconds, (win) =>
-                {
-                    ShowStatus(null, 0);
-                    SetStatusIcon();
-                }, this);
-            }
-            WindowUtilities.DoEvents();
+            ShellUtils.GoUrl(gist.htmlUrl);
         }
-
-        /// <summary>
-        /// Status the statusbar icon on the left bottom to some indicator
-        /// </summary>
-        /// <param name="icon"></param>
-        /// <param name="color"></param>
-        /// <param name="spin"></param>
-        public void SetStatusIcon(FontAwesomeIcon icon, Color color, bool spin = false)
-        {
-            StatusIcon.Icon = icon;
-            StatusIcon.Foreground = new SolidColorBrush(color);
-            if (spin)
-                StatusIcon.SpinDuration = 30;
-
-            StatusIcon.Spin = spin;
-        }
-
-        /// <summary>
-        /// Resets the Status bar icon on the left to its default green circle
-        /// </summary>
-        public void SetStatusIcon()
-        {
-            StatusIcon.Icon = FontAwesomeIcon.Circle;
-            StatusIcon.Foreground = new SolidColorBrush(Colors.Green);
-            StatusIcon.Spin = false;
-            StatusIcon.SpinDuration = 0;
-            StatusIcon.StopSpin();
-        }
-
-
-        #endregion
     }
 }
 

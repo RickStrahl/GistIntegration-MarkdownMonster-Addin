@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 using GistIntegration;
@@ -59,14 +60,15 @@ namespace PasteCodeAsGistAddinTests
         }
 
         [TestMethod]
-        public void GetGistListForUserTest()
+        public async Task GetGistListForUserTest()
         {
             
-            var gistList = GistClient.ListGistsForUser("rickstrahl");
+            var gistList = await GistClient.ListGistsForUserAsync("rickstrahl");
 
             Assert.IsNotNull(gistList);
             Assert.IsTrue(gistList.Count > 0);
 
+            Console.WriteLine("Count: " + gistList.Count);
             Console.WriteLine(JsonSerializationUtils.Serialize(gistList, formatJsonOutput: true));
         }
 
