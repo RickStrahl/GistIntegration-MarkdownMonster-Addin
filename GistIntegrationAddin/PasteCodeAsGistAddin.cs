@@ -64,7 +64,7 @@ namespace GistIntegration
             // create and add custom menu item
             var mitemOpen = new MenuItem()
             {
-                Header = "Open from Gist",
+                Header = "Open from Gi_st",
                 Name = "ButtonOpenFromGist"
             };
             mitemOpen.Click += (s, a) => OnExecuteLoadGist();            
@@ -73,7 +73,7 @@ namespace GistIntegration
 
             var mitemSave = new MenuItem()
             {
-                Header = "Save to Gist",
+                Header = "Save to Gi_st",
                 Name = "ButtonSaveToGist"
             };
             mitemSave.Click += (s, a) => OnExecuteSaveGist();

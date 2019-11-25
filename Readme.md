@@ -55,7 +55,7 @@ The embedded code in the markdown creates a `<script>` tag like this:
 ### Usage for Open and Saving Documents from Gists
 Open from and Save to Gist UI:
 
-![Open from and Save to Gist UI](Screenshot2.png)
+![Open from and Save to Gist UI](OpenFromAndSaveAsGist.gif)
 
 The addin adds two new Menu Options on the **File** menu:
 
