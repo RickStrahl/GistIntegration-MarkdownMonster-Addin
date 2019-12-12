@@ -31,6 +31,8 @@ namespace GistIntegration
         public LoadAndSaveGistModel Model { get; set; }
         private PasteCodeAsGistAddin Addin { get; }
 
+        public StatusBarHelper Status { get; set; }
+
         public SaveGistWindow(PasteCodeAsGistAddin addin)
         {
             Addin = addin;
@@ -53,6 +55,8 @@ namespace GistIntegration
             };
             DataContext = Model;
 
+            Status = new StatusBarHelper(StatusText, StatusIcon);
+
             Loaded += SaveGistWindow_Loaded;
         }
 
@@ -72,7 +76,7 @@ namespace GistIntegration
 
             GistItem gist;
 
-            ShowStatus("Saving Gist...");
+            Status.ShowStatus("Saving Gist...");
             if (!Model.SaveAsNewGist)
             {                
                 gist = GistClient.UpdateGist(Model.ActiveItem, Model.Configuration.GithubUserToken);
@@ -82,7 +86,7 @@ namespace GistIntegration
 
             if (gist != null && !gist.hasError)
             {
-                ShowStatus("Gist has been saved...", 5000);                
+                Status.ShowStatus("Gist has been saved...", 5000);                
                 mmFileUtils.ShowExternalBrowser(gist.htmlUrl);
                 Close();
             }
@@ -90,8 +94,8 @@ namespace GistIntegration
             {
                 mmApp.Log(gist.errorMessage);
 
-                SetStatusIcon(FontAwesomeIcon.ExclamationCircle, Colors.Firebrick);
-                ShowStatus("Failed to save as Gist. Refer to error log for more detail.", 7000);
+                Status.SetStatusIcon(FontAwesomeIcon.ExclamationCircle, Colors.Firebrick);
+                Status.ShowStatus("Failed to save as Gist. Refer to error log for more detail.", 7000);
             }
 
         }
@@ -115,83 +119,17 @@ Are you sure you want to delete this Gist?";
 
             if (!GistClient.DeleteGist(gist.id))
             {
-                ShowStatus("Failed to delete Gist.", 7000);
-                SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red);
+                Status.ShowStatus("Failed to delete Gist.", 7000);
+                Status.SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red);
             }
             else
             {
                 Model.GistList.Remove(gist);
-                ShowStatus("Gist Deleted.", 7000);
+                Status.ShowStatus("Gist Deleted.", 7000);
             }
         }
 
-        #region StatusBar Display
-
-        public void ShowStatus(string message = null, int milliSeconds = 0)
-        {
-            if (message == null)
-            {
-                message = "Ready";
-                SetStatusIcon();
-            }
-
-            StatusText.Text = message;
-
-            if (milliSeconds > 0)
-            {
-                Dispatcher.DelayWithPriority(milliSeconds, (win) =>
-                {
-                    ShowStatus(null, 0);
-                    SetStatusIcon();
-                }, this);
-            }
-            WindowUtilities.DoEvents();
-        }
-
-        /// <summary>
-        /// Status the statusbar icon on the left bottom to some indicator
-        /// </summary>
-        /// <param name="icon"></param>
-        /// <param name="color"></param>
-        /// <param name="spin"></param>
-        public void SetStatusIcon(FontAwesomeIcon icon, Color color, bool spin = false)
-        {
-            StatusIcon.Icon = icon;
-            StatusIcon.Foreground = new SolidColorBrush(color);
-            if (spin)
-                StatusIcon.SpinDuration = 30;
-
-            StatusIcon.Spin = spin;
-        }
-
-        /// <summary>
-        /// Resets the Status bar icon on the left to its default green circle
-        /// </summary>
-        public void SetStatusIcon()
-        {
-            StatusIcon.Icon = FontAwesomeIcon.Circle;
-            StatusIcon.Foreground = new SolidColorBrush(Colors.Green);
-            StatusIcon.Spin = false;
-            StatusIcon.SpinDuration = 0;
-            StatusIcon.StopSpin();
-        }
-
-        /// <summary>
-        /// Helper routine to show a Metro Dialog. Note this dialog popup is fully async!
-        /// </summary>
-        /// <param name="title"></param>
-        /// <param name="message"></param>
-        /// <param name="style"></param>
-        /// <param name="settings"></param>
-        /// <returns></returns>
-        public async Task<MessageDialogResult> ShowMessageOverlayAsync(string title, string message,
-            MessageDialogStyle style = MessageDialogStyle.Affirmative,
-            MetroDialogSettings settings = null)
-        {
-            return await this.ShowMessageAsync(title, message, style, settings);
-        }
-
-        #endregion
+        
 
     }
 }

@@ -1,121 +1,68 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5CFA7840-B313-48D4-BBF0-30EBDAFFA6CF}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GistIntegrationAddin</RootNamespace>
+    <Version>0.8.16</Version>
+    <TargetFramework>net472</TargetFramework>
+    <!--<TargetFrameworks>net472;netcoreapp3.0</TargetFrameworks>-->
     <AssemblyName>GistIntegrationAddin</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <UseWPF>true</UseWPF>
+
+    <Authors>Rick Strahl, West Wind Technologies</Authors>
+
+    <OutDir>$(AppData)\Markdown Monster\Addins\GistIntegration</OutDir>
+
+
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>$(AppData)\Markdown Monster\Addins\GistIntegration\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>$(AppData)\Markdown Monster\Addins\GistIntegration\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="FontAwesome.WPF">
-      <HintPath>$(LocalAppData)\Markdown Monster\FontAwesome.WPF.dll</HintPath>
-      <Private>False</Private>
+    <PackageReference Include="MahApps.Metro" Version="1.6.5">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Westwind.Utilities" Version="3.0.30">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9">
+      <IncludeAssets>compile</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+<!--  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">-->
+<!--    <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.0.1" />-->
+<!--  </ItemGroup>-->
+
+  <!-- This pulls in the reference and all dependencies - not what we want  here-->
+<!--<ItemGroup>
+    <ProjectReference Include="..\..\MarkdownMonster\MarkdownMonster.csproj">
+      <Private>false</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+    </ProjectReference>
+  </ItemGroup>-->
+
+
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net472'">
+    <Reference Include="$(LocalAppData)\Markdown Monster\MarkdownMonster.exe">
+      <Private>false</Private>
     </Reference>
-    <Reference Include="MahApps.Metro">
-      <HintPath>$(LocalAppData)\Markdown Monster\MahApps.Metro.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MarkdownMonster">
-      <HintPath>$(LocalAppData)\Markdown Monster\MarkdownMonster.exe</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
+  </ItemGroup>
+
+
+
+  <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Westwind.Utilities">
-      <HintPath>$(LocalAppData)\Markdown Monster\Westwind.Utilities.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>$(LocalAppData)\Markdown Monster\Newtonsoft.Json.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="WindowsBase" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="GistClient.cs" />
-    <Compile Include="GistItem.cs" />
-    <Compile Include="GistItemStructure.cs" />
-    <Compile Include="LoadGistWindow.xaml.cs">
-      <DependentUpon>LoadGistWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SaveGistWindow.xaml.cs">
-      <DependentUpon>SaveGistWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="LoadAndSaveGistModel.cs" />
-    <Compile Include="PasteCodeAsGistAddin.cs" />
-    <Compile Include="PasteCodeAsGistConfiguration.cs" />
-    <Compile Include="PasteCodeAsGitWindow.xaml.cs">
-      <DependentUpon>PasteCodeAsGitWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Build.ps1" />
-    <None Include="GistApiResponse.json" />
-    <None Include="version.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="LoadGistWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SaveGistWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PasteCodeAsGitWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
+
+
   <ItemGroup>
     <Resource Include="icon.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="icon_22.png" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+  </ItemGroup>  
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
+    <DefineConstants>NETCORE</DefineConstants>
   </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net472'">
+    <DefineConstants>NETFULL</DefineConstants>
+  </PropertyGroup>
 </Project>
