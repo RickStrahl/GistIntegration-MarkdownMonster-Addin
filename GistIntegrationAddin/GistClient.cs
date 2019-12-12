@@ -21,6 +21,13 @@ namespace GistIntegration
             if (string.IsNullOrEmpty(githubUserToken))
                 githubUserToken = PasteCodeAsGistConfiguration.Current.GithubUserToken;
 
+            if (string.IsNullOrEmpty(githubUserToken))
+            {
+                gist.hasError = true;
+                gist.errorMessage = "GitHub user token is not specified.";
+                return gist;
+            }
+
             var json = CreateGistPostJson(gist);
             if (json == null)
                 return null;

@@ -88,8 +88,10 @@ namespace GistIntegration
             }
             else
             {
-                SetStatusIcon(FontAwesomeIcon.Warning, Colors.Orange);
-                ShowStatus("Gist was not saved - failed to save as Gist.", 7000);
+                mmApp.Log(gist.errorMessage);
+
+                SetStatusIcon(FontAwesomeIcon.ExclamationCircle, Colors.Firebrick);
+                ShowStatus("Failed to save as Gist. Refer to error log for more detail.", 7000);
             }
 
         }
