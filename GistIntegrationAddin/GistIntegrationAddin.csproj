@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <Version>0.8.16</Version>
+    <Version>0.9.3</Version>
     <TargetFramework>net472</TargetFramework>
     <!--<TargetFrameworks>net472;netcoreapp3.0</TargetFrameworks>-->
     <AssemblyName>GistIntegrationAddin</AssemblyName>
@@ -15,10 +15,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MahApps.Metro" Version="1.6.5">
+    <PackageReference Include="MahApps.Metro" Version="2.1.1">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Westwind.Utilities" Version="3.0.30">
+    <PackageReference Include="Westwind.Utilities" Version="3.0.41">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9">
@@ -57,6 +57,13 @@
   <ItemGroup>
     <Resource Include="icon.png" />
     <Resource Include="icon_22.png" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Update="version.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>  
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
