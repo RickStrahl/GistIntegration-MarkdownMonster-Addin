@@ -1,24 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <Version>0.9.3</Version>
+    <Version>0.9.3.3</Version>
     <TargetFramework>net472</TargetFramework>
     <!--<TargetFrameworks>net472;netcoreapp3.0</TargetFrameworks>-->
     <AssemblyName>GistIntegrationAddin</AssemblyName>
     <UseWPF>true</UseWPF>
-
     <Authors>Rick Strahl, West Wind Technologies</Authors>
-
+    <Product>Markdown Monster Gist Integration Addin</Product>
+    <Description>Allows creating or finding and selecting of Gists from the site, and embedding them into posts. You can also save documents as Gists.</Description>
     <OutDir>$(AppData)\Markdown Monster\Addins\GistIntegration</OutDir>
-
-
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MahApps.Metro" Version="2.1.1">
+    <PackageReference Include="MahApps.Metro" Version="2.2.0">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Westwind.Utilities" Version="3.0.41">
+    <PackageReference Include="Westwind.Utilities" Version="3.0.45">
       <IncludeAssets>compile</IncludeAssets>
     </PackageReference>
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9">

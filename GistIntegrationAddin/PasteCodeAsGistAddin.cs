@@ -68,7 +68,7 @@ namespace GistIntegration
                 Name = "ButtonOpenFromGist"
             };
             mitemOpen.Click += (s, a) => OnExecuteLoadGist();            
-            if (!AddMenuItem(mitemOpen, menuItemNameForInsertionAfter: "ButtonOpenFromHtml", mode: 0))
+            if (!AddMenuItem(mitemOpen, menuItemNameToFind: "ButtonOpenFromHtml", addMode: AddMenuItemModes.AddAfter))
                 mmApp.Log("Unable to add custom menu item in Paste Code As Gist Addin: " + mitemOpen.Name);
 
             var mitemSave = new MenuItem()
@@ -77,7 +77,7 @@ namespace GistIntegration
                 Name = "ButtonSaveToGist"
             };
             mitemSave.Click += (s, a) => OnExecuteSaveGist();
-            if (!AddMenuItem(mitemSave, menuItemNameForInsertionAfter: "ButtonGeneratePdf", mode: 0))
+            if (!AddMenuItem(mitemSave, menuItemNameToFind: "ButtonGeneratePdf", addMode: AddMenuItemModes.AddAfter  ))
                 mmApp.Log("Unable to add custom menu item in Paste Code As Gist Addin: " + mitemSave.Name);
         }
 
