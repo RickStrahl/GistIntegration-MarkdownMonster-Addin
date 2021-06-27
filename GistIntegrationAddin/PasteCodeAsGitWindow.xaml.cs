@@ -61,13 +61,12 @@ namespace PasteCodeAsGitAddin
             }
          
             DataContext = this;
-            
-            editor = new MarkdownEditorSimple(WebBrowserCode, Gist.code,"csharp");
-            
-            editor.IsDirtyAction = () =>
+
+            editor = new MarkdownEditorSimple(WebBrowserCode, "", "csharp");
+            editor.IsDirtyAction += (isDirty, markdown, origMarkdown) =>
             {
-                Gist.code = editor.GetMarkdown();                
-                return true;
+                Gist.code = markdown;
+                return false; // don't care about dirty status
             };
 
             if (!string.IsNullOrEmpty(Gist.code))
@@ -102,14 +101,12 @@ namespace PasteCodeAsGitAddin
             if (string.IsNullOrEmpty(filename))
                 return;
 
-            var ext = System.IO.Path.GetExtension(filename.ToLower());
-            
-            string syntax = editor.EditorSyntax;
+            var doc = new MarkdownDocument();
+            var syntax = doc.ResolveSyntaxFromFilename(filename);
 
-            if (string.IsNullOrEmpty(syntax))
-                return;
+            if (syntax == null) syntax = "text";
 
-            editor.SetEditorSyntax(syntax);            
+            editor.BrowserInterop.SetLanguage(syntax);        
         }
 
         private void ButtonConfiguration_Click(object sender, RoutedEventArgs e)
