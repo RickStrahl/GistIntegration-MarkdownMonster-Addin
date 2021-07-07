@@ -74,7 +74,7 @@
 
             </Grid>
 
-            <wpf:WebView2  x:Name="WebBrowserCode"  
+            <WebBrowser  x:Name="WebBrowserCode"  
                            Height="440" 
                            Margin="0,0,0,0" />
 

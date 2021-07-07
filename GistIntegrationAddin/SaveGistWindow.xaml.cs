@@ -70,9 +70,9 @@ namespace GistIntegration
         
 
         
-        private async void ButtonSaveGist_Click(object sender, RoutedEventArgs e)
+        private void ButtonSaveGist_Click(object sender, RoutedEventArgs e)
         {
-            Model.ActiveItem.code = await Addin.GetMarkdown();
+            Model.ActiveItem.code = Addin.GetMarkdown();
 
             GistItem gist;
 

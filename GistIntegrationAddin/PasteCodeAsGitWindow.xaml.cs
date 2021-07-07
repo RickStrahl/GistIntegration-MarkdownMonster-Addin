@@ -63,9 +63,9 @@ namespace PasteCodeAsGitAddin
             DataContext = this;
 
             editor = new MarkdownEditorSimple(WebBrowserCode, "", "csharp");
-            editor.IsDirtyAction += (isDirty, markdown, origMarkdown) =>
+            editor.IsDirtyAction += () =>
             {
-                Gist.code = markdown;
+                Gist.code = editor.GetMarkdown();
                 return false; // don't care about dirty status
             };
 
@@ -106,7 +106,7 @@ namespace PasteCodeAsGitAddin
 
             if (syntax == null) syntax = "text";
 
-            editor.BrowserInterop.SetLanguage(syntax);        
+            editor.SetEditorSyntax(syntax);        
         }
 
         private void ButtonConfiguration_Click(object sender, RoutedEventArgs e)

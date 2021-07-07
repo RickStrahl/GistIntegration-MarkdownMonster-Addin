@@ -22,7 +22,7 @@ namespace GistIntegration
         private AddInMenuItem AddinMenuItem;
 
         #region Addin Overrides
-        public override Task OnApplicationStart()
+        public override void OnApplicationStart()
         {
             base.OnApplicationStart();
 
@@ -47,10 +47,9 @@ namespace GistIntegration
             // Must add the menu to the collection to display menu and toolbar items            
             MenuItems.Add(AddinMenuItem);
 
-            return Task.CompletedTask;
         }
 
-        public override Task OnWindowLoaded()
+        public override void OnWindowLoaded()
         {
             base.OnWindowLoaded();
 
@@ -81,12 +80,10 @@ namespace GistIntegration
             mitemSave.Click += (s, a) => OnExecuteSaveGist();
             if (!AddMenuItem(mitemSave, menuItemNameToFind: "ButtonGeneratePdf", addMode: AddMenuItemModes.AddAfter  ))
                 mmApp.Log("Unable to add custom menu item in Paste Code As Gist Addin: " + mitemSave.Name);
-
-            return Task.CompletedTask;
         }
 
 
-        public override async Task OnExecute(object sender)
+        public override void OnExecute(object sender)
         {
             var editor = GetMarkdownEditor();
             if (editor == null)
@@ -94,7 +91,7 @@ namespace GistIntegration
 
             var gist = new GistItem()
             {
-                code = await editor.GetSelection(),
+                code = editor.GetSelection(),
                 language = "cs"
             };
 
@@ -107,7 +104,7 @@ namespace GistIntegration
                 return;
 
             if (!string.IsNullOrEmpty(gist.embedUrl))
-                await editor.SetSelectionAndFocus($"<script src=\"{gist.embedUrl}\"></script>\r\n");
+                editor.SetSelectionAndFocus($"<script src=\"{gist.embedUrl}\"></script>\r\n");
 
             Model.Window.ShowStatus("Gist embedded", 5000);
             Model.Window.SetStatusIcon(FontAwesomeIcon.GithubAlt, Colors.Green);
@@ -127,20 +124,17 @@ namespace GistIntegration
             form.Show();
         }
 
-        public override Task OnExecuteConfiguration(object sender)
+        public override void OnExecuteConfiguration(object sender)
         {            
             OpenGistConfigurationTab();
-            return Task.CompletedTask;
-        }
+            }
         
-        public override Task OnApplicationShutdown()
+        public override void OnApplicationShutdown()
         {
             base.OnApplicationShutdown();
 
             // ensure config file is updated with current settings
             PasteCodeAsGistConfiguration.Current.Write();
-
-            return Task.CompletedTask;
         }
 
         #endregion
