@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using MarkdownMonster;
 using MarkdownMonster.Windows;
 using Westwind.Utilities;
@@ -48,17 +49,16 @@ namespace GistIntegration
         }
 
         private async void LoadGistWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            
+        {   
             await Dispatcher.InvokeAsync(() =>
             {
-                Task t = Model.LoadGists(this);
+                Model.LoadGists(this).FireAndForget();
             }, System.Windows.Threading.DispatcherPriority.Background);
         }
         
 
 
-        private void ButtonOpen_Click(object sender, RoutedEventArgs e)
+        public  void ButtonOpen_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(Model.ActiveItem.id))
                 return;
@@ -80,9 +80,17 @@ namespace GistIntegration
             Close();
         }
 
-        private void ListGists_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private async void ListGists_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ButtonOpen_Click(sender, null);
+            var item = ListGists.SelectedItem as GistItem;
+            if (item == null) return;
+            var li = ListGists.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem;
+            if (li == null) return;
+
+            var gist = li.DataContext as GistItem;
+            if (gist == null) return;
+
+            await Dispatcher.InvokeAsync(async () => await PasteGistToEditor(gist));
         }
 
 
@@ -92,9 +100,9 @@ namespace GistIntegration
         }
 
         
-        private void ButtonDeleteGist_Click(object sender, RoutedEventArgs e)
+        public void ButtonDeleteGist_Click(object sender, RoutedEventArgs e)
         {
-            var gist = ((Button)sender).DataContext as GistItem;
+            var gist = Model.ActiveItem;
             if (gist == null)
                 return;
 
@@ -119,13 +127,60 @@ Are you sure you want to delete this Gist?";
             }
         }
 
-        private void ButtonBrowseToGist_Click(object sender, RoutedEventArgs e)
+        public void ButtonBrowseToGist_Click(object sender, RoutedEventArgs e)
         {
-            var gist = ((Button)sender).DataContext as GistItem;
+            var gist = Model.ActiveItem;
             if (gist == null)
                 return;
 
             ShellUtils.GoUrl(gist.htmlUrl);
+        }
+
+        
+        public async void ButtonPasteGistToEditor_Click(object sender, RoutedEventArgs e)
+        {
+            await Dispatcher.InvokeAsync(async ()=>
+            {
+                var gist = Model.ActiveItem;
+                if (gist != null)
+                    await PasteGistToEditor(gist);
+
+            });
+        }
+        
+        private async void ButtonEmbed_Click(object sender, RoutedEventArgs e)
+        {
+            var gist = Model.ActiveItem;
+
+            var editor = Model.Addin.Model?.ActiveEditor;
+            if (editor == null) return;
+            
+            if (!string.IsNullOrEmpty(gist?.embedUrl))
+            {
+                await editor.SetSelectionAndFocus($"<script src=\"{gist.embedUrl}\"></script>" + mmApp.NewLine);
+                Close();
+            }
+        }
+
+
+        public async Task PasteGistToEditor(GistItem gist)
+        {
+            var editor = Model.Addin.Model?.ActiveEditor;
+            if (editor == null) return;
+
+            if (!string.IsNullOrEmpty(gist?.embedUrl))
+            {
+                await editor.SetSelectionAndFocus($"<script src=\"{gist.embedUrl}\"></script>" + mmApp.NewLine);
+                Close();
+            }
+        }
+
+        private void FrameworkElement_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var lv = sender as ListBoxItem;
+            if (lv == null) return;
+            var contextMenu = new GistListContextMenu(this, lv);
+            contextMenu.ShowContextMenu();
         }
     }
 }

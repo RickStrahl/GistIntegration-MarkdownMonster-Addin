@@ -4,9 +4,9 @@
   "summary": "Create and embed code snippets as Gists, and open from and save documents to Gists",
   "description": "This addin allows you to take selected code in the editor, or code pasted from the clipboard and publish it as a Github Gist and embed it into the document.\r\n\r\nThe addin can also open and save documents (Markdown and code) from Gists.\r\n\r\n*** Important: In order to use this plug in and get the <script> link to render, you have to set the `EditorAllowRenderScriptTags: true` in the Markdown Monster settings. Without this setting the script tag won't render as script and Gists are not properly embedded.",
   "releaseNotes": null,
-  "version": "0.9.6",
-  "minVersion": "2.1",
+  "version": "0.10",
+  "minVersion": "2.3",
   "maxVersion": "2.99.99",
   "author": "© Rick Strahl, West Wind Technologies",
-  "updated": "2021-11-23T12:00:00Z"
+  "updated": "2022-02-12T12:00:00Z"
 }

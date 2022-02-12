@@ -6,18 +6,22 @@
                        xmlns:local="clr-namespace:GistIntegration"
                        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                        xmlns:fa="http://schemas.fontawesome.io/icons/"
+                       xmlns:windows="clr-namespace:MarkdownMonster.Windows;assembly=MarkdownMonster"
                        mc:Ignorable="d"                            
-                       Title="Load Document from Gist"
+                       Title="Open or Embed from Gist"
                        TitleCharacterCasing="Normal"
                        Icon="icon.png" 
-                       WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
+                       WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"
                        WindowStartupLocation="CenterOwner"         
                        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"               
                        Background="#222"
                        FontSize="16"
                        Width="850" Height="830" MinHeight="830" WindowTransitionsEnabled="False" >
+    <Window.Resources>
+        <windows:FileIconFromPathConverter x:Key="FileIconFromPathConverter"/>
+    </Window.Resources>
     <Grid>
-
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -38,17 +42,28 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
                     <TextBox Name="TextGistId" Text="{Binding ActiveItem.id}" FontSize="15" />
-                    <Button Name="ButtonOpen" Margin="5,0,0,0" Grid.Column="1" FontSize="14" FontWeight="SemiBold"
+                    <Button Name="ButtonEmbed" Margin="10,0,2,0" Grid.Column="1" FontSize="14" FontWeight="SemiBold"
                             Padding="10,4,15,4"
+                            Click="ButtonEmbed_Click" ToolTip="Embed Gist into Markdown Document">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Margin="2,2,5,0" Icon="Paste" FontSize="17"                                            
+                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
+                                            Foreground="Green" />
+                            <TextBlock>Embed</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Name="ButtonOpen" Margin="5,0,0,0" Grid.Column="2" FontSize="14" FontWeight="SemiBold"
+                            Padding="11,4,17,4"
                             Click="ButtonOpen_Click" ToolTip="Open Gist in editor">
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="2,2,2,0" Icon="FolderOpen" FontSize="17"                                            
+                            <fa:FontAwesome Margin="2,2,2,0" Icon="FolderOpen" FontSize="17" Foreground="Goldenrod"                                    
                                         FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                                        Foreground="Cornsilk" />
-                            <TextBlock>Open Gist</TextBlock>
+                                         />
+                            <TextBlock>Open</TextBlock>
                         </StackPanel>
                     </Button>
                 </Grid>
@@ -78,40 +93,44 @@
             <ListBox Name="ListGists" IsSynchronizedWithCurrentItem="True" Margin="0,12,0,20" Grid.Row="1"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"                     
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"   
-                     SelectedItem="{Binding ActiveItem}"           BorderBrush="#999" BorderThickness="1" 
+                     SelectedItem="{Binding ActiveItem}"          
+                     BorderBrush="#999" BorderThickness="1" 
                      MouseDoubleClick="ListGists_MouseDoubleClick"
                      ItemsSource="{Binding FilteredGistList}">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                        <EventSetter Event="ContextMenuOpening" Handler="FrameworkElement_ContextMenuOpening" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid Margin="5,3,15,7">
+                        <Grid Margin="5,3,15,7"  ToolTip="Double click to embed Gist into Markdown document.">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
 
-                            <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Image Source="{Binding filename,Converter={StaticResource FileIconFromPathConverter}}" Width="16" Margin="0,2,5,0" />
+
+
+                            <Grid Grid.Column="1">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Text="{Binding description}" FontWeight="DemiBold" Grid.Row="0"/>
-                                <Button fa:Awesome.Content="ExternalLink" Foreground="Goldenrod" BorderThickness="0"  FontSize="15"
-                                        Grid.Column="1" Height="15" MinHeight="20" Width="20" 
-                                        Background="Transparent"
-                                        ToolTip="Open Gist in Browser"
-                                        Padding="0" Margin="5,-1,0,0" 
-                                        Click="ButtonBrowseToGist_Click"/>
-                                <Button fa:Awesome.Content="Remove" Foreground="IndianRed" BorderThickness="0"  FontSize="15"
-                                        Grid.Column="2" Height="15" MinHeight="20" Width="20" 
-                                        Background="Transparent"
-                                        ToolTip="Delete Gist on Github"
-                                        Padding="0" Margin="5,-1,0,0" 
-                                        Click="ButtonDeleteGist_Click"/>
                             </Grid>
 
-                            <Grid Grid.Row="1" Opacity="0.65">
+                            <Grid Grid.Row="1" Grid.Column="1"  Opacity="0.65">
                                 <Grid.ColumnDefinitions >
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="auto" />

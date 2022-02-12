@@ -66,7 +66,7 @@ namespace GistIntegration
             // create and add custom menu item
             var mitemOpen = new MenuItem()
             {
-                Header = "Open from Gi_st",
+                Header = "Open or Embed from Gi_st",
                 Name = "ButtonOpenFromGist"
             };
             mitemOpen.Click += (s, a) => OnExecuteLoadGist();            
@@ -86,31 +86,36 @@ namespace GistIntegration
         }
 
 
-        public override async Task OnExecute(object sender)
+        public override Task OnExecute(object sender)
         {
-            var editor = GetMarkdownEditor();
-            if (editor == null)
-                return;
-
-            var gist = new GistItem()
+            Model.Window.Dispatcher.InvokeAsync(async () =>
             {
-                code = await editor.GetSelection(),
-                language = "cs"
-            };
+                var editor = GetMarkdownEditor();
+                if (editor == null)
+                    return;
 
-            PasteCodeAsGistWindow = new PasteCodeAsGitWindow(this);
-            PasteCodeAsGistWindow.Owner = Model.Window;
-            PasteCodeAsGistWindow.Gist = gist;
-            PasteCodeAsGistWindow.ShowDialog();
+                var gist = new GistItem()
+                {
+                    code = await editor.GetSelection(),
+                    language = "cs"
+                };
 
-            if (PasteCodeAsGistWindow.Cancelled)
-                return;
+                PasteCodeAsGistWindow = new PasteCodeAsGitWindow(this);
+                PasteCodeAsGistWindow.Owner = Model.Window;
+                PasteCodeAsGistWindow.Gist = gist;
+                PasteCodeAsGistWindow.ShowDialog();
 
-            if (!string.IsNullOrEmpty(gist.embedUrl))
-                await editor.SetSelectionAndFocus($"<script src=\"{gist.embedUrl}\"></script>\r\n");
+                if (PasteCodeAsGistWindow.Cancelled)
+                    return;
 
-            Model.Window.ShowStatus("Gist embedded", 5000);
-            Model.Window.SetStatusIcon(FontAwesomeIcon.GithubAlt, Colors.Green);
+                if (!string.IsNullOrEmpty(gist.embedUrl))
+                    await editor.SetSelectionAndFocus($"<script src=\"{gist.embedUrl}\"></script>{mmApp.NewLine}");
+
+                Model.Window.ShowStatus("Gist embedded", 5000);
+                Model.Window.SetStatusIcon(FontAwesomeIcon.GithubAlt, Colors.Green);
+            }).Task.FireAndForget();
+
+            return Task.CompletedTask;
         }
 
         public void OnExecuteLoadGist()

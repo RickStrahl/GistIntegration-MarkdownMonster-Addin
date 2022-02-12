@@ -62,7 +62,7 @@ namespace PasteCodeAsGitAddin
          
             DataContext = this;
 
-            editor = new MarkdownEditorSimple(WebBrowserCode, "", "csharp");
+            editor = new MarkdownEditorSimple(WebBrowserCode, Gist.code, "csharp");
             editor.IsDirtyAction += (isDirty, markdown, origMarkdown) =>
             {
                 Gist.code = markdown;
@@ -135,7 +135,7 @@ namespace PasteCodeAsGitAddin
 
             Dispatcher.Delay(500, o =>
             {
-                var form = new SaveGistWindow(Addin);
+                var form = new SaveGistWindow(Addin) {Owner = this};
                 form.Show();
             });
         }
