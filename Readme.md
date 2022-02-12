@@ -1,13 +1,15 @@
-﻿# Gist Integration Markdown Monster Add-in
+# Gist Integration Markdown Monster Add-in
 
 <img src="Build\icon.png" width="110" />
 
 A [Markdown Monster](https://markdownmonster.west-wind.com) addin that integrates with a few Gist features:
 
-* Paste Code as Gists and embed the script link into the  Document
-* Open Documents (markdown or otherwise) from Gist
-* Save Documents (markdown or otherwise) to Gist
-* Delete Gists from Open and Save Lists
+* Capture editor code or create new code, upload as Gist  
+and embed into Markdown document
+* Select existing Gists and embed into Markdown document
+* Open Documents (Narkdown or otherwise) from Gist
+* Save Documents (Markdown or otherwise) to Gist
+* Delete Gists on Gist Site
 
 > #### Get a GitHub Personal Access Token
 > For authentication purposes you need a **Github Personal Access Token**. To create one, go to GitHub, click on your Profile and select Settings. Scroll down to the Developer Settings box and select **Personal Access Tokens**.
@@ -52,6 +54,34 @@ The embedded code in the markdown creates a `<script>` tag like this:
 > #### Set *AllowRenderScriptTags: true*
 > Markdown Monster by default doesn't allow `<script>` tags to be rendered. Embedded Gists use `<script>` tags and so you **have to** enable script embedding by setting the `AllowRenderScriptTags: true` in the Markdown Monster settings. Goto **Tools -> Settings** and find the **AllowRenderScriptTags** key to set.
 
+## Open from Gist Dialog: Work with existing Gists
+The **Open From Gist** dialog allows you to view online Gists and perform a number of tasks on them.
+
+* Embed existing Gists into Markdown
+* Open Gists in the editor as a file
+* Delete online Gists
+
+To use this dialog:
+
+* Go to **File->Open From**
+* Go to **Open or Embed from Gist**
+
+
+The dialog shows a list of existing Gist, which you can filter by user and an optional keyword search:
+
+![](Screenshot1.png)
+
+### Embedding Existing Gists
+The most common thing you're going to use is to embed an existing Gist into a Markdown document. To do this, select the Gist you want to embed and use the context menu (or the Embed Button above) to insert the `<script>` link into the page.
+
+A link is inserted into the page that looks like this:
+
+```html
+<script src="https://gist.github.com/810de799ac33e8eba011f96f5e611c02.js"></script>
+```
+
+This Github hosted script code injects an `<iframe>` that houses the Gist as a code snippet widget into your Markdown document.
+
 ### Usage for Open and Saving Documents from Gists
 Open from and Save to Gist UI:
 
@@ -62,7 +92,7 @@ The addin adds two new Menu Options on the **File** menu:
 * Open from Gist
 * Save to Gist
 
-To open a document from a Gist simply use **Open from Gist**. Use the selection list to pick any Gist you want to load. Alternately you can explicitly type in a Gist Id. The username can be any user name, but it'll default the configuration value for `GithubUsername` in the Addin configuration. You can open Markdown documents or any other kind of code document for editing.
+To open a document from a Gist simply use **Open or embed from Gist**. Use the selection list to pick any Gist you want to load. Alternately you can explicitly type in a Gist Id. The username can be any user name, but it'll default the configuration value for `GithubUsername` in the Addin configuration. You can open Markdown documents or any other kind of code document for editing.
 
 To Save a Document to a Gist use **Save to Gist** while a document is open. You can use the list to select a Gist from the list to update an existing Gist, or check **Save as New Gist** checkbox to create a new Gist with a filename.
 
