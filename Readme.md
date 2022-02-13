@@ -7,7 +7,7 @@ A [Markdown Monster](https://markdownmonster.west-wind.com) addin that integrate
 * Capture editor code or create new code, upload as Gist  
 and embed into Markdown document
 * Select existing Gists and embed into Markdown document
-* Open Documents (Narkdown or otherwise) from Gist
+* Open Documents (Markdown or otherwise) from Gist
 * Save Documents (Markdown or otherwise) to Gist
 * Delete Gists on Gist Site
 

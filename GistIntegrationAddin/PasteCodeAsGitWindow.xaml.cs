@@ -121,11 +121,8 @@ namespace PasteCodeAsGitAddin
             Cancelled = true;
             Close();
 
-            Dispatcher.Delay(500, o =>
-            {
-                var form = new LoadGistWindow(Addin);
-                form.Show();
-            });
+            Addin.LoadGistWindow = new LoadGistWindow(Addin) {Owner = mmApp.Model.Window};
+            Addin.LoadGistWindow.Show();
         }
 
         private void ButtonSaveToGist_Click(object sender, RoutedEventArgs e)
@@ -133,9 +130,9 @@ namespace PasteCodeAsGitAddin
             Cancelled = true;
             Close();
 
-            Dispatcher.Delay(500, o =>
+            Dispatcher.Invoke(()=>
             {
-                var form = new SaveGistWindow(Addin) {Owner = this};
+                var form = new SaveGistWindow(Addin) {Owner = mmApp.Model.Window};
                 form.Show();
             });
         }

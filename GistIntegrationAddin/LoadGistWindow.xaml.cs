@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using MarkdownMonster;
 using MarkdownMonster.Windows;
 using Westwind.Utilities;
@@ -53,7 +54,7 @@ namespace GistIntegration
             await Dispatcher.InvokeAsync(() =>
             {
                 Model.LoadGists(this).FireAndForget();
-            }, System.Windows.Threading.DispatcherPriority.Background);
+            }, DispatcherPriority.Background);
         }
         
 
@@ -94,11 +95,6 @@ namespace GistIntegration
         }
 
 
-        private void ButtonConfiguration_Click(object sender, RoutedEventArgs e)
-        {
-            Addin.OpenGistConfigurationTab();
-        }
-
         
         public void ButtonDeleteGist_Click(object sender, RoutedEventArgs e)
         {
@@ -137,17 +133,6 @@ Are you sure you want to delete this Gist?";
         }
 
         
-        public async void ButtonPasteGistToEditor_Click(object sender, RoutedEventArgs e)
-        {
-            await Dispatcher.InvokeAsync(async ()=>
-            {
-                var gist = Model.ActiveItem;
-                if (gist != null)
-                    await PasteGistToEditor(gist);
-
-            });
-        }
-        
         private async void ButtonEmbed_Click(object sender, RoutedEventArgs e)
         {
             var gist = Model.ActiveItem;
@@ -175,9 +160,28 @@ Are you sure you want to delete this Gist?";
             }
         }
 
-        private void FrameworkElement_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        private void ButtonCancel_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+            Dispatcher.Invoke(() => mmApp.Model.Window.Activate(), DispatcherPriority.ApplicationIdle);
+        }
+
+        public void ButtonCreate_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+
+            Model.Addin.OnExecute(sender).FireAndForget();
+        }
+
+        private void ListGistsItem_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             var lv = sender as ListBoxItem;
+            if (lv == null)
+            {
+                var gist = ListGists.SelectedItem;
+                lv = ListGists.ItemContainerGenerator.ContainerFromItem(gist) as ListBoxItem;
+            }
+
             if (lv == null) return;
             var contextMenu = new GistListContextMenu(this, lv);
             contextMenu.ShowContextMenu();

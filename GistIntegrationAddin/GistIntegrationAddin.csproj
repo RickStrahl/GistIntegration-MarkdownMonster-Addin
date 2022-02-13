@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <Version>0.10</Version>
+    <Version>0.11</Version>
     <TargetFramework>net472</TargetFramework>
     <!--<TargetFrameworks>net472;netcoreapp3.0</TargetFrameworks>-->
     <AssemblyName>GistIntegrationAddin</AssemblyName>
@@ -67,7 +67,7 @@
     </None>
   </ItemGroup>  
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0'">
     <DefineConstants>NETCORE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net472'">

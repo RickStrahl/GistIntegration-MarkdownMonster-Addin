@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using MarkdownMonster;
 using MarkdownMonster.Windows;
 
@@ -84,6 +85,7 @@ namespace GistIntegration
         {
             ClearMenu();
 
+            var gistItem = Window.ListGists.SelectedItem as GistItem;
 
             var cm = ContextMenu;
             cm.Items.Clear();
@@ -109,6 +111,16 @@ namespace GistIntegration
             mi.Click += Window.ButtonOpen_Click;
             cm.Items.Add(mi);
 
+
+            mi = new MenuItem()
+            {
+                Header = "Create new Gist"
+            };
+            mi.Click += Window.ButtonCreate_Click;
+            cm.Items.Add(mi);
+
+            cm.Items.Add(new Separator());
+
             mi = new MenuItem()
             {
                 Header = "Open Gist in Browser"
@@ -116,11 +128,39 @@ namespace GistIntegration
             mi.Click += Window.ButtonBrowseToGist_Click;
             cm.Items.Add(mi);
 
+
+            mi = new MenuItem();
+            var sp = new StackPanel();
+            mi.Header = sp;
+            var tb = new TextBlock() {Text = "Copy Gist Id to Clipboard"};
+            sp.Children.Add(tb);
+            tb = new TextBlock
+            {
+                Text = gistItem.id,
+                Foreground= Brushes.SteelBlue,
+                FontStyle = FontStyles.Italic,
+                Margin = new Thickness(3, 2, 0 ,0),
+                FontSize = 12
+            };
+            sp.Children.Add(tb);
+            
+            mi.Click += (s,e)=>
+            {
+                var gist = Window.ListGists.SelectedItem as GistItem;
+                if (!string.IsNullOrEmpty(gist.id))
+                {
+                    ClipboardHelper.SetText(gist.id);
+                    Window.Status.ShowStatusSuccess("Id pasted to clipboard: " + gist?.id);
+                }
+            };
+            cm.Items.Add(mi);
+
+
             cm.Items.Add(new Separator());
 
             mi = new MenuItem()
             {
-                Header = "Delete Gist on Gist Site"
+                Header = "Delete Gist online"
             };
             mi.Click += Window.ButtonDeleteGist_Click;
             cm.Items.Add(mi);

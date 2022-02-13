@@ -16,95 +16,106 @@
                        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"               
                        Background="#222"
                        FontSize="16"
-                       Width="850" Height="830" MinHeight="830" WindowTransitionsEnabled="False" >
+                       Width="900" Height="830" MinHeight="600" MinWidth="920" WindowTransitionsEnabled="False" >
     <Window.Resources>
         <windows:FileIconFromPathConverter x:Key="FileIconFromPathConverter"/>
     </Window.Resources>
     <Grid>
         
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <ToolBarPanel>
+            <ToolBarPanel.Resources>
+                <Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="Button">
+                    <Setter Property="Margin" Value="0 0 5 0" />
+                    <!--<Setter Property="Padding" Value="6,5"/>-->
+                    <Setter Property="FontSize" Value="17" />
+                    <Style.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.2" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ToolBarPanel.Resources>
+            <StackPanel Orientation="Horizontal" >
+                
+                <ToolBar FontWeight="Normal" Padding="0,10,0,10" Margin="0  0 0 4"  >
 
-
-        <Grid Name="PanelOpenFromGist" Grid.Row="0" Margin="30,15,30,0">
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
-            <StackPanel>
-                <Label>Gist Id</Label>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBox Name="TextGistId" Text="{Binding ActiveItem.id}" FontSize="15" />
-                    <Button Name="ButtonEmbed" Margin="10,0,2,0" Grid.Column="1" FontSize="14" FontWeight="SemiBold"
-                            Padding="10,4,15,4"
-                            Click="ButtonEmbed_Click" ToolTip="Embed Gist into Markdown Document">
+                    <Button Name="ButtonEmbed" Click="ButtonEmbed_Click" 
+                            ToolTip="Embed selected Gist into Markdown at cursor position.">
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="2,2,5,0" Icon="Paste" FontSize="17"                                            
-                                            FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                                            Foreground="Green" />
-                            <TextBlock>Embed</TextBlock>
+                            <fa:FontAwesome Icon="Paste" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="19"/>
+                            <TextBlock Margin="5,0,0,0">Embed</TextBlock>
                         </StackPanel>
                     </Button>
-                    <Button Name="ButtonOpen" Margin="5,0,0,0" Grid.Column="2" FontSize="14" FontWeight="SemiBold"
-                            Padding="11,4,17,4"
-                            Click="ButtonOpen_Click" ToolTip="Open Gist in editor">
+
+                    <Button Name="ButtonOpen" IsCancel="True" Click="ButtonOpen_Click"  
+                            ToolTip="Open selected Gist as file(s) in the editor.">
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Margin="2,2,2,0" Icon="FolderOpen" FontSize="17" Foreground="Goldenrod"                                    
-                                        FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
-                                         />
-                            <TextBlock>Open</TextBlock>
+                            <fa:FontAwesome Icon="FolderOpen" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="Goldenrod" FontSize="19"/>
+                            <TextBlock Margin="5,0,0,0" >Open</TextBlock>
                         </StackPanel>
                     </Button>
-                </Grid>
 
-                <Grid Margin="0,12,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="200"/>
-                    </Grid.ColumnDefinitions>
+                    <Button Name="ButtonCreate" IsCancel="True" Click="ButtonCreate_Click" ToolTip="Create and upload a new Gist."  >
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="PlusCircle" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="Green" FontSize="19"/>
+                            <TextBlock Margin="5,0,0,0" >New</TextBlock>
+                        </StackPanel>
+                    </Button>
 
-                    <StackPanel Margin="0">
-                        <TextBox Name="TextGistUsername" 
-                                 Text="{Binding GistUsername,UpdateSourceTrigger=PropertyChanged,Delay=800}"  
-                                 controls:TextBoxHelper.Watermark="Github Username"
-                                 FontSize="15"/>
-                    </StackPanel>
 
-                    <StackPanel Grid.Column="1" >
-                        <TextBox Name="TextSearch" Margin="10,0,0,0"
-                                 Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged,Delay=200}"  
-                                 controls:TextBoxHelper.Watermark="Search"
-                                 FontSize="15"/>
-                    </StackPanel>
-                </Grid>
+                    <Button Name="ButtonCancel" IsCancel="True" Click="ButtonCancel_Click" ToolTip="Exit this form."  >
+                        <StackPanel Orientation="Horizontal">
+                            <fa:FontAwesome Icon="Times" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="Firebrick" FontSize="19"/>
+                            <TextBlock Margin="5,0,0,0" >Cancel</TextBlock>
+                        </StackPanel>
+                    </Button>
+
+                    <Separator/>
+
+
+                    <Label>Account:</Label>
+                    <TextBox Name="TextGistUsername"
+                             ToolTip="Specify a GitHub user name to load Gists for"
+                             Text="{Binding GistUsername,UpdateSourceTrigger=PropertyChanged,Delay=800}"  
+                             controls:TextBoxHelper.Watermark="Github Username"
+                             Width="200"
+                             FontSize="15"/>
+
+                    <Label Margin="10 0  0 0 ">Search:</Label>
+                    <TextBox Name="TextSearch"
+                             Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged,Delay=200}"  
+                             controls:TextBoxHelper.Watermark="search gists..."
+                             Width="200"
+                             FontSize="15"/>
+
+                </ToolBar>
             </StackPanel>
+        </ToolBarPanel>
 
-            <ListBox Name="ListGists" IsSynchronizedWithCurrentItem="True" Margin="0,12,0,20" Grid.Row="1"
+
+        
+
+            <ListBox Name="ListGists" IsSynchronizedWithCurrentItem="True" Margin="0" Grid.Row="1"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"                     
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"   
                      SelectedItem="{Binding ActiveItem}"          
-                     BorderBrush="#999" BorderThickness="1" 
+                     BorderBrush="#999" BorderThickness="0" 
                      MouseDoubleClick="ListGists_MouseDoubleClick"
                      ItemsSource="{Binding FilteredGistList}">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                        <EventSetter Event="ContextMenuOpening" Handler="FrameworkElement_ContextMenuOpening" />
+                        <EventSetter Event="ContextMenuOpening" Handler="ListGistsItem_ContextMenuOpening" />
                     </Style>
                 </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid Margin="5,3,15,7"  ToolTip="Double click to embed Gist into Markdown document.">
+                        <Grid Margin="8,5,12,7"  ToolTip="Double click to embed Gist into Markdown document.">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
@@ -115,7 +126,10 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <Image Source="{Binding filename,Converter={StaticResource FileIconFromPathConverter}}" Width="16" Margin="0,2,5,0" />
+                            <Image 
+                                Margin="0,2,8,0"
+                                Height="23" Width="23"
+                                Source="{Binding filename,Converter={StaticResource FileIconFromPathConverter}}"  />
 
 
                             <Grid Grid.Column="1">
@@ -138,16 +152,15 @@
 
                             
                                 <TextBlock Text="{Binding filename}" FontStyle="Italic" Grid.Column="0"  FontSize="11"/>
-                                <TextBlock Text="{Binding updated}" FontStyle="Italic" Grid.Column="1" FontSize="11"/>
+                                <TextBlock Text="{Binding updated, StringFormat={}{0:MMM dd, yyyy}}" FontStyle="Italic" Grid.Column="1" FontSize="11"/>
                             </Grid>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-        </Grid>
 
 
-        <StatusBar  Grid.Row="1" Padding="2"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" FontSize="13.5">
+        <StatusBar  Grid.Row="2" Padding="2"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch" FontSize="13.5">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>

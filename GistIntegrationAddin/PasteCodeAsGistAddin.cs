@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
 using FontAwesome.WPF;
 using MarkdownMonster;
 using MarkdownMonster.AddIns;
@@ -18,14 +19,20 @@ namespace GistIntegration
 {
     public class PasteCodeAsGistAddin : MarkdownMonsterAddin
     {
-        private PasteCodeAsGitWindow PasteCodeAsGistWindow;
+        public  PasteCodeAsGitWindow PasteCodeAsGistWindow;
+        public LoadGistWindow LoadGistWindow;
         private AddInMenuItem AddinMenuItem;
 
         #region Addin Overrides
+
+        public PasteCodeAsGistAddin()
+        {
+
+            Id = "Gist Integration x";
+        }
+
         public override Task OnApplicationStart()
         {
-            base.OnApplicationStart();
-
             Id = "GistIntegration";
 
             // by passing in the add in you automatically
@@ -43,7 +50,27 @@ namespace GistIntegration
                 //    .ConvertFromString("pack://application:,,,/GistIntegrationAddin;component/icon_22.png") as ImageSource                
             };
 
-          
+            return base.OnApplicationStart();
+        }
+
+        public override Task OnModelLoaded(AppModel model)
+        {
+            // add an additional menu item
+            var mi = new MenuItem()
+            {
+                Header = "Embed or Open existing Gist"
+            };
+            mi.Click += (s, e) =>
+            {
+                LoadGistWindow = new LoadGistWindow(this)
+                {
+                    Owner = Model.Window
+                };
+                LoadGistWindow.Show();
+            };
+            AddinMenuItem.AdditionalDropdownMenuItems.Add(mi);
+
+
             // Must add the menu to the collection to display menu and toolbar items            
             MenuItems.Add(AddinMenuItem);
 
