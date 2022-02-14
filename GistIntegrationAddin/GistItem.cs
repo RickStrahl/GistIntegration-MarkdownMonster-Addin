@@ -76,6 +76,7 @@ namespace GistIntegration
             }
         }
         private bool _isAnonymous;
+        private string _language = "cs";
 
         public string id { get; set; }
         public string htmlUrl { get; set; }
@@ -107,7 +108,24 @@ namespace GistIntegration
 
         public string username { get; set; }
 
-        public string language { get; set; } = "cs";
+        public string language
+        {
+            get => _language;
+            set
+            {
+                _language = value;
+                if (string.IsNullOrEmpty(_language)) return;
+
+                if (_language == "csharp")
+                    _language = "cs";
+                else if (_language == "javascript")
+                    _language = "js";
+                else if (_language == "powershell")
+                    _language = "ps";
+                else if (_language == "foxpro")
+                    _language = "prg";
+            }
+        }
 
         public bool hasError { get; set; }
         public string errorMessage { get; set; }

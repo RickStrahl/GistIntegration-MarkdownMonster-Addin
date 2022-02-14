@@ -51,7 +51,7 @@ namespace PasteCodeAsGitAddin
         private MarkdownEditorSimple editor;
 
         private void PasteCode_Loaded(object sender, RoutedEventArgs e)
-        {            
+        {
             Gist.filename = "file." + Gist.language;
 
             if (string.IsNullOrEmpty(PasteCodeAsGistConfiguration.Current.GithubUsername))
@@ -68,10 +68,11 @@ namespace PasteCodeAsGitAddin
                 Gist.code = markdown;
                 return false; // don't care about dirty status
             };
+            
 
             if (!string.IsNullOrEmpty(Gist.code))
             {
-                Dispatcher.InvokeAsync(() =>
+               Dispatcher.InvokeAsync(() =>
                {
                    TextFilename.SelectAll();
                    TextFilename.Focus();                   

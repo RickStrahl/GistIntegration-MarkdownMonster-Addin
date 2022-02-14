@@ -11,6 +11,7 @@ using System.Windows.Threading;
 using FontAwesome.WPF;
 using MarkdownMonster;
 using MarkdownMonster.AddIns;
+using MarkdownMonster.Utilities;
 using Newtonsoft.Json.Linq;
 using PasteCodeAsGitAddin;
 using Westwind.Utilities;
@@ -115,18 +116,45 @@ namespace GistIntegration
 
         public override Task OnExecute(object sender)
         {
+            
             Model.Window.Dispatcher.InvokeAsync(async () =>
             {
                 var editor = GetMarkdownEditor();
                 if (editor == null)
                     return;
 
+                var code = await editor.GetSelection();
+                string syntax = "cs";
+                if (string.IsNullOrEmpty(code))
+                    code = ClipboardHelper.GetText();
+                
+                if (!string.IsNullOrEmpty(code))
+                    syntax = LanguageAutoDetection.Detect(code);
+                if (syntax == null)
+                    syntax = "cs";
+
+                if (!string.IsNullOrEmpty(code))
+                {
+                    // strip leading white space
+                    code = StringUtils.NormalizeIndentation(code);
+                    if (code.TrimStart().StartsWith("```") && code.TrimEnd().EndsWith("```")) 
+                    {
+                        var lines = StringUtils.GetLines(code);
+                        var synt = lines[0].Replace("```","").Trim();
+                        if (!string.IsNullOrEmpty(synt))
+                            syntax = synt;
+                        lines = lines.Skip(1).Take(lines.Length - 2).ToArray();
+                        code = string.Join( mmApp.NewLine, lines);
+                    }
+                }
+                
+
                 var gist = new GistItem()
                 {
-                    code = await editor.GetSelection(),
-                    language = "cs"
+                    code = code,
+                    language = syntax
                 };
-
+                
                 PasteCodeAsGistWindow = new PasteCodeAsGitWindow(this);
                 PasteCodeAsGistWindow.Owner = Model.Window;
                 PasteCodeAsGistWindow.Gist = gist;
@@ -140,6 +168,8 @@ namespace GistIntegration
 
                 Model.Window.ShowStatus("Gist embedded", 5000);
                 Model.Window.SetStatusIcon(FontAwesomeIcon.GithubAlt, Colors.Green);
+
+                
             }).Task.FireAndForget();
 
             return Task.CompletedTask;
@@ -186,6 +216,7 @@ namespace GistIntegration
             mmApp.Model.Window.OpenTab(System.IO.Path.Combine(mmApp.Configuration.CommonFolder, "PasteCodeAsGistAddin.json"));
             mmApp.Model.Window.Activate();
         }
+
         #endregion
     }
 }
