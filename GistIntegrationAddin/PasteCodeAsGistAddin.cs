@@ -20,7 +20,7 @@ namespace GistIntegration
 {
     public class PasteCodeAsGistAddin : MarkdownMonsterAddin
     {
-        public  PasteCodeAsGitWindow PasteCodeAsGistWindow;
+        public PasteCodeAsGitWindow PasteCodeAsGistWindow;
         public LoadGistWindow LoadGistWindow;
         private AddInMenuItem AddinMenuItem;
 
@@ -28,11 +28,9 @@ namespace GistIntegration
 
         public PasteCodeAsGistAddin()
         {
-
-            Id = "Gist Integration x";
         }
-
-        public override Task OnApplicationStart()
+        
+        public override Task OnApplicationInitialized(AppModel model)
         {
             Id = "GistIntegration";
 
@@ -51,11 +49,6 @@ namespace GistIntegration
                 //    .ConvertFromString("pack://application:,,,/GistIntegrationAddin;component/icon_22.png") as ImageSource                
             };
 
-            return base.OnApplicationStart();
-        }
-
-        public override Task OnModelLoaded(AppModel model)
-        {
             // add an additional menu item
             var mi = new MenuItem()
             {
@@ -97,7 +90,7 @@ namespace GistIntegration
                 Header = "Open or Embed from Gi_st",
                 Name = "ButtonOpenFromGist"
             };
-            mitemOpen.Click += (s, a) => OnExecuteLoadGist();            
+            mitemOpen.Click += (s, a) => OnExecuteLoadGist();
             if (!AddMenuItem(mitemOpen, menuItemNameToFind: "ButtonOpenFromHtml", addMode: AddMenuItemModes.AddAfter))
                 mmApp.Log("Unable to add custom menu item in Paste Code As Gist Addin: " + mitemOpen.Name);
 
@@ -107,7 +100,7 @@ namespace GistIntegration
                 Name = "ButtonSaveToGist"
             };
             mitemSave.Click += (s, a) => OnExecuteSaveGist();
-            if (!AddMenuItem(mitemSave, menuItemNameToFind: "ButtonGeneratePdf", addMode: AddMenuItemModes.AddAfter  ))
+            if (!AddMenuItem(mitemSave, menuItemNameToFind: "ButtonGeneratePdf", addMode: AddMenuItemModes.AddAfter))
                 mmApp.Log("Unable to add custom menu item in Paste Code As Gist Addin: " + mitemSave.Name);
 
             return Task.CompletedTask;
@@ -116,7 +109,7 @@ namespace GistIntegration
 
         public override Task OnExecute(object sender)
         {
-            
+
             Model.Window.Dispatcher.InvokeAsync(async () =>
             {
                 var editor = GetMarkdownEditor();
@@ -127,7 +120,7 @@ namespace GistIntegration
                 string syntax = "cs";
                 if (string.IsNullOrEmpty(code))
                     code = ClipboardHelper.GetText();
-                
+
                 if (!string.IsNullOrEmpty(code))
                     syntax = LanguageAutoDetection.Detect(code);
                 if (syntax == null)
@@ -137,24 +130,24 @@ namespace GistIntegration
                 {
                     // strip leading white space
                     code = StringUtils.NormalizeIndentation(code);
-                    if (code.TrimStart().StartsWith("```") && code.TrimEnd().EndsWith("```")) 
+                    if (code.TrimStart().StartsWith("```") && code.TrimEnd().EndsWith("```"))
                     {
                         var lines = StringUtils.GetLines(code);
-                        var synt = lines[0].Replace("```","").Trim();
+                        var synt = lines[0].Replace("```", "").Trim();
                         if (!string.IsNullOrEmpty(synt))
                             syntax = synt;
                         lines = lines.Skip(1).Take(lines.Length - 2).ToArray();
-                        code = string.Join( mmApp.NewLine, lines);
+                        code = string.Join(mmApp.NewLine, lines);
                     }
                 }
-                
+
 
                 var gist = new GistItem()
                 {
                     code = code,
                     language = syntax
                 };
-                
+
                 PasteCodeAsGistWindow = new PasteCodeAsGitWindow(this);
                 PasteCodeAsGistWindow.Owner = Model.Window;
                 PasteCodeAsGistWindow.Gist = gist;
@@ -169,7 +162,7 @@ namespace GistIntegration
                 Model.Window.ShowStatus("Gist embedded", 5000);
                 Model.Window.SetStatusIcon(FontAwesomeIcon.GithubAlt, Colors.Green);
 
-                
+
             }).Task.FireAndForget();
 
             return Task.CompletedTask;
@@ -178,23 +171,23 @@ namespace GistIntegration
         public void OnExecuteLoadGist()
         {
             var form = new LoadGistWindow(this);
-            form.Owner = Model.Window;            
+            form.Owner = Model.Window;
             form.Show();
         }
 
         public void OnExecuteSaveGist()
         {
             var form = new SaveGistWindow(this);
-            form.Owner = Model.Window;            
+            form.Owner = Model.Window;
             form.Show();
         }
 
         public override Task OnExecuteConfiguration(object sender)
-        {            
+        {
             OpenGistConfigurationTab();
             return Task.CompletedTask;
         }
-        
+
         public override Task OnApplicationShutdown()
         {
             base.OnApplicationShutdown();
@@ -208,12 +201,14 @@ namespace GistIntegration
         #endregion
 
         #region Addin Helpers
+
         /// <summary>
         /// Opens the configuration tab to configure Gists
         /// </summary>
         public void OpenGistConfigurationTab()
         {
-            mmApp.Model.Window.OpenTab(System.IO.Path.Combine(mmApp.Configuration.CommonFolder, "PasteCodeAsGistAddin.json"));
+            mmApp.Model.Window.OpenTab(System.IO.Path.Combine(mmApp.Configuration.CommonFolder,
+                "PasteCodeAsGistAddin.json"));
             mmApp.Model.Window.Activate();
         }
 

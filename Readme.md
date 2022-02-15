@@ -128,11 +128,13 @@ Alternately you can create a new Gist from here by checking the **Save as new Gi
 
 ![](Assets/SaveToNewGist.png)
 
+## Not just for Markdown
+The Gist features in this addin are not just useful for Markdown embedding, but can be useful for managing and updating Gists quickly and easily directly from your application folders. 
 
-
+Essentially you can push any document to a Gist, and edit and update any Gist regardless of the type of file and regardless of whether you end up embedding it into your Markdown document.
 
 ### Change Log
-#### 0.12
+#### 0.12 
 
 * **Major UI Updates**  
 The Gist Listing window now has easier navigation via a toolbar and a context menu with all options. The list windows now show the file type with a syntax icon for easier navigation. The two windows now backlink to each other so all functionality is accessible via either of these top level operation windows.
