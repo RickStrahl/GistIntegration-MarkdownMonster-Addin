@@ -132,6 +132,19 @@ Alternately you can create a new Gist from here by checking the **Save as new Gi
 
 
 ### Change Log
+#### 0.12
+
+* **Major UI Updates**  
+The Gist Listing window now has easier navigation via a toolbar and a context menu with all options. The list windows now show the file type with a syntax icon for easier navigation. The two windows now backlink to each other so all functionality is accessible via either of these top level operation windows.
+
+* **Access to Embed or Open Dialog from Toolbar Dropdown**  
+The toolbar dropdown now has both the new Gist option (primary as before) as well as the **Embed or Open existing Gist** option to directly go to the Gist Listing Window. This is in addition to the **File->Open From->Open or Embed from Gist** menu option.
+
+* **Pick up Code Snippets and Syntax better for new Gists**  
+Added logic to allow capturing code snippet syntax, or trying to detect syntax from any code provided as input. Code is picked first from an editor selection and second from the Clipboard (if it matches a code detection).
+
+* **Copy Gist Id or Gist Script Tag to Clipboard** 
+You can now copy the Gist Id or the embeddable Gist script tag to the clipboard for pasting into other applications.
 
 #### 0.8.9
 
