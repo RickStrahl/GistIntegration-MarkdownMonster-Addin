@@ -4,12 +4,21 @@
 
 A [Markdown Monster](https://markdownmonster.west-wind.com) addin that integrates with a few Gist features:
 
-* Capture editor code or create new code, upload as Gist  
-and embed into Markdown document
+* Capture editor code or create new empty code to upload
+* Upload code as Gist and embed into Markdown document
 * Select existing Gists and embed into Markdown document
+* Select existing Gists and embed as Markdown Code Snippet
 * Open Documents (Markdown or otherwise) from Gist
 * Save Documents (Markdown or otherwise) to Gist
+* Manage Gists  (search filtering, show/embed for other users)
 * Delete Gists on Gist Site
+
+> #### Important: Script Rendering has to be enabled for Preview
+> In order for Markdown Monster to render embedded Gists in the Previewer, it's necessary to enable the **Allow Script Tags in Markdown Monster** option (`AllowRenderScriptTags` in config file) to allow `<script>` tags to execute. *Without this setting enabled Gists will not render* - the setting is disabled by default.
+
+Here's what a few of the Addin features look like in action:
+
+![](https://github.com/RickStrahl/ImageDrop/raw/master/MarkdownMonster/CreateEditUpdateGist.gif)
 
 > #### Get a GitHub Personal Access Token
 > For authentication purposes you need a **Github Personal Access Token**. To create one, go to GitHub, click on your Profile and select Settings. Scroll down to the Developer Settings box and select **Personal Access Tokens**.
@@ -22,26 +31,42 @@ and embed into Markdown document
 > }
 > ```
 
-### Usage for Paste Code as Gist
-This features takes the current Clipboard or Editor text selection and pastes it as a Gist on Github. A separate editor screen pops up that lets you optionally format the code before posting it to a Gist. You can post anonymous or account based Gists, and use public or private visibility.
 
-The resulting Gist is then embedded - via `<script>` tag - into the current Markdown document replacing the current selection.
 
-Here's the Paste Code as Gist form that tells the story:
+## The User Interface
+The user interface for this addin is made up of two separate Windows:
 
-![Paste Code as Gist Addin UI](screenshot.png)
+* **The 'Create Gist Code Window'**  
+This window is used to create a new Gist and publish and embed it in a single step. 
 
-Here's the full set of steps to create and embed a Gist:
+* **The Gist Manager**
+Displays existing Gists in a list along with operations on it: Embedding a Gist in the document, editing in a new editor tab, deleting a Gist and opening a new Gist to create. 
 
-* Create some code in the editor
-* Align code the way you want it (typically all the way to left)
-* Select the code
-* *Alternately* copy any external code to your Clipboard
-* Click the Gist icon in toolbar
-* Your code shows up in the editor
-* Assign a filename with the extension that matches your code (ie. C# == MyFile.cs)
-* Add an optional description
-* Click Paste Code
+The two options are available from the Toolbar Button drop down:
+
+![](Assets/GistIntegrationDropDownMenu.png)
+
+As well as additional menu options for loading and saving Gists:
+
+* **File->Open From->Open or Embed From Gist**
+* **File->Save to->Save to Gist**
+
+### Create New Gist and Publish Window
+This window's purpose is to create new Gists and publish it as a Gist.
+
+![](Assets/CreateNewGistWindow.png)
+
+This feature:
+
+* Picks up current Clipboard or Editor Selection
+	* Syntax detection from code to fenced code blocks
+	* Normalizes white space stripping leading blanks
+	* Or displays an empty editor
+* Opens code in editor Window for editing code
+* Publishes code to a new Gist
+* Embeds `<script>` link to Gist into Markdown document
+
+This features takes the **current Clipboard or Editor text selection** and publishes it as a Gist on Github, then emebds a link to the Gist in the editor.
 
 The addin uses the Gist REST API to post the code to Github. The Gist API creates the Gist and returns a URL to the Gist so you can embed it into the page as an embedded Gist code block.
 
@@ -51,6 +76,10 @@ The embedded code in the markdown creates a `<script>` tag like this:
 <script src="https://gist.github.com/35c288114e2cd98e1ca4fd875e7749fe.js"></script>
 ```
 
+Here's what the rendered result looks like in the editor:
+
+![](Assets/EmbeddedGist.png)
+
 > #### Set *AllowRenderScriptTags: true*
 > Markdown Monster by default doesn't allow `<script>` tags to be rendered. Embedded Gists use `<script>` tags and so you **have to** enable script embedding by setting the `AllowRenderScriptTags: true` in the Markdown Monster settings. Goto **Tools -> Settings** and find the **AllowRenderScriptTags** key to set.
 
@@ -58,48 +87,49 @@ The embedded code in the markdown creates a `<script>` tag like this:
 The **Open From Gist** dialog allows you to view online Gists and perform a number of tasks on them.
 
 * Embed existing Gists into Markdown
-* Open Gists in the editor as a file
+* Embed existing Gists as Markdown fenced Code Snippets
+* Open Gists in the editor for editing
 * Delete online Gists
+* Copy the Id or Script tag for a Gist to the Clipboard
 
-To use this dialog:
+To use this dialog you can use one of these two options:
 
-* Go to **File->Open From**
-* Go to **Open or Embed from Gist**
+* Gist Toolbar Dropdown, **Embed or Open existing Gist**
+* Go to **File->Open From->Open or Embed from Gist**
+
+The dialog shows a list of existing Gists, which you can filter by Github user account and an optional keyword search:
+
+![](Assets/OpenOrEmbedGistListWindow.png)
+
+Once the list is up, you can use the Toolbar buttons or the Context menu to perform the various operations. Double clicking the selection embeds the script tag into the currently active document.
 
 
-The dialog shows a list of existing Gist, which you can filter by user and an optional keyword search:
+### Editing and Updating Existing Gists
+You can use Markdown Monster to edit and update existing Gists:
 
-![](Screenshot1.png)
+* Open the **Open or Embed from Gist Window**
+* Select a Gist from the List
+* Select **Open Gist as file in Editor**
 
-### Embedding Existing Gists
-The most common thing you're going to use is to embed an existing Gist into a Markdown document. To do this, select the Gist you want to embed and use the context menu (or the Embed Button above) to insert the `<script>` link into the page.
+The primary file of the Gist is now opened in a MM editor tab. 
 
-A link is inserted into the page that looks like this:
+* Make changes to the document
+* Use **File->Save To->Save to Gist**
+* Select a Gist to save to
+* *or* select the **Save as new Gist** checkbox
+* for latter enter 
 
-```html
-<script src="https://gist.github.com/810de799ac33e8eba011f96f5e611c02.js"></script>
-```
+Here's what the dialog looks like for saving where you select a Gist to save to:
 
-This Github hosted script code injects an `<iframe>` that houses the Gist as a code snippet widget into your Markdown document.
+![](Assets/SaveToExistingGist.png)
 
-### Usage for Open and Saving Documents from Gists
-Open from and Save to Gist UI:
 
-![Open from and Save to Gist UI](OpenFromAndSaveAsGist.gif)
+Alternately you can create a new Gist from here by checking the **Save as new Gist** checkbox:
 
-The addin adds two new Menu Options on the **File** menu:
+![](Assets/SaveToNewGist.png)
 
-* Open from Gist
-* Save to Gist
 
-To open a document from a Gist simply use **Open or embed from Gist**. Use the selection list to pick any Gist you want to load. Alternately you can explicitly type in a Gist Id. The username can be any user name, but it'll default the configuration value for `GithubUsername` in the Addin configuration. You can open Markdown documents or any other kind of code document for editing.
 
-To Save a Document to a Gist use **Save to Gist** while a document is open. You can use the list to select a Gist from the list to update an existing Gist, or check **Save as New Gist** checkbox to create a new Gist with a filename.
-
-> #### File Name Extensions determine Syntax Coloring for Gist
-> For new Gists, you should **always** create a filename with an appropriate extension for the file you're saving so the Gist can display with the proper syntax highlighting.
-
-Click the **Save** button to upload your Gist.
 
 ### Change Log
 

@@ -128,6 +128,16 @@ namespace GistIntegration
             mi.Click += Window.ButtonBrowseToGist_Click;
             cm.Items.Add(mi);
 
+            mi = new MenuItem()
+            {
+                Header = "Embed Gist as Markdown Code Snippet"
+            };
+            mi.Click += (s, e) =>
+            {
+                Window.EmbedCodeSnippetFromGist(gistItem.id);
+            };
+            cm.Items.Add(mi);
+
 
             mi = new MenuItem();
             var sp = new StackPanel();
@@ -151,6 +161,24 @@ namespace GistIntegration
                 {
                     ClipboardHelper.SetText(gist.id);
                     Window.Status.ShowStatusSuccess("Id pasted to clipboard: " + gist?.id);
+                }
+            };
+            cm.Items.Add(mi);
+
+
+            mi = new MenuItem()
+            {
+                Header = "Copy Gist Script Tag to Clipboard"
+            };
+            mi.Click += (s, e) =>
+            {
+                var gist = Window.ListGists.SelectedItem as GistItem;
+                if (gist == null) return;
+                if (!string.IsNullOrEmpty(gist.id))
+                {
+                    var clip = $"<script src=\"https://gist.github.com/{gist.id}.js\"></script>";
+                    ClipboardHelper.SetText(clip);
+                    Window.Status.ShowStatusSuccess("Gist script tag pasted to clipboard: " + clip);
                 }
             };
             cm.Items.Add(mi);

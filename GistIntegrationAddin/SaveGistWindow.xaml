@@ -22,7 +22,8 @@
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <mm:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
-         
+        <mm:FileIconFromPathConverter x:Key="FileIconFromPathConverter"/>
+
     </Window.Resources>
     <Grid>
 
@@ -69,29 +70,35 @@
 
                                     <Grid>
                                         <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
 
-                                        <TextBlock Text="{Binding description}" FontWeight="DemiBold" Grid.Row="0"/>
+                                        <Image 
+                                            Margin="0,2,8,0"
+                                            Height="23" Width="23"
+                                            Source="{Binding filename,Converter={StaticResource FileIconFromPathConverter}}"  />
+
+                                        <TextBlock Grid.Column="1" Text="{Binding description}" FontWeight="DemiBold" Grid.Row="0"/>
                                         <Button fa:Awesome.Content="Remove" Foreground="DarkRed" BorderThickness="0"  FontSize="15"
-                                            Grid.Column="1" Height="15" MinHeight="20" Width="20" 
+                                            Grid.Column="2" Height="15" MinHeight="20" Width="20" 
                                             Background="Transparent"
                                             Padding="0" Margin="5,-1,0,0" 
                                             Click="ButtonDeleteGist_Click"/>
                                     </Grid>
 
-                                <Grid Grid.Row="1">
+                                    <Grid Grid.Row="1" Margin="32 0 0 0" Opacity="0.5">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="auto" />
                                         </Grid.ColumnDefinitions>
 
 
-                                        <TextBlock Text="{Binding filename}" FontStyle="Italic" Grid.Column="0" FontSize="11"/>
-                                        <TextBlock Text="{Binding updated}" FontStyle="Italic" Grid.Column="1" FontSize="11"/>
-                                        
-                                        
+                                        <TextBlock Text="{Binding filename}" 
+                                                   FontStyle="Italic" Grid.Column="0" FontSize="12"/>
+                                        <TextBlock Text="{Binding updated, StringFormat={}{0:MMM dd, yyyy}}" 
+                                                   FontStyle="Italic" Grid.Column="1" FontSize="12"/>
                                     </Grid>
                                 </Grid>
                             </DataTemplate>

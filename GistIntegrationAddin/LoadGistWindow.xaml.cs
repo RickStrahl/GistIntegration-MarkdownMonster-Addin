@@ -33,7 +33,7 @@ namespace GistIntegration
             Model = new LoadAndSaveGistModel(addin)
             {
                 Configuration = PasteCodeAsGistConfiguration.Current,
-                GistUsername = PasteCodeAsGistConfiguration.Current.GithubUsername
+                GistUsername = PasteCodeAsGistConfiguration.Current.GithubUsername,
             };
             Model.PropertyChanged += (o, args) =>
             {
@@ -185,6 +185,29 @@ Are you sure you want to delete this Gist?";
             if (lv == null) return;
             var contextMenu = new GistListContextMenu(this, lv);
             contextMenu.ShowContextMenu();
+        }
+
+        public void EmbedCodeSnippetFromGist(string gistId)
+        {
+            var editor = Model.Addin.Model.ActiveEditor;
+            var doc = editor?.MarkdownDocument;
+            if (doc == null) 
+                return;
+
+            var gist = GistClient.GetGistFromServer(gistId);
+
+            if (gist.hasError)
+            {
+                Status.ShowStatusError("Unable to retrieve Gist: " + gist.errorMessage);
+            }
+
+            var syntax = mmFileUtils.GetEditorSyntaxFromFileType(gist.filename);
+            if (string.IsNullOrEmpty(syntax))
+                syntax = "";
+
+
+            var code = "```" + syntax + mmApp.NewLine +gist.code + mmApp.NewLine + "```" + mmApp.NewLine;
+            Model.Addin.Model.ActiveEditor.SetSelectionAndFocus(code).FireAndForget();
         }
     }
 }

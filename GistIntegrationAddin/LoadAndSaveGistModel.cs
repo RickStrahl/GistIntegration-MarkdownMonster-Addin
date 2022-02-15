@@ -204,6 +204,7 @@ namespace GistIntegration
         }
 
 
+
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 

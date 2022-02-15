@@ -144,7 +144,7 @@
                                 <TextBlock Text="{Binding description}" FontWeight="DemiBold" Grid.Row="0"/>
                             </Grid>
 
-                            <Grid Grid.Row="1" Grid.Column="1"  Opacity="0.65">
+                            <Grid Grid.Row="1" Grid.Column="1"  Opacity="0.55">
                                 <Grid.ColumnDefinitions >
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="auto" />
