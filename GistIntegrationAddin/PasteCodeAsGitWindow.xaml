@@ -1,26 +1,34 @@
-﻿<controls:MetroWindow  x:Class="PasteCodeAsGitAddin.PasteCodeAsGitWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GistIntegration"
-        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:fa="http://schemas.fontawesome.io/icons/"
-        xmlns:wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
-        mc:Ignorable="d"                            
-        Title="Paste Code as Gist"
-        TitleCharacterCasing="Normal"
-        Icon="icon.png" FontSize="15"
-        WindowStyle="SingleBorderWindow" ResizeMode="NoResize"                      
-        WindowStartupLocation="CenterOwner"         
-        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"                       
-        Width="850" Height="830" MinHeight="830" WindowTransitionsEnabled="False" >
-    <StackPanel>
-        <ToolBarPanel>
+﻿<controls:MetroWindow x:Class="PasteCodeAsGitAddin.PasteCodeAsGitWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:local="clr-namespace:GistIntegration"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:fa="http://schemas.fontawesome.io/icons/"
+                      xmlns:wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+                      mc:Ignorable="d"
+                      Title="Publish and Embed Code as Gist"
+                      TitleCharacterCasing="Normal"
+                      Icon="icon.png" FontSize="15"
+                      WindowStyle="SingleBorderWindow" ResizeMode="CanResizeWithGrip"
+                      WindowStartupLocation="CenterOwner"
+                      IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"
+                      Width="850" MinWidth="790" Height="830" MinHeight="830" WindowTransitionsEnabled="False">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ToolBarPanel Grid.Row="0">
             <ToolBarPanel.Resources>
+                <Style TargetType="fa:FontAwesome">
+                    <Setter Property="Margin" Value="0 3 3 0" />
+                </Style>
                 <Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="Button">
-                    <Setter Property="Margin" Value="0 0 5 0" />
-                    <!--<Setter Property="Padding" Value="6,5"/>-->
+
+                    <Setter Property="Padding" Value="6,3" />
                     <Setter Property="FontSize" Value="17" />
                     <Style.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
@@ -29,81 +37,90 @@
                     </Style.Triggers>
                 </Style>
             </ToolBarPanel.Resources>
-            <StackPanel Orientation="Horizontal" >
-                <ToolBar FontWeight="Normal" Padding="0,10,0,10"  >
 
-                    <Button Name="ButtonOk" Click="Button_Click" 
-                            ToolTip="Creates a new Gist and then embeds it into the document">
-                        <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="CloudUpload" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="19"/>
-                            <TextBlock Margin="5,0,5,0">Create and Embed Gist</TextBlock>
-                        </StackPanel>
-                    </Button>
+            <ToolBar FontWeight="Normal" Margin="0,4">
+                <Button Name="ButtonOk" Click="Button_Click"
+                        ToolTip="Creates a new Gist and then embeds it into the document">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:FontAwesome Icon="CloudUpload"
+                                        FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
+                                        Foreground="#FF0E7E28" FontSize="19" />
+                        <TextBlock Margin="5,0,5,0">Publish and Embed Gist</TextBlock>
+                    </StackPanel>
+                </Button>
 
-                    <Button Name="ButtonCancel" IsCancel="True" Click="Button_Click"  >
-                        <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="Remove" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="Firebrick" FontSize="19"/>
-                            <TextBlock Margin="5,0,5,0" >Cancel</TextBlock>
-                        </StackPanel>
-                    </Button>
+                <Button Name="ButtonCancel" IsCancel="True" Click="Button_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:FontAwesome Icon="Remove"
+                                        FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
+                                        Foreground="Firebrick" FontSize="19" />
+                        <TextBlock Margin="5,0,5,0">Cancel</TextBlock>
+                    </StackPanel>
+                </Button>
 
-                    <Separator/>
-                    
-                    <Button Name="ButtonOpenFromGist" IsCancel="True" Click="ButtonOpenFromGist_Click" 
-                            ToolTip="Embed or Open an existing online Gist" >
-                        <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="FolderOpen" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="Khaki" FontSize="19"/>
-                            <TextBlock Margin="5,0,0,0" >Open from Gist</TextBlock>
-                        </StackPanel>
-                    </Button>
-                    <Button Name="ButtonSaveToGist" IsCancel="True" Click="ButtonSaveToGist_Click"  
-                            ToolTip="Save current code to an existing Gist">
-                        <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="CheckCircle" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"  Foreground="#AFF3B7" FontSize="19"/>
-                            <TextBlock Margin="5,0,5,0" >Save as Gist</TextBlock>
-                        </StackPanel>
-                    </Button>
+                <Separator />
 
-                    <Separator/>
-                    
-                    <Button Name="ButtonConfiguration" Click="ButtonConfiguration_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="Gear" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" FontSize="19" Foreground="SlateGray"/>
-                            <TextBlock Margin="5,0,5,0" >Configuration</TextBlock>
-                        </StackPanel>
-                    </Button>
-                </ToolBar>
-            </StackPanel>
+                <Button Name="ButtonOpenFromGist" IsCancel="True" Click="ButtonOpenFromGist_Click"
+                        ToolTip="Embed or Open an existing online Gist">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:FontAwesome Icon="FolderOpen"
+                                        FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
+                                        Foreground="Goldenrod" FontSize="19" />
+                        <TextBlock Margin="5,0,0,0">Open from Gist</TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button Name="ButtonSaveToGist" IsCancel="True" Click="ButtonSaveToGist_Click"
+                        ToolTip="Save current code to an existing Gist">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:FontAwesome Icon="CheckCircle"
+                                        FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
+                                        Foreground="#36C047" FontSize="19" />
+                        <TextBlock Margin="5,0,5,0">Save as Gist</TextBlock>
+                    </StackPanel>
+                </Button>
+
+                <Separator />
+
+                <Button Name="ButtonConfiguration" Click="ButtonConfiguration_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:FontAwesome Icon="Gear"
+                                        FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
+                                        FontSize="19" Foreground="SlateGray" />
+                        <TextBlock Margin="5,0,5,0">Configuration</TextBlock>
+                    </StackPanel>
+                </Button>
+            </ToolBar>
         </ToolBarPanel>
 
-        <StackPanel Margin="20">
-            <Grid>
-                <Grid.ColumnDefinitions>
+        <Grid Grid.Row="1" Margin="20 5 20 20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="22" />
-                </Grid.ColumnDefinitions>
+            <Label Content="Edit or paste Code:" Grid.Row="0"/>
 
-                <Label Content="Edit or paste Code:"/>
+            <wpf:WebView2 x:Name="WebBrowserCode" Grid.Row="1"
+                          Margin="0,0,0,0" />
 
-            </Grid>
 
-            <wpf:WebView2  x:Name="WebBrowserCode"  
-                           Height="440" 
-                           Margin="0,0,0,0" />
+            <StackPanel Grid.Row="2">
+                <Label Margin="0,10,0,0" Content="File name: (extension determines language)" />
+                <TextBox x:Name="TextFilename" Text="{Binding Path=Gist.filename}" FontSize="15"
+                     TextChanged="TextFilename_TextChanged" />
 
-            <Label Margin="0,10,0,0" Content="File name: (extension determines language)"/>
-            <TextBox  x:Name="TextFilename"  Text="{Binding Path=Gist.filename}"  FontSize="15" TextChanged="TextFilename_TextChanged"   />
+                <Label Margin="0,10,0,0" Content="Description: (optional)" />
+                <TextBox x:Name="TextDescription" Text="{Binding Path=Gist.description}" FontSize="15"
+                     TextWrapping="Wrap" AcceptsReturn="True"
+                     Height="70" />
 
-            <Label Margin="0,10,0,0" Content="Description: (optional)"/>
-            <TextBox  x:Name="TextDescription"  Text="{Binding Path=Gist.description}"  FontSize="15"                   
-                  TextWrapping="Wrap" AcceptsReturn="True"
-                  Height="70" />
-
-            <CheckBox Name="CheckAnonymous"
-                  Margin="0,30"  FontSize="15"
-                  IsChecked="{Binding Path=Gist.isAnonymous}">make Gist anonymous</CheckBox>
-
-        </StackPanel>
-    </StackPanel>
+                <CheckBox Name="CheckAnonymous"
+                      Margin="0,15 0 10" FontSize="15"
+                      IsChecked="{Binding Path=Gist.isAnonymous}">
+                    make Gist anonymous
+                </CheckBox>
+            </StackPanel>
+        </Grid>
+    </Grid>
 </controls:MetroWindow>
