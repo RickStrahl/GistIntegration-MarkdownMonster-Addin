@@ -1,38 +1,39 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
-  <PropertyGroup>
-    <Version>0.13</Version>
-    <TargetFramework>net472</TargetFramework>
-    <!--<TargetFrameworks>net472;netcoreapp3.0</TargetFrameworks>-->
-    <AssemblyName>GistIntegrationAddin</AssemblyName>
-    <UseWPF>true</UseWPF>
-    <Authors>Rick Strahl, West Wind Technologies</Authors>
-    <Product>Markdown Monster Gist Integration Addin</Product>
-    <Description>Allows creating or finding and selecting of Gists from the site, and embedding them into posts. You can also save documents as Gists.</Description>
-    <OutDir>$(AppData)\Markdown Monster\Addins\GistIntegration</OutDir>
-  </PropertyGroup>
+	<PropertyGroup>
+		<Version>0.14</Version>
+		<TargetFramework>net472</TargetFramework>
+		<!--<TargetFrameworks>net472;netcoreapp3.0</TargetFrameworks>-->
+		<AssemblyName>GistIntegrationAddin</AssemblyName>
+		<UseWPF>true</UseWPF>
+		<Authors>Rick Strahl, West Wind Technologies</Authors>
+		<Product>Markdown Monster Gist Integration Addin</Product>
+		<Description>Allows creating or finding and selecting of Gists from the site, and embedding them into posts. You can also save documents as Gists.</Description>
+		<OutDir>$(AppData)\Markdown Monster\Addins\GistIntegration</OutDir>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="MahApps.Metro" Version="2.4.9">
-      <IncludeAssets>compile</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Westwind.Utilities" Version="3.1.8">
-      <IncludeAssets>compile</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9">
-      <IncludeAssets>compile</IncludeAssets>
-    </PackageReference>
-		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1108.44">
-      <IncludeAssets>compile</IncludeAssets>
+	<ItemGroup>
+		<PackageReference Include="MahApps.Metro" Version="2.4.9">
+			<IncludeAssets>compile</IncludeAssets>
 		</PackageReference>
-  </ItemGroup>
+		<PackageReference Include="Westwind.Utilities" Version="3.1.19">
+			<IncludeAssets>compile</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="FontAwesome.WPF" Version="4.7.0.9">
+			<IncludeAssets>compile</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Westwind.WebView" Version="0.1.2">
+			<IncludeAssets>compile</IncludeAssets>
+		</PackageReference>
 
-<!--  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">-->
-<!--    <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.0.1" />-->
-<!--  </ItemGroup>-->
+	</ItemGroup>
 
-  <!-- This pulls in the reference and all dependencies - not what we want  here-->
-<!--<ItemGroup>
+	<!--  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' ">-->
+	<!--    <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.0.1" />-->
+	<!--  </ItemGroup>-->
+
+	<!-- This pulls in the reference and all dependencies - not what we want  here-->
+	<!--<ItemGroup>
     <ProjectReference Include="..\..\MarkdownMonster\MarkdownMonster.csproj">
       <Private>false</Private>
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
@@ -42,35 +43,35 @@
 
 
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net472'">
-    <Reference Include="$(LocalAppData)\Markdown Monster\MarkdownMonster.exe">
-      <Private>false</Private>
-    </Reference>
-  </ItemGroup>
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net472'">
+		<Reference Include="$(LocalAppData)\Markdown Monster\MarkdownMonster.exe">
+			<Private>false</Private>
+		</Reference>
+	</ItemGroup>
 
 
 
-  <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
+	<ItemGroup>
+		<Reference Include="Microsoft.CSharp" />
+	</ItemGroup>
 
 
-  <ItemGroup>
-    <Resource Include="icon.png" />
-    <Resource Include="icon_22.png" />
-  </ItemGroup>
+	<ItemGroup>
+		<Resource Include="icon.png" />
+		<Resource Include="icon_22.png" />
+	</ItemGroup>
 
 
-  <ItemGroup>
-    <None Update="version.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>  
+	<ItemGroup>
+		<None Update="version.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0'">
-    <DefineConstants>NETCORE</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net472'">
-    <DefineConstants>NETFULL</DefineConstants>
-  </PropertyGroup>
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0'">
+		<DefineConstants>NETCORE</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net472'">
+		<DefineConstants>NETFULL</DefineConstants>
+	</PropertyGroup>
 </Project>
