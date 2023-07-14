@@ -1,15 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows.Media;
-using FontAwesome.WPF;
 using GistIntegration.Annotations;
-using MarkdownMonster.Windows;
 using Westwind.Utilities;
 
 namespace GistIntegration
@@ -19,7 +15,6 @@ namespace GistIntegration
         public LoadAndSaveGistModel(PasteCodeAsGistAddin addin)
         {
             Addin = addin;
-
         }
 
 

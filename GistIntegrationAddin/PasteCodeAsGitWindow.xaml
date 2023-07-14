@@ -3,10 +3,9 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                      xmlns:local="clr-namespace:GistIntegration"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-                      xmlns:fa="http://schemas.fontawesome.io/icons/"
                       xmlns:wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+                      xmlns:fa6="http://schemas.fontawesome.com/icons/fonts"
                       mc:Ignorable="d"
                       Title="Publish and Embed Code as Gist"
                       TitleCharacterCasing="Normal"
@@ -23,7 +22,7 @@
 
         <ToolBarPanel Grid.Row="0">
             <ToolBarPanel.Resources>
-                <Style TargetType="fa:FontAwesome">
+                <Style TargetType="fa6:FontAwesome">
                     <Setter Property="Margin" Value="0 3 3 0" />
                 </Style>
                 <Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="Button">
@@ -42,18 +41,17 @@
                 <Button Name="ButtonOk" Click="Button_Click"
                         ToolTip="Creates a new Gist and then embeds it into the document">
                     <StackPanel Orientation="Horizontal">
-                        <fa:FontAwesome Icon="CloudUpload"
-                                        FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
-                                        Foreground="#FF0E7E28" FontSize="19" />
+                        <fa6:FontAwesome Icon="Regular_CloudArrowUp"
+                                        Foreground="ForestGreen" 
+                                        FontSize="19" />
                         <TextBlock Margin="5,0,5,0">Publish and Embed Gist</TextBlock>
                     </StackPanel>
                 </Button>
 
                 <Button Name="ButtonCancel" IsCancel="True" Click="Button_Click">
                     <StackPanel Orientation="Horizontal">
-                        <fa:FontAwesome Icon="Remove"
-                                        FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
-                                        Foreground="Firebrick" FontSize="19" />
+                        <fa6:FontAwesome Icon="Solid_Xmark"
+                                         Foreground="Firebrick" FontSize="19" />
                         <TextBlock Margin="5,0,5,0">Cancel</TextBlock>
                     </StackPanel>
                 </Button>
@@ -63,18 +61,17 @@
                 <Button Name="ButtonOpenFromGist" IsCancel="True" Click="ButtonOpenFromGist_Click"
                         ToolTip="Embed or Open an existing online Gist">
                     <StackPanel Orientation="Horizontal">
-                        <fa:FontAwesome Icon="FolderOpen"
-                                        FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
-                                        Foreground="Goldenrod" FontSize="19" />
+                        <fa6:FontAwesome Icon="Solid_FolderOpen"
+                                         Foreground="Goldenrod"
+                                         FontSize="19" />
                         <TextBlock Margin="5,0,0,0">Open from Gist</TextBlock>
                     </StackPanel>
                 </Button>
                 <Button Name="ButtonSaveToGist" IsCancel="True" Click="ButtonSaveToGist_Click"
                         ToolTip="Save current code to an existing Gist">
                     <StackPanel Orientation="Horizontal">
-                        <fa:FontAwesome Icon="CheckCircle"
-                                        FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
-                                        Foreground="#36C047" FontSize="19" />
+                        <fa6:FontAwesome Icon="Solid_CircleCheck"
+                                         Foreground="ForestGreen" FontSize="19" />
                         <TextBlock Margin="5,0,5,0">Save as Gist</TextBlock>
                     </StackPanel>
                 </Button>
@@ -83,9 +80,8 @@
 
                 <Button Name="ButtonConfiguration" Click="ButtonConfiguration_Click">
                     <StackPanel Orientation="Horizontal">
-                        <fa:FontAwesome Icon="Gear"
-                                        FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome"
-                                        FontSize="19" Foreground="SlateGray" />
+                        <fa6:FontAwesome Icon="Solid_Gear"
+                                         FontSize="19" Foreground="SlateGray" />
                         <TextBlock Margin="5,0,5,0">Configuration</TextBlock>
                     </StackPanel>
                 </Button>

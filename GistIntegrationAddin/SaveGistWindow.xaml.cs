@@ -1,24 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using FontAwesome.WPF;
-using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
+using FontAwesome6;
 using MarkdownMonster;
 using MarkdownMonster.Windows;
-using Westwind.Utilities;
 
 namespace GistIntegration
 {
@@ -94,10 +80,9 @@ namespace GistIntegration
             {
                 mmApp.Log(gist.errorMessage);
 
-                Status.SetStatusIcon(FontAwesomeIcon.ExclamationCircle, Colors.Firebrick);
+                Status.SetStatusIcon(EFontAwesomeIcon.Solid_CircleExclamation, Colors.Firebrick);
                 Status.ShowStatus("Failed to save as Gist. Refer to error log for more detail.", 7000);
             }
-
         }
 
 
@@ -120,7 +105,7 @@ Are you sure you want to delete this Gist?";
             if (!GistClient.DeleteGist(gist.id))
             {
                 Status.ShowStatus("Failed to delete Gist.", 7000);
-                Status.SetStatusIcon(FontAwesomeIcon.Warning, Colors.Red);
+                Status.SetStatusIcon(EFontAwesomeIcon.Solid_TriangleExclamation, Colors.Red);
             }
             else
             {

@@ -5,8 +5,8 @@
                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                        xmlns:local="clr-namespace:GistIntegration"
                        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-                       xmlns:fa="http://schemas.fontawesome.io/icons/"
                        xmlns:windows="clr-namespace:MarkdownMonster.Windows;assembly=MarkdownMonster"
+                       xmlns:fa6="http://schemas.fontawesome.com/icons/fonts"
                        mc:Ignorable="d"                            
                        Title="Open or Embed from Gist"
                        TitleCharacterCasing="Normal"
@@ -30,7 +30,7 @@
 
         <ToolBarPanel>
             <ToolBarPanel.Resources>
-                <Style  TargetType="fa:FontAwesome">
+                <Style  TargetType="fa6:FontAwesome">
                     <Setter Property="Margin" Value="0 3 3 0" />
                 </Style>
                 <Style x:Key="{x:Static ToolBar.ButtonStyleKey}" TargetType="Button">
@@ -50,7 +50,9 @@
                     <Button Name="ButtonEmbed" Click="ButtonEmbed_Click" 
                             ToolTip="Embed selected Gist into Markdown at cursor position.">
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="Paste" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="#FF0E7E28" FontSize="19"/>
+                            <fa6:FontAwesome Icon="Solid_Paste" 
+                                              Foreground="ForestGreen" 
+                                              FontSize="19"/>
                             <TextBlock Margin="5,0,0,0">Embed</TextBlock>
                         </StackPanel>
                     </Button>
@@ -58,14 +60,16 @@
                     <Button Name="ButtonOpen" IsCancel="True" Click="ButtonOpen_Click"  
                             ToolTip="Open selected Gist as file(s) in the editor.">
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="FolderOpen" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="Goldenrod" FontSize="19"/>
+                            <fa6:FontAwesome Icon="Solid_FolderOpen" 
+                                             Foreground="Goldenrod" FontSize="19"/>
                             <TextBlock Margin="5,0,0,0" >Open</TextBlock>
                         </StackPanel>
                     </Button>
 
                     <Button Name="ButtonCreate" IsCancel="True" Click="ButtonCreate_Click" ToolTip="Create and upload a new Gist."  >
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="PlusCircle" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="Green" FontSize="19"/>
+                            <fa6:FontAwesome Icon="Solid_CirclePlus" 
+                                             Foreground="ForestGreen" FontSize="19"/>
                             <TextBlock Margin="5,0,0,0" >New</TextBlock>
                         </StackPanel>
                     </Button>
@@ -73,7 +77,9 @@
 
                     <Button Name="ButtonCancel" IsCancel="True" Click="ButtonCancel_Click" ToolTip="Exit this form."  >
                         <StackPanel Orientation="Horizontal">
-                            <fa:FontAwesome Icon="Times" FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" Foreground="Firebrick" FontSize="19"/>
+                            <fa6:FontAwesome Icon="Solid_Xmark"
+                                             Foreground="Firebrick" 
+                                             FontSize="19"/>
                             <TextBlock Margin="5,0,0,0" >Cancel</TextBlock>
                         </StackPanel>
                     </Button>
@@ -176,7 +182,7 @@
                 </ItemsPanelTemplate>
             </StatusBar.ItemsPanel>
             <StatusBarItem Grid.Column="0" Margin="2,1,0,0">
-                <fa:FontAwesome Name="StatusIcon" Icon="Circle" Foreground="Green"/>
+                <fa6:ImageAwesome Name="StatusIcon" Icon="Solid_Circle" PrimaryColor="ForestGreen" Height="15"/>
             </StatusBarItem>
             <StatusBarItem Grid.Column="1">
                 <TextBlock Name="StatusText" x:FieldModifier="public" HorizontalAlignment="Left">Ready</TextBlock>

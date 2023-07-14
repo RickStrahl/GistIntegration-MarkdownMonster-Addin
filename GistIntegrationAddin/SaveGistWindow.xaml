@@ -7,6 +7,8 @@
                        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                        xmlns:fa="http://schemas.fontawesome.io/icons/"
                        xmlns:mm="clr-namespace:MarkdownMonster.Windows;assembly=MarkdownMonster"
+                       xmlns:fap6="http://schemas.fontawesome.com/icons/fonts/properties"
+                       xmlns:fa6="http://schemas.fontawesome.com/icons/fonts"
                        mc:Ignorable="d"                            
                        Title="Save Document to Gist"
                        TitleCharacterCasing="Normal"
@@ -81,7 +83,7 @@
                                             Source="{Binding filename,Converter={StaticResource FileIconFromPathConverter}}"  />
 
                                         <TextBlock Grid.Column="1" Text="{Binding description}" FontWeight="DemiBold" Grid.Row="0"/>
-                                        <Button fa:Awesome.Content="Remove" Foreground="DarkRed" BorderThickness="0"  FontSize="15"
+                                        <Button fap6:FontAwesome.Icon="Solid_Xmark" Foreground="DarkRed" BorderThickness="0"  FontSize="15"
                                             Grid.Column="2" Height="15" MinHeight="20" Width="20" 
                                             Background="Transparent"
                                             Padding="0" Margin="5,-1,0,0" 
@@ -129,7 +131,7 @@
                     HorizontalAlignment="Left" Margin="0,15,0,20"
                     Click="ButtonSaveGist_Click" ToolTip="Save Document to Gist">
                 <StackPanel Orientation="Horizontal">
-                    <fa:FontAwesome Margin="2,2,15,0" Icon="CheckCircle" FontSize="20"                                            
+                    <fa6:FontAwesome Margin="2,2,15,0" Icon="Solid_CircleCheck" FontSize="20"                                            
                                     FontFamily="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" 
                                     Foreground="ForestGreen" />
                     <TextBlock>Save Document as Gist</TextBlock>
@@ -152,7 +154,7 @@
                 </ItemsPanelTemplate>
             </StatusBar.ItemsPanel>
             <StatusBarItem Grid.Column="0" Margin="2,1,0,0">
-                <fa:FontAwesome Name="StatusIcon" Icon="Circle" Foreground="Green"/>
+                <fa6:ImageAwesome Name="StatusIcon" Icon="Solid_Circle" Foreground="ForestGreen"/>
             </StatusBarItem>
             <StatusBarItem Grid.Column="1">
                 <TextBlock Name="StatusText" x:FieldModifier="public" HorizontalAlignment="Left">Ready</TextBlock>
@@ -160,7 +162,6 @@
             <StatusBarItem Grid.Column="2">
                 <TextBlock Name="StatusImageSize" x:FieldModifier="public" HorizontalAlignment="Left"></TextBlock>
             </StatusBarItem>
-
         </StatusBar>
     </Grid>
 </controls:MetroWindow>

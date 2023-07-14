@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
-using FontAwesome.WPF;
+using FontAwesome6;
 using MarkdownMonster;
 using MarkdownMonster.AddIns;
 using MarkdownMonster.Utilities;
@@ -42,7 +42,7 @@ namespace GistIntegration
 
                 // if an icon is specified it shows on the toolbar
                 // if not the add-in only shows in the add-ins menu
-                FontawesomeIcon = FontAwesomeIcon.Github,
+                FontawesomeIcon = EFontAwesomeIcon.Brands_Github,
                 FontawesomeIconColor = "#247CAC"
 
                 //IconImageSource = new ImageSourceConverter()
@@ -160,7 +160,7 @@ namespace GistIntegration
                     await editor.SetSelectionAndFocus($"<script src=\"{gist.embedUrl}\"></script>{mmApp.NewLine}");
 
                 Model.Window.ShowStatus("Gist embedded", 5000);
-                Model.Window.SetStatusIcon(FontAwesomeIcon.GithubAlt, Colors.Green);
+                Model.Window.SetStatusIcon(EFontAwesomeIcon.Brands_GithubAlt, Colors.ForestGreen);
 
 
             }).Task.FireAndForget();
