@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<Version>0.14</Version>
+		<Version>0.15.2</Version>
 		<TargetFramework>net7.0-windows</TargetFramework>
 		<!--<TargetFrameworks>net472;netcoreapp3.0</TargetFrameworks>-->
 		<AssemblyName>GistIntegrationAddin</AssemblyName>
@@ -18,14 +18,14 @@
 	<ItemGroup>
 		<PackageReference Include="FontAwesome6.Pro.Fonts" Version="2.5.1" />
 		<PackageReference Include="MahApps.Metro" Version="2.4.10" />
-		<PackageReference Include="Westwind.Utilities" Version="4.0.2" />
+		<PackageReference Include="Westwind.Utilities" Version="4.0.6.1" />
 
-		<PackageReference Include="Westwind.WebView" Version="0.1.4.3" />
+		<PackageReference Include="Westwind.WebView" Version="0.1.5" />
 
 	</ItemGroup>
 
 	<ItemGroup>
-		<Reference Include="$(LocalAppData)\Markdown Monster\MarkdownMonster.dll">
+		<Reference Include="C:\program files\Markdown Monster\MarkdownMonster.dll">
 			<Private>false</Private>
 		</Reference>
 	</ItemGroup>
