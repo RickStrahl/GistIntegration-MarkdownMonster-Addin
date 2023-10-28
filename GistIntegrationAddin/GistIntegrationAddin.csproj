@@ -1,9 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<Version>0.15.3</Version>
+		<Version>0.15.4</Version>
 		<TargetFramework>net7.0-windows</TargetFramework>
-		<!--<TargetFrameworks>net472;netcoreapp3.0</TargetFrameworks>-->
 		<AssemblyName>GistIntegrationAddin</AssemblyName>
 		<UseWPF>true</UseWPF>
 		
@@ -23,8 +22,7 @@
 		<PackageReference Include="FontAwesome6.Pro.Fonts" Version="2.5.1" />
 		<PackageReference Include="MahApps.Metro" Version="2.4.10" />
 		<PackageReference Include="Westwind.Utilities" Version="4.0.6.1" />
-
-		<PackageReference Include="Westwind.WebView" Version="0.1.6" />	
+		<PackageReference Include="Westwind.WebView" Version="0.1.8" />	
 	</ItemGroup>
 
 

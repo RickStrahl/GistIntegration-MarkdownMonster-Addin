@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 using GistIntegration;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Westwind.Utilities;
 
 namespace PasteCodeAsGistAddinTests
