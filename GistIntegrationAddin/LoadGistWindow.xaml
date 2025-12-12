@@ -16,7 +16,7 @@
                        IsMinButtonEnabled="False" IsMaxRestoreButtonEnabled="False"               
                        Background="#222"
                        FontSize="16"
-                       Width="900" Height="830" MinHeight="600" MinWidth="920" WindowTransitionsEnabled="False" >
+                       Width="940" Height="830" MinHeight="600" MinWidth="920" WindowTransitionsEnabled="False" >
     <Window.Resources>
         <windows:FileIconFromPathConverter x:Key="FileIconFromPathConverter"/>
     </Window.Resources>
@@ -87,7 +87,7 @@
                     <Separator/>
 
 
-                    <Label>Account:</Label>
+                    <Label Margin="5 4 5 0">Account:</Label>
                     <TextBox Name="TextGistUsername"
                              ToolTip="Specify a GitHub user name to load Gists for"
                              Text="{Binding GistUsername,UpdateSourceTrigger=PropertyChanged,Delay=800}"  
@@ -95,7 +95,7 @@
                              Width="200"
                              FontSize="15"/>
 
-                    <Label Margin="10 0  0 0 ">Search:</Label>
+                    <Label Margin="10 4 5 0 ">Search:</Label>
                     <TextBox Name="TextSearch"
                              Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged,Delay=200}"  
                              controls:TextBoxHelper.Watermark="search gists..."

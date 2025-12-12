@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GistIntegrationAddin", "GistIntegrationAddin.csproj", "{FCF41488-1D43-DC50-5039-91141A1EAB2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GistIntegrationAddin_SAVED", "GistIntegrationAddin_SAVED.csproj", "{83A2BBCB-1ACF-034C-C352-DF4E5F20DBAC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FCF41488-1D43-DC50-5039-91141A1EAB2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCF41488-1D43-DC50-5039-91141A1EAB2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCF41488-1D43-DC50-5039-91141A1EAB2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCF41488-1D43-DC50-5039-91141A1EAB2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83A2BBCB-1ACF-034C-C352-DF4E5F20DBAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83A2BBCB-1ACF-034C-C352-DF4E5F20DBAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83A2BBCB-1ACF-034C-C352-DF4E5F20DBAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83A2BBCB-1ACF-034C-C352-DF4E5F20DBAC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BD27E01C-103A-40CE-816D-E99D0F6F52D1}
+	EndGlobalSection
+EndGlobal

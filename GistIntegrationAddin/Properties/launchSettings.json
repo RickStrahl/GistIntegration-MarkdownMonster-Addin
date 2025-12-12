@@ -2,7 +2,7 @@
   "profiles": {
     "GistIntegrationAddin": {
       "commandName": "Executable",
-      "executablePath": "%localappdata%\\Markdown Monster\\MarkdownMonster.exe"
+      "executablePath": "%ProgramFiles%\\Markdown Monster\\MarkdownMonster.exe"
     }
   }
 }

@@ -281,6 +281,8 @@ namespace GistIntegration
             try
             {
                 var giststructs = await HttpUtils.JsonRequestAsync<List<GistStructure>>(settings);
+                if (giststructs == null || giststructs.Count == 0)
+                    return [];
 
                 foreach (var giststruct in giststructs)
                 {

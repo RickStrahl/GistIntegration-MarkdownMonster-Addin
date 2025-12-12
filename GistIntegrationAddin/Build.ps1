@@ -1,6 +1,6 @@
 cd "$PSScriptRoot"
 
-$src = "$env:appdata\Markdown Monster\Addins\GistIntegration"
+$src = "$env:UserProfile\DropBox\Markdown Monster\Addins\GistIntegration"
 $tgt = "..\Build"
 "Copying from: $src"
 

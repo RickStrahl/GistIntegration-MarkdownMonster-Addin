@@ -180,10 +180,16 @@ namespace GistIntegration
             gists = new ObservableCollection<GistItem>(await GistClient.ListGistsForUserAsync(GistUsername,
                 Configuration.GithubUserToken));
 
-            if (gists == null || gists.Count < 1 || gists[0].hasError)
+            if (gists == null || (gists.Count > 0 && gists[0].hasError))
             {
                 
                 window.Status.ShowStatusError("Failed to retrieve Gists from Github...");
+                return;
+            }
+            if (gists.Count == 0)
+            {
+                window.Status.ShowStatusError($"No Gists found on Github for {GistUsername}.");
+                GistList = [];
                 return;
             }
             window.Status.ShowStatusSuccess($"Retrieved {gists.Count} Gists from Github for {GistUsername}.");
